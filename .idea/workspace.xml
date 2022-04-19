@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="201f41f4-2df3-4068-b188-8cdd7e142483" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/benchmark.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/hosts.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/java.security" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/privatekey0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/privatekey1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/privatekey1001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/privatekey2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/privatekey3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/publickey0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/publickey1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/publickey1001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/publickey2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/publickey3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/privatekey" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/privatekey0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/privatekey1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/privatekey1001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/privatekey2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/privatekey3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/publickey" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/publickey0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/publickey1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/publickey1001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/publickey2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/publickey3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysSSL_TLS/EC_KeyPair_256.pkcs12" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysSSL_TLS/EC_KeyPair_384.pkcs12" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysSSL_TLS/RSA_KeyPair_1024.pkcs12" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysSSL_TLS/RSA_KeyPair_2048.pkcs12" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/privatekey0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/privatekey1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/privatekey1001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/privatekey2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/privatekey3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/publickey0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/publickey1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/publickey1001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/publickey2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/publickey3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/logback.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/system.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/workloads/workloada" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Rest/LedgerRequestType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/LedgerRequestType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Rest/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/Service.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2825wCr3znppLVUckqouhU9tblQ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/joao/Desktop/csd/PA1/src&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/main/java/replicas" />
+      <recent name="$PROJECT_DIR$/src/main/java/data" />
+      <recent name="$PROJECT_DIR$/src/main/java" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java" />
+      <recent name="$PROJECT_DIR$/src/main" />
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean compile assembly:single" />
+      <command value="mvn clean package" />
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Service" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="proxy.Service" />
+      <module name="PA1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="proxy.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Service" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="201f41f4-2df3-4068-b188-8cdd7e142483" name="Changes" comment="" />
+      <created>1650402078758</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1650402078758</updated>
+    </task>
+    <servers />
+  </component>
+</project>
