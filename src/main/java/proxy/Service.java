@@ -3,7 +3,6 @@ package proxy;
 
 import bftsmart.tom.ServiceProxy;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import data.Ledger;
 import data.Transaction;
 
 import java.io.*;
@@ -110,7 +109,7 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public boolean sendTransaction(Data data) {
+    public void sendTransaction(Data data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
@@ -122,17 +121,11 @@ public class Service implements ServiceAPI {
             objOut.flush();
             byteOut.flush();
 
-            byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
-
-            try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
-                 ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                return (int) objIn.readObject();
-            }
+            serviceProxy.invokeOrdered(byteOut.toByteArray());
 
         } catch (IOException e) {
             System.out.println("Exception: " + e.getMessage());
         }
-        return false;
     }
 
     @Override

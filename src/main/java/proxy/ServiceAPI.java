@@ -1,12 +1,10 @@
 package proxy;
 
-import data.Ledger;
 import data.Transaction;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
-import java.util.Map;
 
 @Path("/")
 public interface ServiceAPI {
@@ -41,7 +39,7 @@ public interface ServiceAPI {
     @POST
     @Path("/transaction")
     @Consumes(MediaType.APPLICATION_JSON)
-    boolean sendTransaction(Data data);
+    void sendTransaction(Data data);
 
     @GET
     @Path("/accounts/value")

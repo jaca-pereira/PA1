@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="201f41f4-2df3-4068-b188-8cdd7e142483" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/proxy/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/proxy/ServiceAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/ServiceAPI.java" afterDir="false" />
     </list>
     <list id="ffa4e16f-2d97-4ed4-bcd7-199337e52c39" name="Changes by Palindra" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,16 +44,6 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/joao/Desktop/csd/PA1/src/main/java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
-  }
-}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java" />

@@ -65,6 +65,28 @@ public class Client {
         }
     }
 
+    private static void postWithoutProduces(Data data, String endpoint) {
+        try {
+            URL url = new URL(serverURL.concat(endpoint));
+            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setDoOutput(true);
+
+            OutputStream os = con.getOutputStream();
+            ObjectMapper mapper = new ObjectMapper();
+            byte[] input = mapper.writeValueAsString(data).getBytes();
+            os.write(input, 0, input.length);
+
+        } catch (ProtocolException e) {
+            throw new RuntimeException(e);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private static void post(Data data, String endpoint) {
         try {
             URL url = new URL(serverURL.concat(endpoint));
@@ -162,7 +184,7 @@ public class Client {
         String value = scanner.nextLine();
         String nonce = scanner.nextLine();
         Data data = new Data(new byte[] {}, sender.getBytes(), reciever.getBytes(), Integer.parseInt(value), Long.parseLong(nonce));
-        post(data, "/transaction");
+        postWithoutProduces(data, "/transaction");
     }
 
     private static void getGlobalValue() {
@@ -195,7 +217,7 @@ public class Client {
         String value = scanner.nextLine();
 
         Data data = new Data(new byte[] {}, account.getBytes(), Integer.parseInt(value));
-        post(data, "/account/load");
+        postWithoutProduces(data, "/account/load");
     }
 
     private static void getBalance(Scanner scanner) {
@@ -210,8 +232,6 @@ public class Client {
         byte[] signature = new byte[]{};
         Data data = new Data(account.getBytes(), signature);
         post(data, "/account");
-
-
     }
 
 
