@@ -5,17 +5,11 @@ import bftsmart.tom.ServiceProxy;
 import data.Ledger;
 import data.Transaction;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import java.io.*;
 import java.util.List;
 
 
-public class Service implements ServerAPI{
+public class Service implements ServiceAPI {
     ServiceProxy serviceProxy;
 
     public Service(int clientId) {
@@ -24,16 +18,16 @@ public class Service implements ServerAPI{
 
     @Override
     public String home() {
-        return "Hello Docker World";
+        return "Hello World";
     }
 
     @Override
-    public byte[]  createAccount(byte[] account, byte[] signature) {
+    public byte[]  createAccount(Data data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
             objOut.writeObject(LedgerRequestType.CREATE_ACCOUNT);
-            objOut.writeObject(account);
+            objOut.writeObject(data.getAccount());
             objOut.flush();
             byteOut.flush();
 
@@ -51,14 +45,14 @@ public class Service implements ServerAPI{
     }
 
     @Override
-    public void loadMoney(byte[] account, int value, byte[] signature) {
+    public void loadMoney(Data data) {
 
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
             objOut.writeObject(LedgerRequestType.LOAD_MONEY);
-            objOut.writeObject(account);
-            objOut.writeObject(value);
+            objOut.writeObject(data.getAccount());
+            objOut.writeObject(data.getValue());
             objOut.flush();
             byteOut.flush();
 
@@ -70,12 +64,12 @@ public class Service implements ServerAPI{
     }
 
     @Override
-    public int getBalance(byte[] account, byte[] signature) {
+    public int getBalance(Data data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
             objOut.writeObject(LedgerRequestType.GET_BALANCE);
-            objOut.writeObject(account);
+            objOut.writeObject(data.getAccount());
             objOut.flush();
             byteOut.flush();
 
@@ -92,12 +86,12 @@ public class Service implements ServerAPI{
     }
 
     @Override
-    public List<Transaction> getExtract(byte[] account, byte[] signature) {
+    public List<Transaction> getExtract(Data data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
             objOut.writeObject(LedgerRequestType.GET_EXTRACT);
-            objOut.writeObject(account);
+            objOut.writeObject(data.getAccount());
             objOut.flush();
             byteOut.flush();
 
@@ -114,15 +108,15 @@ public class Service implements ServerAPI{
     }
 
     @Override
-    public void sendTransaction(byte[] originAccount, byte[] destinationAccount, int value, byte[] signature, long nonce) {
+    public void sendTransaction(Data data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
             objOut.writeObject(LedgerRequestType.SEND_TRANSACTION);
-            objOut.writeObject(originAccount);
-            objOut.writeObject(destinationAccount);
-            objOut.writeObject(value);
-            objOut.writeObject(nonce);
+            objOut.writeObject(data.getAccount());
+            objOut.writeObject(data.getAccountDestiny());
+            objOut.writeObject(data.getValue());
+            objOut.writeObject(data.getNonce());
             objOut.flush();
             byteOut.flush();
 
@@ -134,12 +128,12 @@ public class Service implements ServerAPI{
     }
 
     @Override
-    public int getTotalValue(List<byte[]> accounts, byte[] signature) {
+    public int getTotalValue(Data data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
             objOut.writeObject(LedgerRequestType.GET_TOTAL_VALUE);
-            objOut.writeObject(accounts);
+            objOut.writeObject(data.getAccounts());
             objOut.flush();
             byteOut.flush();
 
@@ -156,7 +150,7 @@ public class Service implements ServerAPI{
     }
 
     @Override
-    public int getGlobalValue(byte[] signature) {
+    public int getGlobalValue(Data data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 

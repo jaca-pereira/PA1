@@ -28,6 +28,7 @@
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/tom/server/Recoverable.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/tom/server/durability/DurableStateLog.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/communication/client/netty/NettyClientServerCommunicationSystemClientSide.java
+/home/joao/Desktop/csd/PA1/src/main/java/proxy/Data.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/communication/client/netty/NettyClientPipelineFactory.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/consensus/Consensus.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/tom/leaderchange/RequestsTimer.java
@@ -87,6 +88,7 @@
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/reconfiguration/ViewManager.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/clientsmanagement/ClientData.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/statemanagement/SMMessage.java
+/home/joao/Desktop/csd/PA1/src/main/java/proxy/ServiceAPI.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/communication/client/netty/NettyClientServerSession.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/tom/util/Extractor.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/tom/util/DebugInfo.java
@@ -98,7 +100,6 @@
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/communication/ServerCommunicationSystem.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/communication/client/CommunicationSystemServerSide.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/reconfiguration/ViewController.java
-/home/joao/Desktop/csd/PA1/src/main/java/proxy/ServerAPI.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/tom/core/DeliveryThread.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/communication/SystemMessage.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/communication/client/netty/NettyServerPipelineFactory.java

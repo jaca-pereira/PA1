@@ -25,7 +25,7 @@ public class Server {
 
         String serverURI = String.format("http://%s:%s/", ip, PORT);
 
-       Service service = new Service(5);
+        Service service = new Service(5);
 
         ResourceConfig config = new ResourceConfig();
         config.register(service);

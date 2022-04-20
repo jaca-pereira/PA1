@@ -36,7 +36,6 @@ bftsmart/reconfiguration/util/HostsConfig$Config.class
 bftsmart/tom/core/TOMSender.class
 bftsmart/statemanagement/durability/CSTRequestFGT1.class
 bftsmart/tom/core/messages/TOMMessageType.class
-proxy/ServerAPI.class
 bftsmart/communication/server/Test.class
 bftsmart/tom/RequestContext.class
 bftsmart/reconfiguration/views/View.class
@@ -74,6 +73,7 @@ bftsmart/tom/core/DeliveryThread.class
 bftsmart/tom/server/BatchExecutable.class
 proxy/LedgerRequestType.class
 bftsmart/reconfiguration/util/RSAKeyLoader.class
+proxy/Data.class
 bftsmart/communication/client/ReplyReceiver.class
 bftsmart/tom/ServiceProxy.class
 bftsmart/statemanagement/durability/CSTSMMessage.class
@@ -102,6 +102,7 @@ bftsmart/tom/server/Recoverable.class
 bftsmart/tom/leaderchange/CollectData.class
 bftsmart/clientsmanagement/ClientsManager.class
 bftsmart/reconfiguration/util/SunECKeyLoader.class
+proxy/ServiceAPI.class
 bftsmart/communication/server/ServersCommunicationLayer$PendingConnection.class
 bftsmart/tom/core/messages/TOMMessage.class
 bftsmart/consensus/Consensus.class
