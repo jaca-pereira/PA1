@@ -1,6 +1,7 @@
 package data;
 
 
+import java.io.Serializable;
 import java.util.*;
 
 public class Ledger {
@@ -86,5 +87,9 @@ public class Ledger {
         }
         destinationTransactionsList.add(new Transaction(originAccount, destinationAccount, value, nonce));
         this.incrementCounter();
+    }
+
+    public Map<byte[], List<Transaction>> getLedger() {
+        return this.ledger;
     }
 }

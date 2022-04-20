@@ -4,6 +4,7 @@ package replicas;
 import bftsmart.tom.MessageContext;
 import bftsmart.tom.ServiceReplica;
 import bftsmart.tom.server.defaultservices.DefaultSingleRecoverable;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import data.Ledger;
 import data.Transaction;
 import org.apache.log4j.BasicConfigurator;
@@ -11,6 +12,7 @@ import proxy.LedgerRequestType;
 
 import java.io.*;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -68,8 +70,8 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         return this.ledger.getGlobalValue();
     }
 
-    public Ledger getLedger() {
-        return this.ledger;
+    public Map<byte[], List<Transaction>> getLedger() {
+        return this.ledger.getLedger();
     }
 
     // bft
@@ -127,7 +129,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                     hasReply = true;
                     break;
                 case GET_LEDGER:
-                    objOut.writeObject(this.ledger);
+                    objOut.writeObject(this.getLedger());
                     hasReply=true;
                     break;
                 default:
@@ -189,7 +191,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                     hasReply = true;
                     break;
                 case GET_LEDGER:
-                    objOut.writeObject(this.ledger);
+                    objOut.writeObject(this.getLedger());
                     hasReply=true;
                     break;
                 default:

@@ -1,6 +1,8 @@
 package data;
 
-public class Transaction {
+import java.io.Serializable;
+
+public class Transaction implements Serializable {
     private byte[] originalAccount;
     private byte[] destinationAccount;
     private int value;

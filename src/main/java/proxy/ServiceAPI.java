@@ -6,6 +6,7 @@ import data.Transaction;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.Map;
 
 @Path("/")
 public interface ServiceAPI {
@@ -40,7 +41,7 @@ public interface ServiceAPI {
     @POST
     @Path("/transaction")
     @Consumes(MediaType.APPLICATION_JSON)
-    void sendTransaction(Data data);
+    boolean sendTransaction(Data data);
 
     @GET
     @Path("/accounts/value")
@@ -57,5 +58,5 @@ public interface ServiceAPI {
     @GET
     @Path("/ledger")
     @Produces(MediaType.APPLICATION_JSON)
-    Ledger getLedger();
+    String getLedger();
 }

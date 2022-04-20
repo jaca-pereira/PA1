@@ -2,11 +2,13 @@ package proxy;
 
 
 import bftsmart.tom.ServiceProxy;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import data.Ledger;
 import data.Transaction;
 
 import java.io.*;
 import java.util.List;
+import java.util.Map;
 
 
 public class Service implements ServiceAPI {
@@ -108,7 +110,7 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public void sendTransaction(Data data) {
+    public boolean sendTransaction(Data data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
@@ -120,11 +122,17 @@ public class Service implements ServiceAPI {
             objOut.flush();
             byteOut.flush();
 
-            serviceProxy.invokeOrdered(byteOut.toByteArray());
+            byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
+
+            try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
+                 ObjectInput objIn = new ObjectInputStream(byteIn)) {
+                return (int) objIn.readObject();
+            }
 
         } catch (IOException e) {
             System.out.println("Exception: " + e.getMessage());
         }
+        return false;
     }
 
     @Override
@@ -171,18 +179,22 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public Ledger getLedger() {
+    public String getLedger() {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
-            objOut.writeObject(LedgerRequestType.GET_EXTRACT);
+            objOut.writeObject(LedgerRequestType.GET_LEDGER);
             objOut.flush();
             byteOut.flush();
 
             byte[] reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                return (Ledger) objIn.readObject();
+                Map<byte[], List<Transaction>> response = (Map<byte[], List<Transaction>>) objIn.readObject();
+                ObjectMapper mapper = new ObjectMapper();
+                String jsonResult = mapper.writerWithDefaultPrettyPrinter()
+                        .writeValueAsString(response);
+                return  jsonResult;
             }
 
         } catch (IOException | ClassNotFoundException e) {

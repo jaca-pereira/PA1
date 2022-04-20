@@ -6,179 +6,29 @@
   <component name="ChangeListManager">
     <list default="true" id="201f41f4-2df3-4068-b188-8cdd7e142483" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_6_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_6_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_yaml_2_6_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_itzmedinesh_rest_api_client_1_0_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_ws_rs_javax_ws_rs_api_2_0_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_4.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_glassfish_jersey_connectors_jersey_apache_connector_2_22_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_glassfish_jersey_security_oauth2_client_2_25.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_12.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_15.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PA1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/PA1.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/currentView" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/system.config" beforeDir="false" afterPath="$PROJECT_DIR$/config/system.config" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/proxy/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/proxy/ServerAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/ServiceAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/Ledger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/Ledger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/Transaction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/proxy/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/Data.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/proxy/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/Service.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/PA1-1.0-SNAPSHOT-jar-with-dependencies.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/PA1-1.0-SNAPSHOT.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/clientsmanagement/ClientData.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/clientsmanagement/ClientsManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/clientsmanagement/RequestList.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/MessageHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/ServerCommunicationSystem.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/SystemMessage.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/client/CommunicationSystemClientSide.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/client/CommunicationSystemClientSideFactory.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/client/CommunicationSystemServerSide.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/client/CommunicationSystemServerSideFactory.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/client/ReplyListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/client/ReplyReceiver.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/client/RequestReceiver.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/client/netty/NettyClientPipelineFactory.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/client/netty/NettyClientServerCommunicationSystemClientSide$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/client/netty/NettyClientServerCommunicationSystemClientSide$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/client/netty/NettyClientServerCommunicationSystemClientSide$SyncListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/client/netty/NettyClientServerCommunicationSystemClientSide.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/client/netty/NettyClientServerCommunicationSystemServerSide$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/client/netty/NettyClientServerCommunicationSystemServerSide.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/client/netty/NettyClientServerSession.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/client/netty/NettyServerPipelineFactory.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/client/netty/NettyTOMMessageDecoder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/client/netty/NettyTOMMessageEncoder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/server/ServerConnection$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/server/ServerConnection$ReceiverThread.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/server/ServerConnection$SenderThread.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/server/ServerConnection$TTPReceiverThread.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/server/ServerConnection.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/server/ServersCommunicationLayer$PendingConnection.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/server/ServersCommunicationLayer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/server/Test.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/communication/server/TestSerialization.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/consensus/Consensus.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/consensus/Decision.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/consensus/Epoch.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/consensus/TimestampValuePair.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/consensus/messages/ConsensusMessage.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/consensus/messages/MessageFactory.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/consensus/roles/Acceptor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/consensus/roles/Proposer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/ClientViewController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/Reconfiguration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/ReconfigurationTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/ReconfigureReply.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/ReconfigureRequest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/ServerViewController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/VMMessage.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/VMServices.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/View.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/ViewController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/ViewManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/util/Configuration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/util/DefaultVMServices.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/util/ECDSAKeyLoader.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/util/HostsConfig$Config.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/util/HostsConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/util/RSAKeyLoader.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/util/SunECKeyLoader.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/util/TOMConfiguration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/views/DefaultViewStorage.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/views/TestViewSerialization.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/views/View.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/reconfiguration/views/ViewStorage.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/statemanagement/ApplicationState.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/statemanagement/SMMessage.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/statemanagement/StateManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/statemanagement/durability/CSTRequest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/statemanagement/durability/CSTRequestF1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/statemanagement/durability/CSTRequestFGT1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/statemanagement/durability/CSTSMMessage.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/statemanagement/durability/CSTState.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/statemanagement/durability/DurableStateManager$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/statemanagement/durability/DurableStateManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/statemanagement/durability/StateSender.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/statemanagement/durability/StateSenderServer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/statemanagement/standard/StandardSMMessage.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/statemanagement/standard/StandardStateManager$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/statemanagement/standard/StandardStateManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/AsynchServiceProxy$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/AsynchServiceProxy.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/MessageContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/ReplicaContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/RequestContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/ServiceProxy$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/ServiceProxy$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/ServiceProxy$HashResponseController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/ServiceProxy.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/ServiceReplica$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/ServiceReplica$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/ServiceReplica$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/ServiceReplica.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/core/DeliveryThread.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/core/ExecutionManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/core/ReplyManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/core/ReplyThread.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/core/Synchronizer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/core/TOMLayer$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/core/TOMLayer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/core/TOMSender.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/core/messages/ForwardedMessage.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/core/messages/TOMMessage.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/core/messages/TOMMessageType$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/core/messages/TOMMessageType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/leaderchange/CertifiedDecision.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/leaderchange/CollectData.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/leaderchange/LCManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/leaderchange/LCMessage.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/leaderchange/RequestsTimer$RequestTimerTask.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/leaderchange/RequestsTimer$SendStopTask.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/leaderchange/RequestsTimer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/server/BatchExecutable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/server/Executable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/server/Recoverable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/server/Replier.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/server/RequestVerifier.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/server/SingleExecutable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/server/defaultservices/CommandsInfo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/server/defaultservices/DefaultApplicationState.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/server/defaultservices/DefaultRecoverable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/server/defaultservices/DefaultReplier.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/server/defaultservices/DefaultSingleRecoverable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/server/defaultservices/DiskStateLog.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/server/defaultservices/FileRecoverer$FileListFilter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/server/defaultservices/FileRecoverer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/server/defaultservices/StateLog.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/server/durability/DurabilityCoordinator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/server/durability/DurableStateLog.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/util/BatchBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/util/BatchReader.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/util/DebugInfo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/util/ECDSAKeyPairGenerator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/util/Extractor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/util/KeyLoader.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/util/RSAKeyPairGenerator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/util/ShutdownHookThread.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/util/SignatureTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/util/Storage.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bftsmart/tom/util/TOMUtil.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/data/Ledger.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/data/Transaction.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/proxy/LedgerRequestType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/proxy/Server.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/proxy/ServerAPI.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/proxy/Service.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/replicas/LedgerReplica$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/replicas/LedgerReplica.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/proxy/ServiceAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/ServiceAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/replicas/LedgerReplica.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/replicas/LedgerReplica.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/PA1-1.0-SNAPSHOT-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/PA1-1.0-SNAPSHOT-jar-with-dependencies.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Ledger.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/data/Ledger.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Transaction.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/data/Transaction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/proxy/Service.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/proxy/Service.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/proxy/ServiceAPI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/proxy/ServiceAPI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/replicas/LedgerReplica$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/replicas/LedgerReplica$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/replicas/LedgerReplica.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/replicas/LedgerReplica.class" afterDir="false" />
+    </list>
+    <list id="ffa4e16f-2d97-4ed4-bcd7-199337e52c39" name="Changes by Palindra" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/proxy/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/Data.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/proxy/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/proxy/ServiceAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/ServiceAPI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,6 +45,39 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/main/java/proxy/Data.java">
+      <ranges>
+        <range start1="2" end1="2" start2="2" end2="3" changelist="201f41f4-2df3-4068-b188-8cdd7e142483" />
+        <range start1="4" end1="5" start2="5" end2="6" changelist="201f41f4-2df3-4068-b188-8cdd7e142483" />
+        <range start1="13" end1="14" start2="14" end2="15" changelist="ffa4e16f-2d97-4ed4-bcd7-199337e52c39" />
+        <range start1="19" end1="20" start2="20" end2="20" changelist="ffa4e16f-2d97-4ed4-bcd7-199337e52c39" />
+        <range start1="21" end1="21" start2="21" end2="22" changelist="ffa4e16f-2d97-4ed4-bcd7-199337e52c39" />
+        <range start1="25" end1="25" start2="26" end2="27" changelist="ffa4e16f-2d97-4ed4-bcd7-199337e52c39" />
+        <range start1="30" end1="30" start2="32" end2="33" changelist="ffa4e16f-2d97-4ed4-bcd7-199337e52c39" />
+        <range start1="33" end1="33" start2="36" end2="37" changelist="ffa4e16f-2d97-4ed4-bcd7-199337e52c39" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/proxy/Service.java">
+      <ranges>
+        <range start1="4" end1="4" start2="4" end2="5" changelist="201f41f4-2df3-4068-b188-8cdd7e142483" />
+        <range start1="9" end1="9" start2="10" end2="11" changelist="201f41f4-2df3-4068-b188-8cdd7e142483" />
+        <range start1="110" end1="111" start2="112" end2="113" changelist="ffa4e16f-2d97-4ed4-bcd7-199337e52c39" />
+        <range start1="122" end1="123" start2="124" end2="130" changelist="ffa4e16f-2d97-4ed4-bcd7-199337e52c39" />
+        <range start1="127" end1="127" start2="134" end2="135" changelist="ffa4e16f-2d97-4ed4-bcd7-199337e52c39" />
+        <range start1="173" end1="174" start2="181" end2="182" changelist="201f41f4-2df3-4068-b188-8cdd7e142483" />
+        <range start1="177" end1="178" start2="185" end2="186" changelist="201f41f4-2df3-4068-b188-8cdd7e142483" />
+        <range start1="184" end1="185" start2="192" end2="197" changelist="201f41f4-2df3-4068-b188-8cdd7e142483" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/proxy/ServiceAPI.java">
+      <ranges>
+        <range start1="8" end1="8" start2="8" end2="9" changelist="201f41f4-2df3-4068-b188-8cdd7e142483" />
+        <range start1="42" end1="43" start2="43" end2="44" changelist="ffa4e16f-2d97-4ed4-bcd7-199337e52c39" />
+        <range start1="59" end1="60" start2="60" end2="61" changelist="201f41f4-2df3-4068-b188-8cdd7e142483" />
+      </ranges>
+    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -215,16 +98,16 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/home/joao/Desktop/csd/PA1/src/main/java",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/joao/Desktop/csd/PA1/src/main/java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java" />
