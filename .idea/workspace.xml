@@ -5,51 +5,99 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="201f41f4-2df3-4068-b188-8cdd7e142483" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_10_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_10_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_26.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PA1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/PA1.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/benchmark.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/currentView" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config/hosts.config" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/java.security" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/privatekey0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/privatekey1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/privatekey1001" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/privatekey2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/privatekey3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/publickey0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/publickey1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/publickey1001" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/publickey2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysECDSA/publickey3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/privatekey" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/privatekey0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/privatekey1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/privatekey1001" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/privatekey2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/privatekey3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/publickey" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/publickey0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/publickey1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/publickey1001" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/publickey2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysRSA/publickey3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysSSL_TLS/EC_KeyPair_256.pkcs12" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysSSL_TLS/EC_KeyPair_384.pkcs12" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysSSL_TLS/RSA_KeyPair_1024.pkcs12" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysSSL_TLS/RSA_KeyPair_2048.pkcs12" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/privatekey0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/privatekey1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/privatekey1001" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/privatekey2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/privatekey3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/publickey0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/publickey1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/publickey1001" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/publickey2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/keysSunEC/publickey3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/logback.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1002" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1003" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1004" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1005" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1006" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1007" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1008" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1009" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1010" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1011" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1012" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1013" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1014" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1015" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1016" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1017" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1018" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey1020" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey5001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey5002" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey6" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey6001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey6002" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey7" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey7001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey7002" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey8" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/privatekey9" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1002" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1003" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1004" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1005" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1006" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1007" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1008" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1009" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1010" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1011" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1012" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1013" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1014" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1015" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1016" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1017" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1018" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1019" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey1020" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey5001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey5002" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey6" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey6001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey6002" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey7" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey7001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey7002" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey8" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/keys/publickey9" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config/system.config" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config/workloads/workloada" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Rest/LedgerRequestType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/LedgerRequestType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Rest/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lib/commons-codec-1.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lib/core-0.1.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lib/netty-all-4.0.25.Final.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lib/slf4j-api-1.5.8.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lib/slf4j-jdk14-1.5.8.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/proxy/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/replicas/LedgerReplica.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/replicas/LedgerReplica.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +108,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -85,22 +134,23 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/joao/Desktop/csd/PA1/src&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/home/joao/Desktop/csd/PA1/src/main/java",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java" />
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/src/main/java/replicas" />
       <recent name="$PROJECT_DIR$/src/main/java/data" />
-      <recent name="$PROJECT_DIR$/src/main/java" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java" />
@@ -114,7 +164,7 @@
       <command value="mvn clean package" />
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.replicas.LedgerReplica">
     <configuration name="Service" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="proxy.Service" />
       <module name="PA1" />
@@ -128,8 +178,27 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="replicas.LedgerReplica" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="replicas.LedgerReplica" />
+      <module name="PA1" />
+      <option name="PROGRAM_PARAMETERS" value="0" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="replicas.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.replicas.LedgerReplica" />
+      <item itemvalue="Application.Service" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.replicas.LedgerReplica" />
         <item itemvalue="Application.Service" />
       </list>
     </recent_temporary>

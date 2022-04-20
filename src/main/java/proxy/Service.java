@@ -4,7 +4,7 @@ package proxy;
 import bftsmart.tom.ServiceProxy;
 import data.Ledger;
 import data.Transaction;
-import replicas.LedgerReplica;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -14,29 +14,20 @@ import javax.ws.rs.core.MediaType;
 import java.io.*;
 import java.util.List;
 
-public class Service {
+
+public class Service implements ServerAPI{
     ServiceProxy serviceProxy;
 
     public Service(int clientId) {
         serviceProxy = new ServiceProxy(clientId);
     }
 
-    public static void main(String[] args) {
-        new Thread(() -> new LedgerReplica(0)).start();
-        new Thread(() -> new Service(0)).start();
-    }
-
-    @GET
-    @Path("/")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Override
     public String home() {
         return "Hello Docker World";
     }
 
-    @POST
-    @Path("/account")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Override
     public byte[]  createAccount(byte[] account, byte[] signature) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
@@ -59,9 +50,7 @@ public class Service {
 
     }
 
-    @POST
-    @Path("/account/load")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Override
     public void loadMoney(byte[] account, int value, byte[] signature) {
 
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
@@ -80,10 +69,7 @@ public class Service {
         }
     }
 
-    @GET
-    @Path("/account/balance")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Override
     public int getBalance(byte[] account, byte[] signature) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
@@ -105,10 +91,7 @@ public class Service {
         return -1;
     }
 
-    @GET
-    @Path("/account/extract")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Override
     public List<Transaction> getExtract(byte[] account, byte[] signature) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
@@ -130,9 +113,7 @@ public class Service {
         return null;
     }
 
-    @POST
-    @Path("/transaction")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Override
     public void sendTransaction(byte[] originAccount, byte[] destinationAccount, int value, byte[] signature, long nonce) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
@@ -152,10 +133,7 @@ public class Service {
         }
     }
 
-    @GET
-    @Path("/accounts/value")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Override
     public int getTotalValue(List<byte[]> accounts, byte[] signature) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
@@ -177,10 +155,7 @@ public class Service {
         return -1;
     }
 
-    @GET
-    @Path("/value")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Override
     public int getGlobalValue(byte[] signature) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
@@ -201,9 +176,7 @@ public class Service {
         return -1;
     }
 
-    @GET
-    @Path("/")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Override
     public Ledger getLedger() {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {

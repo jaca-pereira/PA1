@@ -6,6 +6,7 @@ import bftsmart.tom.ServiceReplica;
 import bftsmart.tom.server.defaultservices.DefaultSingleRecoverable;
 import data.Ledger;
 import data.Transaction;
+import org.apache.log4j.BasicConfigurator;
 import proxy.LedgerRequestType;
 
 import java.io.*;
@@ -18,11 +19,19 @@ public class LedgerReplica extends DefaultSingleRecoverable {
     private Ledger ledger;
     private Logger logger;
 
+    public static void main(String[] args) {
+        if (args.length < 1) {
+            System.out.println("Usage: LedgerReplica <id>");
+            System.exit(-1);
+        }
+        new LedgerReplica(Integer.parseInt(args[0]));
+    }
 
     public LedgerReplica(int id) {
         ledger = new Ledger();
         logger = Logger.getLogger(LedgerReplica.class.getName());
-        new ServiceReplica(0, this, this);
+        BasicConfigurator.configure();
+        new ServiceReplica(id, this, this);
     }
 
     public byte[]  createAccount(byte[] account, byte[] signature) {

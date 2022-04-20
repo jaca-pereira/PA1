@@ -71,6 +71,7 @@
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/statemanagement/durability/StateSenderServer.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/reconfiguration/View.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/reconfiguration/ClientViewController.java
+/home/joao/Desktop/csd/PA1/src/main/java/proxy/Server.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/consensus/TimestampValuePair.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/tom/server/defaultservices/StateLog.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/tom/core/messages/TOMMessage.java
@@ -97,6 +98,7 @@
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/communication/ServerCommunicationSystem.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/communication/client/CommunicationSystemServerSide.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/reconfiguration/ViewController.java
+/home/joao/Desktop/csd/PA1/src/main/java/proxy/ServerAPI.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/tom/core/DeliveryThread.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/communication/SystemMessage.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/communication/client/netty/NettyServerPipelineFactory.java
