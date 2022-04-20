@@ -34,7 +34,7 @@ public class Client {
         scanner.close();
     }
 
-    private static boolean executeCommand(LedgerRequestType command, Scanner scanner) {
+    private static void executeCommand(LedgerRequestType command, Scanner scanner) {
         switch (command) {
             case CREATE_ACCOUNT:
                 createAccount(scanner);
@@ -52,18 +52,17 @@ public class Client {
                 getTotalValue(scanner);
                 break;
             case GET_GLOBAL_VALUE:
-                getGlobalValue(scanner);
+                getGlobalValue();
                 break;
             case SEND_TRANSACTION:
                 sendTransaction(scanner);
                 break;
             case GET_LEDGER:
-                getLedger(scanner);
+                getLedger();
                 break;
             default:
                 System.out.println("Command unknown!");
         }
-        return true;
     }
 
     private static void post(Data data, String endpoint) {
@@ -153,7 +152,7 @@ public class Client {
             throw new RuntimeException(e);
         }
     }
-    private static void getLedger(Scanner scanner) {
+    private static void getLedger() {
         getWithoutConsumes("ledger");
     }
 
@@ -166,9 +165,8 @@ public class Client {
         post(data, "/transaction");
     }
 
-    private static void getGlobalValue(Scanner scanner) {
+    private static void getGlobalValue() {
         Data data = new Data (new byte[] {});
-
         get(data, "/value");
     }
 
