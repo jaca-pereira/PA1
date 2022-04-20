@@ -49,6 +49,7 @@ bftsmart/tom/server/SingleExecutable.class
 bftsmart/consensus/messages/MessageFactory.class
 bftsmart/tom/server/defaultservices/CommandsInfo.class
 bftsmart/statemanagement/durability/DurableStateManager$1.class
+client/ClientClass.class
 bftsmart/communication/client/ReplyListener.class
 bftsmart/reconfiguration/View.class
 bftsmart/communication/server/ServerConnection.class
@@ -56,6 +57,7 @@ bftsmart/tom/core/ExecutionManager.class
 bftsmart/reconfiguration/ViewController.class
 bftsmart/consensus/Epoch.class
 bftsmart/tom/server/defaultservices/DefaultSingleRecoverable.class
+client/ClientClass$1.class
 bftsmart/communication/client/netty/NettyClientServerCommunicationSystemClientSide.class
 bftsmart/tom/core/TOMLayer.class
 bftsmart/consensus/Decision.class

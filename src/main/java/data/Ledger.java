@@ -9,7 +9,7 @@ public class Ledger {
     public static final byte[] LEDGER = new byte[]{0x0};
     private int operationsCounter;
     private int globalValue;
-    private Map<byte[], List<Transaction>> ledger;
+    private Map<String, List<Transaction>> ledger;
 
     private void incrementCounter() {
         this.operationsCounter++;
@@ -25,15 +25,15 @@ public class Ledger {
     }
 
     public byte[]  addAccount(byte[] account) {
-        if (this.ledger.containsKey(account))
+        if (this.ledger.get(account)!=null)
             throw new IllegalArgumentException("Account already exists!");
-        this.ledger.put(account, new LinkedList<Transaction>());
+        this.ledger.put(account.toString(), new LinkedList<Transaction>());
         this.incrementCounter();
         return account;
     }
 
     public int getBalance(byte[] account) {
-        List<Transaction> transactionsList = this.ledger.get(account);
+        List<Transaction> transactionsList = this.ledger.get(account.toString());
         if (transactionsList == null)
             throw new IllegalArgumentException("Account does not exist!");
         int balance = 0;
@@ -52,7 +52,7 @@ public class Ledger {
     }
 
     public List<Transaction> getExtract(byte[] account) {
-        List<Transaction> transactionsList = this.ledger.get(account);
+        List<Transaction> transactionsList = this.ledger.get(account.toString());
         if (transactionsList == null)
             throw new IllegalArgumentException("Account does not exist!");
         this.incrementCounter();
@@ -66,7 +66,7 @@ public class Ledger {
         //implementar mapa com transações list e balance como values
         int total = 0;
         for (byte[] i: accounts) {
-            if (!this.ledger.containsKey(i))
+            if (this.ledger.get(i.toString())==null)
                 throw new IllegalArgumentException("Account " + i + " does not exist!");
             total += this.getBalance(i);
         }
@@ -74,11 +74,11 @@ public class Ledger {
     }
 
     public void sendTransaction(byte[] originAccount, byte[] destinationAccount, int value, long nonce) {
-        List<Transaction> destinationTransactionsList = this.ledger.get(destinationAccount);
+        List<Transaction> destinationTransactionsList = this.ledger.get(destinationAccount.toString());
         if (destinationTransactionsList == null)
             throw new IllegalArgumentException("Destination account does not exist!");
         if (!Arrays.equals(originAccount, LEDGER)) {
-            List<Transaction> originTransactionsList = this.ledger.get(originAccount);
+            List<Transaction> originTransactionsList = this.ledger.get(originAccount.toString());
             if (originTransactionsList == null)
                 throw new IllegalArgumentException("Origin account does not exist!");
             originTransactionsList.add(new Transaction(originAccount, destinationAccount, value, nonce));
@@ -89,7 +89,7 @@ public class Ledger {
         this.incrementCounter();
     }
 
-    public Map<byte[], List<Transaction>> getLedger() {
+    public Map<String, List<Transaction>> getLedger() {
         return this.ledger;
     }
 }

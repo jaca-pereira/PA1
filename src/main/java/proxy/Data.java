@@ -1,6 +1,8 @@
 package proxy;
 
-import java.io.Serializable;
+import data.Transaction;
+
+import java.io.*;
 import java.util.List;
 
 public class Data implements Serializable {
@@ -38,6 +40,29 @@ public class Data implements Serializable {
     public Data(byte[] signature, List<byte[]> accounts) {
         this.signature = signature;
         this.accounts = accounts;
+    }
+
+    public static byte[] serialize(Data obj) {
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            ObjectOutputStream os = new ObjectOutputStream(out);
+            os.writeObject(obj);
+            return out.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Data deserialize(byte[] data) {
+        try {
+            ByteArrayInputStream in = new ByteArrayInputStream(data);
+            ObjectInputStream is = new ObjectInputStream(in);
+            return (Data) is.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

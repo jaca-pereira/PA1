@@ -5,10 +5,11 @@ import data.Transaction;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.Map;
 
 @Path("/")
 public interface ServiceAPI {
-    @GET
+    @POST
     @Path("/home")
     @Produces(MediaType.APPLICATION_JSON)
     String home();
@@ -17,44 +18,44 @@ public interface ServiceAPI {
     @Path("/account")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    byte[]  createAccount(Data data);
+    byte[]  createAccount(byte[] data);
 
     @POST
     @Path("/account/load")
     @Consumes(MediaType.APPLICATION_JSON)
-    void loadMoney(Data data);
+    void loadMoney(byte[] data);
 
-    @GET
+    @POST
     @Path("/account/balance")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    int getBalance(Data data);
+    int getBalance(byte[] data);
 
-    @GET
+    @POST
     @Path("/account/extract")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    List<Transaction> getExtract(Data data);
+    List<Transaction> getExtract(byte[] data);
 
     @POST
     @Path("/transaction")
     @Consumes(MediaType.APPLICATION_JSON)
-    void sendTransaction(Data data);
+    void sendTransaction(byte[] data);
 
-    @GET
+    @POST
     @Path("/accounts/value")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    int getTotalValue(Data data);
+    int getTotalValue(byte[] data);
 
-    @GET
+    @POST
     @Path("/value")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    int getGlobalValue(Data data);
+    int getGlobalValue(byte[] data);
 
-    @GET
+    @POST
     @Path("/ledger")
     @Produces(MediaType.APPLICATION_JSON)
-    String getLedger();
+    Map<String, List<Transaction>> getLedger();
 }

@@ -70,7 +70,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         return this.ledger.getGlobalValue();
     }
 
-    public Map<byte[], List<Transaction>> getLedger() {
+    public Map<String, List<Transaction>> getLedger() {
         return this.ledger.getLedger();
     }
 

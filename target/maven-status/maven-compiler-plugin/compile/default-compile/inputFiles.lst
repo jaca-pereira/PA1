@@ -87,6 +87,7 @@
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/statemanagement/StateManager.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/reconfiguration/ViewManager.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/clientsmanagement/ClientData.java
+/home/joao/Desktop/csd/PA1/src/main/java/client/ClientClass.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/statemanagement/SMMessage.java
 /home/joao/Desktop/csd/PA1/src/main/java/proxy/ServiceAPI.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/communication/client/netty/NettyClientServerSession.java

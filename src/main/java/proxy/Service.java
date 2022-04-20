@@ -23,12 +23,12 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public byte[]  createAccount(Data data) {
+    public byte[]  createAccount(byte[] data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
             objOut.writeObject(LedgerRequestType.CREATE_ACCOUNT);
-            objOut.writeObject(data.getAccount());
+            objOut.writeObject(Data.deserialize(data).getAccount());
             objOut.flush();
             byteOut.flush();
 
@@ -46,14 +46,14 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public void loadMoney(Data data) {
+    public void loadMoney(byte[] data) {
 
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
             objOut.writeObject(LedgerRequestType.LOAD_MONEY);
-            objOut.writeObject(data.getAccount());
-            objOut.writeObject(data.getValue());
+            objOut.writeObject(Data.deserialize(data).getAccount());
+            objOut.writeObject(Data.deserialize(data).getValue());
             objOut.flush();
             byteOut.flush();
 
@@ -65,12 +65,12 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public int getBalance(Data data) {
+    public int getBalance(byte[] data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
             objOut.writeObject(LedgerRequestType.GET_BALANCE);
-            objOut.writeObject(data.getAccount());
+            objOut.writeObject(Data.deserialize(data).getAccount());
             objOut.flush();
             byteOut.flush();
 
@@ -87,12 +87,12 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public List<Transaction> getExtract(Data data) {
+    public List<Transaction> getExtract(byte[] data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
             objOut.writeObject(LedgerRequestType.GET_EXTRACT);
-            objOut.writeObject(data.getAccount());
+            objOut.writeObject(Data.deserialize(data).getAccount());
             objOut.flush();
             byteOut.flush();
 
@@ -109,15 +109,15 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public void sendTransaction(Data data) {
+    public void sendTransaction(byte[] data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
             objOut.writeObject(LedgerRequestType.SEND_TRANSACTION);
-            objOut.writeObject(data.getAccount());
-            objOut.writeObject(data.getAccountDestiny());
-            objOut.writeObject(data.getValue());
-            objOut.writeObject(data.getNonce());
+            objOut.writeObject(Data.deserialize(data).getAccount());
+            objOut.writeObject(Data.deserialize(data).getAccountDestiny());
+            objOut.writeObject(Data.deserialize(data).getValue());
+            objOut.writeObject(Data.deserialize(data).getNonce());
             objOut.flush();
             byteOut.flush();
 
@@ -129,12 +129,12 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public int getTotalValue(Data data) {
+    public int getTotalValue(byte[] data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
             objOut.writeObject(LedgerRequestType.GET_TOTAL_VALUE);
-            objOut.writeObject(data.getAccounts());
+            objOut.writeObject(Data.deserialize(data).getAccounts());
             objOut.flush();
             byteOut.flush();
 
@@ -151,7 +151,7 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public int getGlobalValue(Data data) {
+    public int getGlobalValue(byte[] data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
@@ -172,7 +172,7 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public String getLedger() {
+    public Map<String, List<Transaction>> getLedger() {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
@@ -183,11 +183,8 @@ public class Service implements ServiceAPI {
             byte[] reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                Map<byte[], List<Transaction>> response = (Map<byte[], List<Transaction>>) objIn.readObject();
-                ObjectMapper mapper = new ObjectMapper();
-                String jsonResult = mapper.writerWithDefaultPrettyPrinter()
-                        .writeValueAsString(response);
-                return  jsonResult;
+
+                return  (Map<String, List<Transaction>>) objIn.readObject();
             }
 
         } catch (IOException | ClassNotFoundException e) {
