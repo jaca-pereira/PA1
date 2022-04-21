@@ -1,6 +1,7 @@
 package proxy;
 
 
+import Security.Security;
 import bftsmart.tom.ServiceProxy;
 
 import data.Transaction;
@@ -27,8 +28,15 @@ public class Service implements ServiceAPI {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
+            Data dataDeserialized = Data.deserialize(data);
+
+            if(!Security.verifySignature(Security.getPublicKey(dataDeserialized.getPublicKey()),"CREATE_ACCOUNT".getBytes(), dataDeserialized.getSignature()))
+                throw new IllegalArgumentException("Signature not valid!");
+
             objOut.writeObject(LedgerRequestType.CREATE_ACCOUNT);
-            objOut.writeObject(Data.deserialize(data).getAccount());
+            objOut.writeObject(dataDeserialized.getPublicKey());
+            objOut.writeObject(dataDeserialized.getSignature());
+            objOut.writeObject(dataDeserialized.getAccount());
             objOut.flush();
             byteOut.flush();
 
@@ -51,10 +59,17 @@ public class Service implements ServiceAPI {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
-            objOut.writeObject(LedgerRequestType.LOAD_MONEY);
 
-            objOut.writeObject(Data.deserialize(data).getAccount());
-            objOut.writeObject(Data.deserialize(data).getValue());
+            Data dataDeserialized = Data.deserialize(data);
+
+            if(!Security.verifySignature(Security.getPublicKey(dataDeserialized.getPublicKey()),"LOAD_MONEY".getBytes(), dataDeserialized.getSignature()))
+                throw new IllegalArgumentException("Signature not valid!");
+
+            objOut.writeObject(LedgerRequestType.LOAD_MONEY);
+            objOut.writeObject(dataDeserialized.getPublicKey());
+            objOut.writeObject(dataDeserialized.getSignature());
+            objOut.writeObject(dataDeserialized.getAccount());
+            objOut.writeObject(dataDeserialized.getValue());
             objOut.flush();
             byteOut.flush();
 
@@ -75,8 +90,14 @@ public class Service implements ServiceAPI {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
+            Data dataDeserialized = Data.deserialize(data);
+
+            if(!Security.verifySignature(Security.getPublicKey(dataDeserialized.getPublicKey()),"GET_BALANCE".getBytes(), dataDeserialized.getSignature()))                throw new IllegalArgumentException("Signature not valid!");
+
             objOut.writeObject(LedgerRequestType.GET_BALANCE);
-            objOut.writeObject(Data.deserialize(data).getAccount());
+            objOut.writeObject(dataDeserialized.getPublicKey());
+            objOut.writeObject(dataDeserialized.getSignature());
+            objOut.writeObject(dataDeserialized.getAccount());
             objOut.flush();
             byteOut.flush();
 
@@ -97,8 +118,13 @@ public class Service implements ServiceAPI {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
+            Data dataDeserialized = Data.deserialize(data);
+
+            if(!Security.verifySignature(Security.getPublicKey(dataDeserialized.getPublicKey()),"GET_EXTRACT".getBytes(), dataDeserialized.getSignature()))                throw new IllegalArgumentException("Signature not valid!");
             objOut.writeObject(LedgerRequestType.GET_EXTRACT);
-            objOut.writeObject(Data.deserialize(data).getAccount());
+            objOut.writeObject(dataDeserialized.getPublicKey());
+            objOut.writeObject(dataDeserialized.getSignature());
+            objOut.writeObject(dataDeserialized.getAccount());
             objOut.flush();
             byteOut.flush();
 
@@ -119,11 +145,17 @@ public class Service implements ServiceAPI {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
+            Data dataDeserialized = Data.deserialize(data);
+
+            if(!Security.verifySignature(Security.getPublicKey(dataDeserialized.getPublicKey()),"SEND_TRANSACTION".getBytes(), dataDeserialized.getSignature()))                throw new IllegalArgumentException("Signature not valid!");
+
             objOut.writeObject(LedgerRequestType.SEND_TRANSACTION);
-            objOut.writeObject(Data.deserialize(data).getAccount());
-            objOut.writeObject(Data.deserialize(data).getAccountDestiny());
-            objOut.writeObject(Data.deserialize(data).getValue());
-            objOut.writeObject(Data.deserialize(data).getNonce());
+            objOut.writeObject(dataDeserialized.getPublicKey());
+            objOut.writeObject(dataDeserialized.getSignature());
+            objOut.writeObject(dataDeserialized.getAccount());
+            objOut.writeObject(dataDeserialized.getAccountDestiny());
+            objOut.writeObject(dataDeserialized.getValue());
+            objOut.writeObject(dataDeserialized.getNonce());
             objOut.flush();
             byteOut.flush();
 
@@ -144,8 +176,14 @@ public class Service implements ServiceAPI {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
+            Data dataDeserialized = Data.deserialize(data);
+
+            if(!Security.verifySignature(Security.getPublicKey(dataDeserialized.getPublicKey()),"GET_TOTAL_VALUE".getBytes(), dataDeserialized.getSignature()))                throw new IllegalArgumentException("Signature not valid!");
+
             objOut.writeObject(LedgerRequestType.GET_TOTAL_VALUE);
-            objOut.writeObject(Data.deserialize(data).getAccounts());
+            objOut.writeObject(dataDeserialized.getPublicKey());
+            objOut.writeObject(dataDeserialized.getSignature());
+            objOut.writeObject(dataDeserialized.getAccounts());
             objOut.flush();
             byteOut.flush();
 
@@ -166,7 +204,13 @@ public class Service implements ServiceAPI {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
+            Data dataDeserialized = Data.deserialize(data);
+
+            if(!Security.verifySignature(Security.getPublicKey(dataDeserialized.getPublicKey()),"GET_GLOBAL_VALUE".getBytes(), dataDeserialized.getSignature()))                throw new IllegalArgumentException("Signature not valid!");
+
             objOut.writeObject(LedgerRequestType.GET_GLOBAL_VALUE);
+            objOut.writeObject(dataDeserialized.getPublicKey());
+            objOut.writeObject(dataDeserialized.getSignature());
             objOut.flush();
             byteOut.flush();
 
@@ -194,8 +238,9 @@ public class Service implements ServiceAPI {
             byte[] reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
-
-                return  (Map<String, List<Transaction>>) objIn.readObject();
+                Map<String, List<Transaction>> map = (Map<String, List<Transaction>>)objIn.readObject();
+                byte[] signature = (byte[]) objIn.readObject();
+                return  map;
             }
 
         } catch (IOException | ClassNotFoundException e) {

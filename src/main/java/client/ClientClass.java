@@ -2,12 +2,14 @@ package client;
 
 import java.net.*;
 
+import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 
+import Security.Security;
 import data.Transaction;
 
 import proxy.Data;
@@ -106,9 +108,12 @@ public class ClientClass {
         String reciever = scanner.nextLine();
         String value = scanner.nextLine();
         String nonce = scanner.nextLine();
-        Data data = new Data(new byte[] {}, sender.getBytes(), reciever.getBytes(), Integer.parseInt(value), Long.parseLong(nonce));
 
         Client client = ClientBuilder.newClient();
+
+        KeyPair clientKeyPair = Security.getKeyPair();
+        Data data = new Data(clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), "SEND_TRANSACTION".getBytes()), sender.getBytes(), reciever.getBytes(), Integer.parseInt(value), Long.parseLong(nonce));
+
         WebTarget target = client.target( serverURI ).path("transaction");
 
         try {
@@ -127,8 +132,11 @@ public class ClientClass {
     }
 
     private static void getGlobalValue() {
-        Data data = new Data (new byte[] {});
+
         Client client = ClientBuilder.newClient();
+
+        KeyPair clientKeyPair = Security.getKeyPair();
+        Data data = new Data(clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), "GET_GLOBAL_VALUE".getBytes()));
 
         WebTarget target = client.target( serverURI ).path("value");
 
@@ -157,9 +165,10 @@ public class ClientClass {
             accounts.add(account.getBytes());
         }
 
-        Data data = new Data(new byte[] {}, accounts);
-
         Client client = ClientBuilder.newClient();
+
+        KeyPair clientKeyPair = Security.getKeyPair();
+        Data data = new Data(clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), "GET_TOTAL_VALUE".getBytes()), accounts);
 
         WebTarget target = client.target( serverURI ).path("accounts/value");
 
@@ -182,8 +191,10 @@ public class ClientClass {
     private static void getExtract(Scanner scanner) {
         byte[] account = scanner.nextLine().getBytes();
 
-        Data data = new Data(new byte[] {}, account);
         Client client = ClientBuilder.newClient();
+
+        KeyPair clientKeyPair = Security.getKeyPair();
+        Data data = new Data(clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), "GET_EXTRACT".getBytes()), account);
 
         WebTarget target = client.target( serverURI ).path("account/extract");
 
@@ -206,10 +217,13 @@ public class ClientClass {
     private static void loadMoney(Scanner scanner) {
         byte[] account = scanner.nextLine().getBytes();
         String value = scanner.nextLine();
-
-        Data data = new Data(new byte[] {}, account, Integer.parseInt(value));
+        ;
 
         Client client = ClientBuilder.newClient();
+
+        KeyPair clientKeyPair = Security.getKeyPair();
+        Data data = new Data(clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), "LOAD_MONEY".getBytes()), account, Integer.parseInt(value));
+
         WebTarget target = client.target( serverURI ).path("account/load");
 
         try {
@@ -230,9 +244,12 @@ public class ClientClass {
     private static void getBalance(Scanner scanner) {
         byte[] account = scanner.nextLine().getBytes();
 
-        Data data = new Data(new byte[]{}, account);
+
 
         Client client = ClientBuilder.newClient();
+
+        KeyPair clientKeyPair = Security.getKeyPair();
+        Data data = new Data(clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), "GET_BALANCE".getBytes()), account);
 
         WebTarget target = client.target( serverURI ).path("account/balance");
 
@@ -254,8 +271,11 @@ public class ClientClass {
 
     private static void createAccount(Scanner scanner) {
         byte[] account = scanner.nextLine().getBytes();
-        Data data = new Data(new byte[]{}, account);
+
         Client client = ClientBuilder.newClient();
+
+        KeyPair clientKeyPair = Security.getKeyPair();
+        Data data = new Data(clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()), account);
 
         WebTarget target = client.target( serverURI ).path("account");
 

@@ -6,14 +6,19 @@ import java.util.List;
 
 public class Data implements Serializable {
     private static final long serialVersionUID = 1L;
+
+
+    private byte[] publicKey;
     private byte[] signature;
+
     private byte[] account;
     private byte[] accountDestiny;
     private  int value;
     private long nonce;
     private List<byte[]> accounts;
 
-    public Data(byte[] signature, byte[] account, byte[] accountDestiny, int value, long nonce) {
+    public Data(byte[] publicKey, byte[] signature, byte[] account, byte[] accountDestiny, int value, long nonce) {
+        this.publicKey = publicKey;
         this.signature = signature;
         this.account = account;
         this.accountDestiny = accountDestiny;
@@ -21,22 +26,26 @@ public class Data implements Serializable {
         this.nonce = nonce;
     }
 
-    public Data(byte[] signature, byte[] account) {
+    public Data(byte[] publicKey, byte[] signature, byte[] account) {
+        this.publicKey = publicKey;
         this.signature = signature;
         this.account = account;
     }
 
-    public Data(byte[] signature, byte[] account, int value) {
+    public Data(byte[] publicKey, byte[] signature, byte[] account, int value) {
+        this.publicKey = publicKey;
         this.signature = signature;
         this.account = account;
         this.value = value;
     }
 
-    public Data(byte[] signature) {
+    public Data(byte[] publicKey, byte[] signature) {
+        this.publicKey = publicKey;
         this.signature = signature;
     }
 
-    public Data(byte[] signature, List<byte[]> accounts) {
+    public Data(byte[] publicKey, byte[] signature, List<byte[]> accounts) {
+        this.publicKey = publicKey;
         this.signature = signature;
         this.accounts = accounts;
     }
@@ -65,6 +74,9 @@ public class Data implements Serializable {
     }
 
 
+    public byte[] getPublicKey() {
+        return publicKey;
+    }
     public byte[] getSignature() {
         return signature;
     }
