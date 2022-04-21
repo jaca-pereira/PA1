@@ -43,7 +43,14 @@ public class Service implements ServiceAPI {
             byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                return (byte[]) objIn.readObject();
+                byte[] account = (byte[]) objIn.readObject();
+                /*byte[] replicaPublicKey = (byte[]) objIn.readObject();
+                byte[] replicaSignature = (byte[]) objIn.readObject();
+                if(Security.verifySignature(Security.getPublicKey(replicaPublicKey), "CREATE_ACCOUNT".getBytes(), replicaSignature))
+                */    return account;
+                //else
+                  //  throw new RuntimeException("Replica not valid!");
+
             }
 
         } catch (IOException | ClassNotFoundException e) {
@@ -76,7 +83,13 @@ public class Service implements ServiceAPI {
             byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                return (boolean) objIn.readObject();
+                boolean b = (boolean) objIn.readObject();
+                /*byte[] replicaPublicKey = (byte[]) objIn.readObject();
+                byte[] replicaSignature = (byte[]) objIn.readObject();
+                if(Security.verifySignature(Security.getPublicKey(replicaPublicKey), "CREATE_ACCOUNT".getBytes(), replicaSignature))
+                */    return b;
+                //else
+                //  throw new RuntimeException("Replica not valid!");
             }
 
         } catch (IOException | ClassNotFoundException e) {
@@ -104,7 +117,13 @@ public class Service implements ServiceAPI {
             byte[] reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                return (int) objIn.readObject();
+                int balance =  (int) objIn.readObject();
+                /*byte[] replicaPublicKey = (byte[]) objIn.readObject();
+                byte[] replicaSignature = (byte[]) objIn.readObject();
+                if(Security.verifySignature(Security.getPublicKey(replicaPublicKey), "CREATE_ACCOUNT".getBytes(), replicaSignature))
+                */    return balance;
+                //else
+                //  throw new RuntimeException("Replica not valid!");
             }
 
         } catch (IOException | ClassNotFoundException e) {
@@ -131,7 +150,13 @@ public class Service implements ServiceAPI {
             byte[] reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                return (List<Transaction>) objIn.readObject();
+                List<Transaction> extract = (List<Transaction>) objIn.readObject();
+               /*byte[] replicaPublicKey = (byte[]) objIn.readObject();
+                byte[] replicaSignature = (byte[]) objIn.readObject();
+                if(Security.verifySignature(Security.getPublicKey(replicaPublicKey), "CREATE_ACCOUNT".getBytes(), replicaSignature))
+                */    return extract;
+                //else
+                //  throw new RuntimeException("Replica not valid!");
             }
 
         } catch (IOException | ClassNotFoundException e) {
@@ -162,7 +187,13 @@ public class Service implements ServiceAPI {
             byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                return (boolean) objIn.readObject();
+                boolean b = (boolean) objIn.readObject();
+                /*byte[] replicaPublicKey = (byte[]) objIn.readObject();
+                byte[] replicaSignature = (byte[]) objIn.readObject();
+                if(Security.verifySignature(Security.getPublicKey(replicaPublicKey), "CREATE_ACCOUNT".getBytes(), replicaSignature))
+                */    return b;
+                //else
+                //  throw new RuntimeException("Replica not valid!");
             }
 
         } catch (IOException | ClassNotFoundException e) {
@@ -190,7 +221,13 @@ public class Service implements ServiceAPI {
             byte[] reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                return (int) objIn.readObject();
+                int value = (int) objIn.readObject();
+                /*byte[] replicaPublicKey = (byte[]) objIn.readObject();
+                byte[] replicaSignature = (byte[]) objIn.readObject();
+                if(Security.verifySignature(Security.getPublicKey(replicaPublicKey), "CREATE_ACCOUNT".getBytes(), replicaSignature))
+                */    return value;
+                //else
+                //  throw new RuntimeException("Replica not valid!");
             }
 
         } catch (IOException | ClassNotFoundException e) {
@@ -206,7 +243,8 @@ public class Service implements ServiceAPI {
 
             Data dataDeserialized = Data.deserialize(data);
 
-            if(!Security.verifySignature(Security.getPublicKey(dataDeserialized.getPublicKey()),"GET_GLOBAL_VALUE".getBytes(), dataDeserialized.getSignature()))                throw new IllegalArgumentException("Signature not valid!");
+            if(!Security.verifySignature(Security.getPublicKey(dataDeserialized.getPublicKey()),"GET_GLOBAL_VALUE".getBytes(), dataDeserialized.getSignature()))
+                throw new IllegalArgumentException("Signature not valid!");
 
             objOut.writeObject(LedgerRequestType.GET_GLOBAL_VALUE);
             objOut.writeObject(dataDeserialized.getPublicKey());
@@ -217,16 +255,22 @@ public class Service implements ServiceAPI {
             byte[] reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                return (int) objIn.readObject();
+                int value = (int) objIn.readObject();
+                /*byte[] replicaPublicKey = (byte[]) objIn.readObject();
+                byte[] replicaSignature = (byte[]) objIn.readObject();
+                if(Security.verifySignature(Security.getPublicKey(replicaPublicKey), "CREATE_ACCOUNT".getBytes(), replicaSignature))
+                */
+                return value;
+                //else
+                //  throw new RuntimeException("Replica not valid!");
             }
-
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Exception: " + e.getMessage());
         }
         return -1;
-    }
+        }
 
-    @Override
+        @Override
     public Map<String, List<Transaction>> getLedger() {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
@@ -238,9 +282,13 @@ public class Service implements ServiceAPI {
             byte[] reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                Map<String, List<Transaction>> map = (Map<String, List<Transaction>>)objIn.readObject();
-                byte[] signature = (byte[]) objIn.readObject();
-                return  map;
+                Map<String, List<Transaction>> ledger = (Map<String, List<Transaction>>)objIn.readObject();
+                /*byte[] replicaPublicKey = (byte[]) objIn.readObject();
+                byte[] replicaSignature = (byte[]) objIn.readObject();
+                if(Security.verifySignature(Security.getPublicKey(replicaPublicKey), "CREATE_ACCOUNT".getBytes(), replicaSignature))
+                */    return ledger;
+                //else
+                //  throw new RuntimeException("Replica not valid!");
             }
 
         } catch (IOException | ClassNotFoundException e) {
