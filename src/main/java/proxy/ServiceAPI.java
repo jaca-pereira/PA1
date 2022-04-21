@@ -23,7 +23,7 @@ public interface ServiceAPI {
     @POST
     @Path("/account/load")
     @Consumes(MediaType.APPLICATION_JSON)
-    void loadMoney(byte[] data);
+    boolean loadMoney(byte[] data);
 
     @POST
     @Path("/account/balance")
@@ -40,7 +40,7 @@ public interface ServiceAPI {
     @POST
     @Path("/transaction")
     @Consumes(MediaType.APPLICATION_JSON)
-    void sendTransaction(byte[] data);
+    boolean sendTransaction(byte[] data);
 
     @POST
     @Path("/accounts/value")
@@ -57,5 +57,5 @@ public interface ServiceAPI {
     @POST
     @Path("/ledger")
     @Produces(MediaType.APPLICATION_JSON)
-    Map<byte[], List<Transaction>> getLedger();
+    Map<String, List<Transaction>> getLedger();
 }

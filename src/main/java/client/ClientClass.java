@@ -90,7 +90,7 @@ public class ClientClass {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(null);
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                Map<byte[], List<Transaction>> ledger = r.readEntity(Map.class);
+                Map<String, List<Transaction>> ledger = r.readEntity(Map.class);
                 System.out.println("Success: " + ledger);
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus() );
@@ -102,11 +102,11 @@ public class ClientClass {
     }
 
     private static void sendTransaction(Scanner scanner) {
-        byte[] sender = scanner.nextLine().getBytes();
-        byte[] reciever = scanner.nextLine().getBytes();
+        String sender = scanner.nextLine();
+        String reciever = scanner.nextLine();
         String value = scanner.nextLine();
         String nonce = scanner.nextLine();
-        Data data = new Data(new byte[] {}, sender, reciever, Integer.parseInt(value), Long.parseLong(nonce));
+        Data data = new Data(new byte[] {}, sender.getBytes(), reciever.getBytes(), Integer.parseInt(value), Long.parseLong(nonce));
 
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target( serverURI ).path("transaction");
@@ -115,8 +115,8 @@ public class ClientClass {
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Data.serialize(data), MediaType.APPLICATION_JSON_TYPE));
-            if( r.getStatus() == Response.Status.OK.getStatusCode()) {
-                System.out.println("Success");
+            if(  r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
+                System.out.println("Success: " + r.readEntity(boolean.class));
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus() );
 
@@ -216,8 +216,8 @@ public class ClientClass {
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Data.serialize(data), MediaType.APPLICATION_JSON_TYPE));
-            if( r.getStatus() == Response.Status.OK.getStatusCode()) {
-                System.out.println("Success");
+            if(  r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
+                System.out.println("Success: " + r.readEntity(boolean.class));
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus() );
 

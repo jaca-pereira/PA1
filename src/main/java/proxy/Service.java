@@ -46,7 +46,7 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public void loadMoney(byte[] data) {
+    public boolean loadMoney(byte[] data) {
 
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
@@ -58,11 +58,16 @@ public class Service implements ServiceAPI {
             objOut.flush();
             byteOut.flush();
 
-            serviceProxy.invokeOrdered(byteOut.toByteArray());
+            byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
+            try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
+                 ObjectInput objIn = new ObjectInputStream(byteIn)) {
+                return (boolean) objIn.readObject();
+            }
 
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             System.out.println("Exception: " + e.getMessage());
         }
+        return false;
     }
 
     @Override
@@ -110,7 +115,7 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public void sendTransaction(byte[] data) {
+    public boolean sendTransaction(byte[] data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
@@ -122,11 +127,16 @@ public class Service implements ServiceAPI {
             objOut.flush();
             byteOut.flush();
 
-            serviceProxy.invokeOrdered(byteOut.toByteArray());
+            byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
+            try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
+                 ObjectInput objIn = new ObjectInputStream(byteIn)) {
+                return (boolean) objIn.readObject();
+            }
 
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             System.out.println("Exception: " + e.getMessage());
         }
+        return false;
     }
 
     @Override
@@ -173,7 +183,7 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public Map<byte[], List<Transaction>> getLedger() {
+    public Map<String, List<Transaction>> getLedger() {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
@@ -185,7 +195,7 @@ public class Service implements ServiceAPI {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
 
-                return  (Map<byte[], List<Transaction>>) objIn.readObject();
+                return  (Map<String, List<Transaction>>) objIn.readObject();
             }
 
         } catch (IOException | ClassNotFoundException e) {

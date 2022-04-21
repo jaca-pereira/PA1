@@ -39,10 +39,11 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         return this.ledger.addAccount(account);
     }
 
-    public void loadMoney(byte[] account, int value, byte[] signature) {
+    public boolean loadMoney(byte[] account, int value, byte[] signature) {
         if (value <= 0)
             throw new IllegalArgumentException("Value must be positive!");
         this.ledger.sendTransaction(Ledger.LEDGER, account, value, -1);
+        return true;
     }
 
     public int getBalance(byte[] account, byte[] signature) {
@@ -53,12 +54,13 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         return this.ledger.getExtract(account);
     }
 
-    public void sendTransaction(byte[] originAccount, byte[] destinationAccount, int value, byte[] signature, long nonce) {
+    public boolean sendTransaction(byte[] originAccount, byte[] destinationAccount, int value, byte[] signature, long nonce) {
         if (value <= 0)
             throw new IllegalArgumentException("Value must be positive!");
         //verificar nonce?
         //verificar signature neste e em todos
         this.ledger.sendTransaction(originAccount, destinationAccount, value, nonce);
+        return true;
     }
 
     public int getTotalValue(List<byte[]> accounts, byte[] signature) {
@@ -69,7 +71,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         return this.ledger.getGlobalValue();
     }
 
-    public Map<byte[], List<Transaction>> getLedger() {
+    public Map<String, List<Transaction>> getLedger() {
         return this.ledger.getLedger();
     }
 
@@ -87,7 +89,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
             LedgerRequestType reqType = (LedgerRequestType)objIn.readObject();
             switch (reqType) {
                 case CREATE_ACCOUNT:
-                    byte[] account1 = (byte[] )objIn.readObject();
+                    byte[] account1 = (byte[])objIn.readObject();
                     account1 = this.createAccount(account1,new byte[]{});
                     objOut.writeObject(account1);
                     hasReply = true;
@@ -95,7 +97,9 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                 case LOAD_MONEY:
                     byte[] account2 = (byte[] )objIn.readObject();
                     int value = (int)objIn.readObject();
-                    this.loadMoney(account2, value,new byte[]{});
+                    boolean ok= this.loadMoney(account2, value,new byte[]{});
+                    objOut.writeObject(ok);
+                    hasReply = true;
                     break;
                 case GET_BALANCE:
                     byte[] account3 = (byte[] )objIn.readObject();
@@ -114,7 +118,9 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                     byte[] account6 = (byte[] )objIn.readObject();
                     int amount = (int )objIn.readObject();
                     long nonce = (long )objIn.readObject();
-                    this.sendTransaction(account5, account6, amount, new byte[]{}, nonce);
+                    boolean ok2 = this.sendTransaction(account5, account6, amount, new byte[]{}, nonce);
+                    objOut.writeObject(ok2);
+                    hasReply = true;
                     break;
                 case GET_TOTAL_VALUE:
                     List<byte[]> accounts = (List<byte[]>) objIn.readObject();
