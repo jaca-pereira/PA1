@@ -28,7 +28,7 @@ public class Service implements ServiceAPI {
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
             objOut.writeObject(LedgerRequestType.CREATE_ACCOUNT);
-            objOut.writeObject(Data.deserialize(data).getAccount().getBytes());
+            objOut.writeObject(Data.deserialize(data).getAccount());
             objOut.flush();
             byteOut.flush();
 
@@ -53,7 +53,7 @@ public class Service implements ServiceAPI {
 
             objOut.writeObject(LedgerRequestType.LOAD_MONEY);
 
-            objOut.writeObject(Data.deserialize(data).getAccount().getBytes());
+            objOut.writeObject(Data.deserialize(data).getAccount());
             objOut.writeObject(Data.deserialize(data).getValue());
             objOut.flush();
             byteOut.flush();

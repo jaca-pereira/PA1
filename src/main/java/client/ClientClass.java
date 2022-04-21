@@ -1,6 +1,7 @@
 package client;
 
 import java.net.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -101,11 +102,11 @@ public class ClientClass {
     }
 
     private static void sendTransaction(Scanner scanner) {
-        String sender = scanner.nextLine();
-        String reciever = scanner.nextLine();
+        byte[] sender = scanner.nextLine().getBytes();
+        byte[] reciever = scanner.nextLine().getBytes();
         String value = scanner.nextLine();
         String nonce = scanner.nextLine();
-        Data data = new Data(new byte[] {}, sender, reciever.getBytes(), Integer.parseInt(value), Long.parseLong(nonce));
+        Data data = new Data(new byte[] {}, sender, reciever, Integer.parseInt(value), Long.parseLong(nonce));
 
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target( serverURI ).path("transaction");
@@ -179,7 +180,7 @@ public class ClientClass {
     }
 
     private static void getExtract(Scanner scanner) {
-        String account = scanner.nextLine();
+        byte[] account = scanner.nextLine().getBytes();
 
         Data data = new Data(new byte[] {}, account);
         Client client = ClientBuilder.newClient();
@@ -203,7 +204,7 @@ public class ClientClass {
     }
 
     private static void loadMoney(Scanner scanner) {
-        String account = scanner.nextLine();
+        byte[] account = scanner.nextLine().getBytes();
         String value = scanner.nextLine();
 
         Data data = new Data(new byte[] {}, account, Integer.parseInt(value));
@@ -227,7 +228,7 @@ public class ClientClass {
     }
 
     private static void getBalance(Scanner scanner) {
-        String account = scanner.nextLine();
+        byte[] account = scanner.nextLine().getBytes();
 
         Data data = new Data(new byte[]{}, account);
 
@@ -252,7 +253,7 @@ public class ClientClass {
     }
 
     private static void createAccount(Scanner scanner) {
-        String account = scanner.nextLine();
+        byte[] account = scanner.nextLine().getBytes();
         Data data = new Data(new byte[]{}, account);
         Client client = ClientBuilder.newClient();
 
@@ -265,24 +266,6 @@ public class ClientClass {
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 byte[] acc = r.readEntity(byte[].class);
                 System.out.println("Success: " + acc);
-                data = new Data(new byte[] {}, account, 10);
-
-                client = ClientBuilder.newClient();
-                target = client.target( serverURI ).path("account/load");
-
-                try {
-                    r = target.request()
-                            .accept(MediaType.APPLICATION_JSON)
-                            .post(Entity.entity(Data.serialize(data), MediaType.APPLICATION_JSON_TYPE));
-                    if( r.getStatus() == Response.Status.OK.getStatusCode()) {
-                        System.out.println("Success");
-                    } else
-                        System.out.println("Error, HTTP error status: " + r.getStatus() );
-
-                } catch ( ProcessingException pe ) { //Error in communication with server
-                    System.out.println("Timeout occurred.");
-                    pe.printStackTrace(); //
-                }
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus());
 
