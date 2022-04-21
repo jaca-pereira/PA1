@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="201f41f4-2df3-4068-b188-8cdd7e142483" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/ClientClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/ClientClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/Ledger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/Ledger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/proxy/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/Data.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/proxy/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/proxy/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/proxy/ServiceAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/ServiceAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/replicas/LedgerReplica.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/replicas/LedgerReplica.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/PA1-1.0-SNAPSHOT-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/PA1-1.0-SNAPSHOT-jar-with-dependencies.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/client/ClientClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/client/ClientClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Ledger.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/data/Ledger.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/proxy/Data.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/proxy/Data.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/proxy/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/proxy/Server.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/proxy/Service.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/proxy/Service.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/proxy/ServiceAPI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/proxy/ServiceAPI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/replicas/LedgerReplica$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/replicas/LedgerReplica$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/replicas/LedgerReplica.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/replicas/LedgerReplica.class" afterDir="false" />
+    </list>
+    <list id="ffa4e16f-2d97-4ed4-bcd7-199337e52c39" name="Changes by Palindra" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2825wCr3znppLVUckqouhU9tblQ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/main/java/replicas" />
+      <recent name="$PROJECT_DIR$/src/main/java/data" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java" />
+      <recent name="$PROJECT_DIR$/src/main" />
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean package" />
+      <command value="mvn clean compile assembly:single" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.ClientClass">
+    <configuration name="ClientClass" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="client.ClientClass" />
+      <module name="PA1" />
+      <option name="PROGRAM_PARAMETERS" value="127.0.1.1 8080" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="proxy.Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="proxy.Server" />
+      <module name="PA1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="proxy.Data" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="proxy.Service" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="proxy.Service" />
+      <module name="PA1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="proxy.Data" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="replicas.LedgerReplica" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="replicas.LedgerReplica" />
+      <module name="PA1" />
+      <option name="PROGRAM_PARAMETERS" value="0" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="replicas.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.ClientClass" />
+      <item itemvalue="Application.proxy.Server" />
+      <item itemvalue="Application.proxy.Service" />
+      <item itemvalue="Application.replicas.LedgerReplica" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ClientClass" />
+        <item itemvalue="Application.proxy.Server" />
+        <item itemvalue="Application.replicas.LedgerReplica" />
+        <item itemvalue="Application.proxy.Service" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="201f41f4-2df3-4068-b188-8cdd7e142483" name="Changes" comment="" />
+      <created>1650402078758</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1650402078758</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

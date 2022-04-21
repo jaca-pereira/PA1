@@ -1,20 +1,19 @@
 package proxy;
 
-import data.Transaction;
 
 import java.io.*;
 import java.util.List;
 
 public class Data implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     private byte[] signature;
-    private byte[] account;
+    private String account;
     private byte[] accountDestiny;
     private  int value;
     private long nonce;
     private List<byte[]> accounts;
 
-    public Data(byte[] signature, byte[] account, byte[] accountDestiny, int value, long nonce) {
+    public Data(byte[] signature, String account, byte[] accountDestiny, int value, long nonce) {
         this.signature = signature;
         this.account = account;
         this.accountDestiny = accountDestiny;
@@ -22,12 +21,12 @@ public class Data implements Serializable {
         this.nonce = nonce;
     }
 
-    public Data(byte[] signature, byte[] account) {
+    public Data(byte[] signature, String account) {
         this.signature = signature;
         this.account = account;
     }
 
-    public Data(byte[] signature, byte[] account, int value) {
+    public Data(byte[] signature, String account, int value) {
         this.signature = signature;
         this.account = account;
         this.value = value;
@@ -70,7 +69,7 @@ public class Data implements Serializable {
         return signature;
     }
 
-    public byte[] getAccount() {
+    public String getAccount() {
         return account;
     }
 

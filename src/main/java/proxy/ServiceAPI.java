@@ -57,5 +57,5 @@ public interface ServiceAPI {
     @POST
     @Path("/ledger")
     @Produces(MediaType.APPLICATION_JSON)
-    Map<String, List<Transaction>> getLedger();
+    Map<byte[], List<Transaction>> getLedger();
 }

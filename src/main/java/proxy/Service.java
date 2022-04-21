@@ -2,7 +2,7 @@ package proxy;
 
 
 import bftsmart.tom.ServiceProxy;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import data.Transaction;
 
 import java.io.*;
@@ -28,7 +28,7 @@ public class Service implements ServiceAPI {
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
             objOut.writeObject(LedgerRequestType.CREATE_ACCOUNT);
-            objOut.writeObject(Data.deserialize(data).getAccount());
+            objOut.writeObject(Data.deserialize(data).getAccount().getBytes());
             objOut.flush();
             byteOut.flush();
 
@@ -52,7 +52,8 @@ public class Service implements ServiceAPI {
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
             objOut.writeObject(LedgerRequestType.LOAD_MONEY);
-            objOut.writeObject(Data.deserialize(data).getAccount());
+
+            objOut.writeObject(Data.deserialize(data).getAccount().getBytes());
             objOut.writeObject(Data.deserialize(data).getValue());
             objOut.flush();
             byteOut.flush();
@@ -172,7 +173,7 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public Map<String, List<Transaction>> getLedger() {
+    public Map<byte[], List<Transaction>> getLedger() {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
@@ -184,7 +185,7 @@ public class Service implements ServiceAPI {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
 
-                return  (Map<String, List<Transaction>>) objIn.readObject();
+                return  (Map<byte[], List<Transaction>>) objIn.readObject();
             }
 
         } catch (IOException | ClassNotFoundException e) {

@@ -21,11 +21,19 @@ public class Server {
     public static final int PORT = 8080;
 
     public static void main(String[] args) throws UnknownHostException {
+
+        if (args.length < 1) {
+            System.out.println("Usage: <clientID>");
+        }
+
+        int id = Integer.valueOf(args[0]);
+
         String ip = InetAddress.getLocalHost().getHostAddress();
+
 
         String serverURI = String.format("http://%s:%s/", ip, PORT);
 
-        Service service = new Service(5);
+        Service service = new Service(id);
 
         ResourceConfig config = new ResourceConfig();
         config.register(service);

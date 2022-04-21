@@ -105,7 +105,7 @@ public class ClientClass {
         String reciever = scanner.nextLine();
         String value = scanner.nextLine();
         String nonce = scanner.nextLine();
-        Data data = new Data(new byte[] {}, sender.getBytes(), reciever.getBytes(), Integer.parseInt(value), Long.parseLong(nonce));
+        Data data = new Data(new byte[] {}, sender, reciever.getBytes(), Integer.parseInt(value), Long.parseLong(nonce));
 
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target( serverURI ).path("transaction");
@@ -181,7 +181,7 @@ public class ClientClass {
     private static void getExtract(Scanner scanner) {
         String account = scanner.nextLine();
 
-        Data data = new Data(new byte[] {}, account.getBytes());
+        Data data = new Data(new byte[] {}, account);
         Client client = ClientBuilder.newClient();
 
         WebTarget target = client.target( serverURI ).path("account/extract");
@@ -206,7 +206,7 @@ public class ClientClass {
         String account = scanner.nextLine();
         String value = scanner.nextLine();
 
-        Data data = new Data(new byte[] {}, account.getBytes(), Integer.parseInt(value));
+        Data data = new Data(new byte[] {}, account, Integer.parseInt(value));
 
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target( serverURI ).path("account/load");
@@ -229,7 +229,7 @@ public class ClientClass {
     private static void getBalance(Scanner scanner) {
         String account = scanner.nextLine();
 
-        Data data = new Data(new byte[]{}, account.getBytes());
+        Data data = new Data(new byte[]{}, account);
 
         Client client = ClientBuilder.newClient();
 
@@ -253,7 +253,7 @@ public class ClientClass {
 
     private static void createAccount(Scanner scanner) {
         String account = scanner.nextLine();
-        Data data = new Data(new byte[]{}, account.getBytes());
+        Data data = new Data(new byte[]{}, account);
         Client client = ClientBuilder.newClient();
 
         WebTarget target = client.target( serverURI ).path("account");
@@ -265,6 +265,24 @@ public class ClientClass {
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 byte[] acc = r.readEntity(byte[].class);
                 System.out.println("Success: " + acc);
+                data = new Data(new byte[] {}, account, 10);
+
+                client = ClientBuilder.newClient();
+                target = client.target( serverURI ).path("account/load");
+
+                try {
+                    r = target.request()
+                            .accept(MediaType.APPLICATION_JSON)
+                            .post(Entity.entity(Data.serialize(data), MediaType.APPLICATION_JSON_TYPE));
+                    if( r.getStatus() == Response.Status.OK.getStatusCode()) {
+                        System.out.println("Success");
+                    } else
+                        System.out.println("Error, HTTP error status: " + r.getStatus() );
+
+                } catch ( ProcessingException pe ) { //Error in communication with server
+                    System.out.println("Timeout occurred.");
+                    pe.printStackTrace(); //
+                }
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus());
 
