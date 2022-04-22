@@ -5,9 +5,13 @@ import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
 
+import javax.net.ssl.SSLContext;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.logging.Logger;
 
 public class Server {
@@ -20,7 +24,7 @@ public class Server {
 
     public static final int PORT = 8080;
 
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args) throws UnknownHostException, NoSuchAlgorithmException, KeyManagementException {
 
         if (args.length < 1) {
             System.out.println("Usage: <clientID>");
@@ -38,7 +42,7 @@ public class Server {
         ResourceConfig config = new ResourceConfig();
         config.register(service);
 
-        JdkHttpServerFactory.createHttpServer( URI.create(serverURI), config);
+        JdkHttpServerFactory.createHttpServer( URI.create(serverURI), config, SSLContext.getDefault());
 
         Log.info(String.format("%s Server ready @ %s\n",  InetAddress.getLocalHost().getCanonicalHostName(), serverURI));
     }
