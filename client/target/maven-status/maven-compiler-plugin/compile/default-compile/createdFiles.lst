@@ -1,0 +1,8 @@
+client/ClientClass.class
+data/LedgerRequestType.class
+Security/InsecureHostNameVerifier.class
+data/Transaction.class
+data/Request.class
+Security/Security.class
+data/Reply.class
+client/ClientClass$1.class
