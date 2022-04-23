@@ -11,9 +11,6 @@ public class Ledger {
 
     private LedgerDataStructure ledger;
 
-    //mais simples ter uma lista com as operações ordenadas
-    //um inteiro a representar o balance da conta tb
-    //fazer uma classe
 
     private void incrementCounter() {
         this.operationsCounter++;

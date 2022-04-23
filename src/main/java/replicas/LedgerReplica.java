@@ -10,8 +10,8 @@ import org.apache.log4j.BasicConfigurator;
 
 import java.io.*;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
+
 import java.util.logging.Logger;
 
 public class LedgerReplica extends DefaultSingleRecoverable {
@@ -95,7 +95,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         try (ByteArrayInputStream byteIn = new ByteArrayInputStream(command);
              ObjectInput objIn = new ObjectInputStream(byteIn);
              ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-             ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
+             ObjectOutput objOut = new ObjectOutputStream(byteOut)) {
             Request request = (Request) objIn.readObject();
             switch (request.getRequestType()) {
                 case CREATE_ACCOUNT:

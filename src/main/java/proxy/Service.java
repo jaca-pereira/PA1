@@ -6,13 +6,9 @@ import bftsmart.tom.ServiceProxy;
 import data.Request;
 import data.LedgerRequestType;
 import data.Reply;
-import data.Transaction;
 
 import java.io.*;
 import java.security.KeyPair;
-import java.security.PublicKey;
-import java.util.List;
-import java.util.Map;
 
 
 public class Service implements ServiceAPI {
