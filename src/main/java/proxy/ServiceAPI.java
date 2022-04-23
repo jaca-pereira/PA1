@@ -14,44 +14,44 @@ public interface ServiceAPI {
     @Path("/account")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    Response createAccount(byte[] data);
+    Reply createAccount(byte[] data);
 
     @POST
     @Path("/account/load")
     @Consumes(MediaType.APPLICATION_JSON)
-    Response loadMoney(byte[] data);
+    Reply loadMoney(byte[] data);
 
     @POST
     @Path("/account/balance")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    Response getBalance(byte[] data);
+    Reply getBalance(byte[] data);
 
     @POST
     @Path("/account/extract")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    Response getExtract(byte[] data);
+    Reply getExtract(byte[] data);
 
     @POST
     @Path("/transaction")
     @Consumes(MediaType.APPLICATION_JSON)
-    Response sendTransaction(byte[] data);
+    Reply sendTransaction(byte[] data);
 
     @POST
     @Path("/accounts/value")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    Response getTotalValue(byte[] data);
+    Reply getTotalValue(byte[] data);
 
     @POST
     @Path("/value")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    Response getGlobalValue(byte[] data);
+    Reply getGlobalValue(byte[] data);
 
     @POST
     @Path("/ledger")
     @Produces(MediaType.APPLICATION_JSON)
-    Response getLedger();
+    Reply getLedger();
 }

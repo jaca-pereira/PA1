@@ -27,7 +27,7 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public Response createAccount(byte[] data) {
+    public Reply createAccount(byte[] data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
@@ -47,7 +47,7 @@ public class Service implements ServiceAPI {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
                 byte[] account = (byte[]) objIn.readObject();
-                Response response = new Response(this.keyPair.getPublic().getEncoded(), Security.signRequest(this.keyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()), account);
+                Reply response = new Reply(this.keyPair.getPublic().getEncoded(), Security.signRequest(this.keyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()), account);
                 /*byte[] replicaPublicKey = (byte[]) objIn.readObject();
                 byte[] replicaSignature = (byte[]) objIn.readObject();
                 if(Security.verifySignature(Security.getPublicKey(replicaPublicKey), "CREATE_ACCOUNT".getBytes(), replicaSignature))
@@ -65,7 +65,7 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public Response loadMoney(byte[] data) {
+    public Reply loadMoney(byte[] data) {
 
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
@@ -88,7 +88,7 @@ public class Service implements ServiceAPI {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
                 boolean worked = (boolean) objIn.readObject();
-                Response response = new Response(this.keyPair.getPublic().getEncoded(), Security.signRequest(this.keyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()), worked);
+                Reply response = new Reply(this.keyPair.getPublic().getEncoded(), Security.signRequest(this.keyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()), worked);
                 /*byte[] replicaPublicKey = (byte[]) objIn.readObject();
                 byte[] replicaSignature = (byte[]) objIn.readObject();
                 if(Security.verifySignature(Security.getPublicKey(replicaPublicKey), "CREATE_ACCOUNT".getBytes(), replicaSignature))
@@ -104,7 +104,7 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public Response getBalance(byte[] data) {
+    public Reply getBalance(byte[] data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
@@ -123,7 +123,7 @@ public class Service implements ServiceAPI {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
                 int balance =  (int) objIn.readObject();
-                Response response = new Response(this.keyPair.getPublic().getEncoded(), Security.signRequest(this.keyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()), balance);
+                Reply response = new Reply(this.keyPair.getPublic().getEncoded(), Security.signRequest(this.keyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()), balance);
                 /*byte[] replicaPublicKey = (byte[]) objIn.readObject();
                 byte[] replicaSignature = (byte[]) objIn.readObject();
                 if(Security.verifySignature(Security.getPublicKey(replicaPublicKey), "CREATE_ACCOUNT".getBytes(), replicaSignature))
@@ -139,7 +139,7 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public Response getExtract(byte[] data) {
+    public Reply getExtract(byte[] data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
@@ -157,7 +157,7 @@ public class Service implements ServiceAPI {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
                 List<Transaction> extract = (List<Transaction>) objIn.readObject();
-                Response response = new Response(this.keyPair.getPublic().getEncoded(), Security.signRequest(this.keyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()), extract);
+                Reply response = new Reply(this.keyPair.getPublic().getEncoded(), Security.signRequest(this.keyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()), extract);
                /*byte[] replicaPublicKey = (byte[]) objIn.readObject();
                 byte[] replicaSignature = (byte[]) objIn.readObject();
                 if(Security.verifySignature(Security.getPublicKey(replicaPublicKey), "CREATE_ACCOUNT".getBytes(), replicaSignature))
@@ -173,7 +173,7 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public Response sendTransaction(byte[] data) {
+    public Reply sendTransaction(byte[] data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
@@ -195,7 +195,7 @@ public class Service implements ServiceAPI {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
                 boolean worked = (boolean) objIn.readObject();
-                Response response = new Response(this.keyPair.getPublic().getEncoded(), Security.signRequest(this.keyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()), worked);
+                Reply response = new Reply(this.keyPair.getPublic().getEncoded(), Security.signRequest(this.keyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()), worked);
                 /*byte[] replicaPublicKey = (byte[]) objIn.readObject();
                 byte[] replicaSignature = (byte[]) objIn.readObject();
                 if(Security.verifySignature(Security.getPublicKey(replicaPublicKey), "CREATE_ACCOUNT".getBytes(), replicaSignature))
@@ -211,7 +211,7 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public Response getTotalValue(byte[] data) {
+    public Reply getTotalValue(byte[] data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
@@ -230,7 +230,7 @@ public class Service implements ServiceAPI {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
                 int value = (int) objIn.readObject();
-                Response response = new Response(this.keyPair.getPublic().getEncoded(), Security.signRequest(this.keyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()), value);
+                Reply response = new Reply(this.keyPair.getPublic().getEncoded(), Security.signRequest(this.keyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()), value);
                 /*byte[] replicaPublicKey = (byte[]) objIn.readObject();
                 byte[] replicaSignature = (byte[]) objIn.readObject();
                 if(Security.verifySignature(Security.getPublicKey(replicaPublicKey), "CREATE_ACCOUNT".getBytes(), replicaSignature))
@@ -246,7 +246,7 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public Response getGlobalValue(byte[] data) {
+    public Reply getGlobalValue(byte[] data) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
@@ -265,7 +265,7 @@ public class Service implements ServiceAPI {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
                 int value = (int) objIn.readObject();
-                Response response = new Response(this.keyPair.getPublic().getEncoded(), Security.signRequest(this.keyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()), value);
+                Reply response = new Reply(this.keyPair.getPublic().getEncoded(), Security.signRequest(this.keyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()), value);
                 /*byte[] replicaPublicKey = (byte[]) objIn.readObject();
                 byte[] replicaSignature = (byte[]) objIn.readObject();
                 if(Security.verifySignature(Security.getPublicKey(replicaPublicKey), "CREATE_ACCOUNT".getBytes(), replicaSignature))
@@ -281,7 +281,7 @@ public class Service implements ServiceAPI {
         }
 
         @Override
-    public Response getLedger() {
+    public Reply getLedger() {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
@@ -293,7 +293,7 @@ public class Service implements ServiceAPI {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
                 Map<String, List<Transaction>> ledger = (Map<String, List<Transaction>>)objIn.readObject();
-                Response response = new Response(this.keyPair.getPublic().getEncoded(), Security.signRequest(this.keyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()), ledger);
+                Reply response = new Reply(this.keyPair.getPublic().getEncoded(), Security.signRequest(this.keyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()), ledger);
                 /*byte[] replicaPublicKey = (byte[]) objIn.readObject();
                 byte[] replicaSignature = (byte[]) objIn.readObject();
                 if(Security.verifySignature(Security.getPublicKey(replicaPublicKey), "CREATE_ACCOUNT".getBytes(), replicaSignature))

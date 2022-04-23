@@ -24,6 +24,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import Security.InsecureHostNameVerifier;
+import proxy.Reply;
 
 import javax.net.ssl.TrustManagerFactory;
 import javax.ws.rs.ProcessingException;
@@ -103,7 +104,7 @@ public class ClientClass {
         TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
         tmf.init(ts);
 
-        String protocol = "TLSv1.3";
+        String protocol = "TLSv1.2";
         SSLContext sslContext = SSLContext.getInstance(protocol);
 
         sslContext.init(null, tmf.getTrustManagers(), null);
@@ -136,7 +137,7 @@ public class ClientClass {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(null);
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                Map<String, List<Transaction>> ledger = r.readEntity(Map.class);
+                Map<String, List<Transaction>> ledger = r.readEntity(Reply.class).getLedgerResponse();
                 System.out.println("Success: " + ledger);
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus() );
@@ -165,7 +166,7 @@ public class ClientClass {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Data.serialize(data), MediaType.APPLICATION_JSON_TYPE));
             if(  r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                System.out.println("Success: " + r.readEntity(boolean.class));
+                System.out.println("Success: " + r.readEntity(Reply.class).getBoolResponse());
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus() );
 
@@ -189,7 +190,7 @@ public class ClientClass {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Data.serialize(data), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                int value = r.readEntity(int.class);
+                int value = r.readEntity(Reply.class).getIntResponse();
                 System.out.println("Success: " + value);
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus() );
@@ -221,7 +222,7 @@ public class ClientClass {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Data.serialize(data), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                int value = r.readEntity(int.class);
+                int value = r.readEntity(Reply.class).getIntResponse();
                 System.out.println("Success: " + value);
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus() );
@@ -247,7 +248,7 @@ public class ClientClass {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Data.serialize(data), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                List<Transaction> extract = r.readEntity(List.class);
+                List<Transaction> extract = r.readEntity(Reply.class).getListResponse();
                 System.out.println("Success: " + extract);
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus() );
@@ -275,7 +276,7 @@ public class ClientClass {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Data.serialize(data), MediaType.APPLICATION_JSON_TYPE));
             if(  r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                System.out.println("Success: " + r.readEntity(boolean.class));
+                System.out.println("Success: " + r.readEntity(Reply.class).getBoolResponse());
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus() );
 
@@ -302,7 +303,7 @@ public class ClientClass {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Data.serialize(data), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                int balance = r.readEntity(int.class);
+                int balance = r.readEntity(Reply.class).getIntResponse();
                 System.out.println("Success: " + balance);
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus() );
@@ -328,7 +329,7 @@ public class ClientClass {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Data.serialize(data), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                byte[] acc = r.readEntity(byte[].class);
+                byte[] acc = r.readEntity(Reply.class).getByteResponse();
                 System.out.println("Success: " + acc);
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus());

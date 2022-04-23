@@ -38,37 +38,37 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         new ServiceReplica(id, this, this);
     }
 
-    public byte[]  createAccount(/*byte[] publicKey, byte[] signature,*/ byte[] account) {
+    public byte[]  createAccount(byte[] publicKey, byte[] signature, byte[] account) {
 
-        /*if(!Security.verifySignature(Security.getPublicKey(publicKey),"CREATE_ACCOUNT".getBytes(), signature))
-            throw new IllegalArgumentException("Signature not valid!");*/
+        if(!Security.verifySignature(Security.getPublicKey(publicKey),"CREATE_ACCOUNT".getBytes(), signature))
+            throw new IllegalArgumentException("Signature not valid!");
         return this.ledger.addAccount(account);
     }
 
-    public boolean loadMoney(/*byte[] publicKey, byte[] signature,*/ byte[] account, int value) {
-        /*if(!Security.verifySignature(Security.getPublicKey(publicKey),"LOAD_MONEY".getBytes(), signature))
-            throw new IllegalArgumentException("Signature not valid!");*/
+    public boolean loadMoney(byte[] publicKey, byte[] signature, byte[] account, int value) {
+        if(!Security.verifySignature(Security.getPublicKey(publicKey),"LOAD_MONEY".getBytes(), signature))
+            throw new IllegalArgumentException("Signature not valid!");
         if (value <= 0)
             throw new IllegalArgumentException("Value must be positive!");
         this.ledger.sendTransaction(Ledger.LEDGER, account, value, -1);
         return true;
     }
 
-    public int getBalance(/*byte[] publicKey, byte[] signature,*/ byte[] account) {
-        /*if(!Security.verifySignature(Security.getPublicKey(publicKey),"GET_BALANCE".getBytes(), signature))
-            throw new IllegalArgumentException("Signature not valid!");*/
+    public int getBalance(byte[] publicKey, byte[] signature, byte[] account) {
+        if(!Security.verifySignature(Security.getPublicKey(publicKey),"GET_BALANCE".getBytes(), signature))
+            throw new IllegalArgumentException("Signature not valid!");
         return this.ledger.getBalance(account);
     }
 
-    public List<Transaction> getExtract(/*byte[] publicKey, byte[] signature,*/ byte[] account) {
-        /*if(!Security.verifySignature(Security.getPublicKey(publicKey),"GET_EXTRACT".getBytes(), signature))
-            throw new IllegalArgumentException("Signature not valid!");*/
+    public List<Transaction> getExtract(byte[] publicKey, byte[] signature, byte[] account) {
+        if(!Security.verifySignature(Security.getPublicKey(publicKey),"GET_EXTRACT".getBytes(), signature))
+            throw new IllegalArgumentException("Signature not valid!");
         return this.ledger.getExtract(account);
     }
 
-    public boolean sendTransaction(/*byte[] publicKey, byte[] signature,*/ byte[] originAccount, byte[] destinationAccount, int value, long nonce) {
-        /*if(!Security.verifySignature(Security.getPublicKey(publicKey),"SEND_TRANSACTION".getBytes(), signature))
-            throw new IllegalArgumentException("Signature not valid!");*/
+    public boolean sendTransaction(byte[] publicKey, byte[] signature, byte[] originAccount, byte[] destinationAccount, int value, long nonce) {
+        if(!Security.verifySignature(Security.getPublicKey(publicKey),"SEND_TRANSACTION".getBytes(), signature))
+            throw new IllegalArgumentException("Signature not valid!");
         if (value <= 0)
             throw new IllegalArgumentException("Value must be positive!");
         //verificar nonce?
@@ -76,15 +76,15 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         return true;
     }
 
-    public int getTotalValue(/*byte[] publicKey, byte[] signature,*/ List<byte[]> accounts) {
-        /*if(!Security.verifySignature(Security.getPublicKey(publicKey),"GET_TOTAL_VALUE".getBytes(), signature))
-            throw new IllegalArgumentException("Signature not valid!");*/
+    public int getTotalValue(byte[] publicKey, byte[] signature, List<byte[]> accounts) {
+        if(!Security.verifySignature(Security.getPublicKey(publicKey),"GET_TOTAL_VALUE".getBytes(), signature))
+            throw new IllegalArgumentException("Signature not valid!");
         return this.ledger.getTotalValue(accounts);
     }
 
-    public int getGlobalValue(/*byte[] publicKey, byte[] signature,*/) {
-        /*if(!Security.verifySignature(Security.getPublicKey(publicKey),"GET_GLOBAL_VALUE".getBytes(), signature))
-            throw new IllegalArgumentException("Signature not valid!");*/
+    public int getGlobalValue(byte[] publicKey, byte[] signature) {
+        if(!Security.verifySignature(Security.getPublicKey(publicKey),"GET_GLOBAL_VALUE".getBytes(), signature))
+            throw new IllegalArgumentException("Signature not valid!");
         return this.ledger.getGlobalValue();
     }
 
@@ -106,37 +106,24 @@ public class LedgerReplica extends DefaultSingleRecoverable {
             LedgerRequestType reqType = (LedgerRequestType)objIn.readObject();
             switch (reqType) {
                 case CREATE_ACCOUNT:
-                    /*byte[] publicKey = (byte[])objIn.readObject();
+                    byte[] publicKey = (byte[])objIn.readObject();
                     byte[] signature = (byte[])objIn.readObject();
                     byte[] account1 = (byte[])objIn.readObject();
                     account1 = this.createAccount(publicKey, signature, account1);
                     objOut.writeObject(account1);
-                    KeyPair keyPair = Security.getKeyPair();
-                    objOut.writeObject(keyPair.getPublic());
-                    objOut.writeObject(TOMUtil.signMessage(keyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()));*/
-                    byte[] account1 = (byte[])objIn.readObject();
-                    account1 = this.createAccount(account1);
-                    objOut.writeObject(account1);
                     hasReply = true;
                     break;
                 case LOAD_MONEY:
-                    /*byte[] publicKey1 = (byte[])objIn.readObject();
+                    byte[] publicKey1 = (byte[])objIn.readObject();
                     byte[] signature1 = (byte[])objIn.readObject();
                     byte[] account2 = (byte[] )objIn.readObject();
                     int value = (int)objIn.readObject();
                     boolean ok= this.loadMoney(publicKey1, signature1, account2, value);
                     objOut.writeObject(ok);
-                    KeyPair keyPair1 = Security.getKeyPair();
-                    objOut.writeObject(keyPair1.getPublic());
-                    objOut.writeObject(TOMUtil.signMessage(keyPair1.getPrivate(), "LOAD_MONEY".getBytes()));*/
-                    byte[] account2 = (byte[] )objIn.readObject();
-                    int value = (int)objIn.readObject();
-                    boolean ok= this.loadMoney(account2, value);
-                    objOut.writeObject(ok);
                     hasReply = true;
                     break;
                 case SEND_TRANSACTION:
-                    /*byte[] publicKey4 = (byte[])objIn.readObject();
+                    byte[] publicKey4 = (byte[])objIn.readObject();
                     byte[] signature4 = (byte[])objIn.readObject();
                     byte[] account5 = (byte[] )objIn.readObject();
                     byte[] account6 = (byte[] )objIn.readObject();
@@ -144,70 +131,36 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                     long nonce = (long )objIn.readObject();
                     boolean ok2 = this.sendTransaction(publicKey4, signature4, account5, account6, amount, nonce);
                     objOut.writeObject(ok2);
-                    KeyPair keyPair4 = Security.getKeyPair();
-                    objOut.writeObject(keyPair4.getPublic());
-                    objOut.writeObject(TOMUtil.signMessage(keyPair4.getPrivate(), "SEND_TRANSACTION".getBytes()));
-                     */
-                    byte[] account5 = (byte[] )objIn.readObject();
-                    byte[] account6 = (byte[] )objIn.readObject();
-                    int amount = (int )objIn.readObject();
-                    long nonce = (long )objIn.readObject();
-                    boolean ok2 = this.sendTransaction(account5, account6, amount, nonce);
-                    objOut.writeObject(ok2);
                     hasReply = true;
                     break;
                 case GET_BALANCE:
-                    /*byte[] publicKey2 = (byte[])objIn.readObject();
+                    byte[] publicKey2 = (byte[])objIn.readObject();
                     byte[] signature2 = (byte[])objIn.readObject();
                     byte[] account3 = (byte[] )objIn.readObject();
                     int balance = this.getBalance(publicKey2, signature2, account3);
                     objOut.writeObject(balance);
-                    KeyPair keyPair2 = Security.getKeyPair();
-                    objOut.writeObject(keyPair2.getPublic());
-                    objOut.writeObject(TOMUtil.signMessage(keyPair2.getPrivate(), "GET_BALANCE".getBytes()));*/
-                    byte[] account3 = (byte[] )objIn.readObject();
-                    int balance = this.getBalance(account3);
-                    objOut.writeObject(balance);
                     hasReply = true;
                     break;
                 case GET_EXTRACT:
-                    /*byte[] publicKey3 = (byte[])objIn.readObject();
+                    byte[] publicKey3 = (byte[])objIn.readObject();
                     byte[] signature3 = (byte[])objIn.readObject();
                     byte[] account4 = (byte[] )objIn.readObject();
                     List<Transaction> extract = this.getExtract(publicKey3, signature3, account4);
                     objOut.writeObject(extract);
-                    KeyPair keyPair3 = Security.getKeyPair();
-                    objOut.writeObject(keyPair3.getPublic());
-                    objOut.writeObject(TOMUtil.signMessage(keyPair3.getPrivate(), "GET_EXTRACT".getBytes()));
-                     */
-                    byte[] account4 = (byte[] )objIn.readObject();
-                    List<Transaction> extract = this.getExtract(account4);
-                    objOut.writeObject(extract);
                     hasReply = true;
                     break;
                 case GET_TOTAL_VALUE:
-                    /*byte[] publicKey5 = (byte[])objIn.readObject();
+                    byte[] publicKey5 = (byte[])objIn.readObject();
                     byte[] signature5 = (byte[])objIn.readObject();
                     List<byte[]> accounts = (List<byte[]>) objIn.readObject();
                     int totalValue = this.getTotalValue(publicKey5, signature5, accounts);
                     objOut.writeObject(totalValue);
-                    KeyPair keyPair5 = Security.getKeyPair();
-                    objOut.writeObject(keyPair5.getPublic());
-                    objOut.writeObject(TOMUtil.signMessage(keyPair5.getPrivate(), "GET_TOTAL_VALUE".getBytes()));*/
-                    List<byte[]> accounts = (List<byte[]>) objIn.readObject();
-                    int totalValue = this.getTotalValue(accounts);
-                    objOut.writeObject(totalValue);
                     hasReply = true;
                     break;
                 case GET_GLOBAL_VALUE:
-                    /*byte[] publicKey6 = (byte[])objIn.readObject();
+                    byte[] publicKey6 = (byte[])objIn.readObject();
                     byte[] signature6 = (byte[])objIn.readObject();
                     int globalValue = this.getGlobalValue(publicKey6, signature6);
-                    objOut.writeObject(globalValue);
-                    KeyPair keyPair6 = Security.getKeyPair();
-                    objOut.writeObject(keyPair6.getPublic());
-                    objOut.writeObject(TOMUtil.signMessage(keyPair6.getPrivate(), "GET_GLOBAL_VALUE".getBytes()));*/
-                    int globalValue = this.getGlobalValue();
                     objOut.writeObject(globalValue);
                     hasReply = true;
                     break;
@@ -215,9 +168,6 @@ public class LedgerReplica extends DefaultSingleRecoverable {
 
                 case GET_LEDGER:
                     objOut.writeObject(this.getLedger());
-                    /*KeyPair keyPair7 = Security.getKeyPair();
-                    objOut.writeObject(keyPair7.getPublic());
-                    objOut.writeObject(TOMUtil.signMessage(keyPair7.getPrivate(), "GET_LEDGER".getBytes()));*/
                     hasReply=true;
                     break;
                 default:
@@ -250,72 +200,34 @@ public class LedgerReplica extends DefaultSingleRecoverable {
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
             LedgerRequestType reqType = (LedgerRequestType)objIn.readObject();
             switch (reqType) {
-                case CREATE_ACCOUNT:
-                    /*byte[] publicKey = (byte[])objIn.readObject();
-                    byte[] signature = (byte[])objIn.readObject();
-                    byte[] account1 = (byte[])objIn.readObject();
-                    account1 = this.createAccount(publicKey, signature, account1);
-                    objOut.writeObject(account1);
-                    KeyPair keyPair = Security.getKeyPair();
-                    objOut.writeObject(keyPair.getPublic());
-                    objOut.writeObject(TOMUtil.signMessage(keyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()));*/
-                    byte[] account1 = (byte[])objIn.readObject();
-                    account1 = this.createAccount(account1);
-                    objOut.writeObject(account1);
-                    hasReply = true;
-                    break;
                 case GET_BALANCE:
-                    /*byte[] publicKey2 = (byte[])objIn.readObject();
+                    byte[] publicKey2 = (byte[])objIn.readObject();
                     byte[] signature2 = (byte[])objIn.readObject();
                     byte[] account3 = (byte[] )objIn.readObject();
                     int balance = this.getBalance(publicKey2, signature2, account3);
                     objOut.writeObject(balance);
-                    KeyPair keyPair2 = Security.getKeyPair();
-                    objOut.writeObject(keyPair2.getPublic());
-                    objOut.writeObject(TOMUtil.signMessage(keyPair2.getPrivate(), "GET_BALANCE".getBytes()));*/
-                    byte[] account3 = (byte[] )objIn.readObject();
-                    int balance = this.getBalance(account3);
-                    objOut.writeObject(balance);
                     hasReply = true;
                     break;
                 case GET_EXTRACT:
-                    /*byte[] publicKey3 = (byte[])objIn.readObject();
+                    byte[] publicKey3 = (byte[])objIn.readObject();
                     byte[] signature3 = (byte[])objIn.readObject();
                     byte[] account4 = (byte[] )objIn.readObject();
                     List<Transaction> extract = this.getExtract(publicKey3, signature3, account4);
                     objOut.writeObject(extract);
-                    KeyPair keyPair3 = Security.getKeyPair();
-                    objOut.writeObject(keyPair3.getPublic());
-                    objOut.writeObject(TOMUtil.signMessage(keyPair3.getPrivate(), "GET_EXTRACT".getBytes()));
-                     */
-                    byte[] account4 = (byte[] )objIn.readObject();
-                    List<Transaction> extract = this.getExtract(account4);
-                    objOut.writeObject(extract);
                     hasReply = true;
                     break;
                 case GET_TOTAL_VALUE:
-                    /*byte[] publicKey5 = (byte[])objIn.readObject();
+                    byte[] publicKey5 = (byte[])objIn.readObject();
                     byte[] signature5 = (byte[])objIn.readObject();
                     List<byte[]> accounts = (List<byte[]>) objIn.readObject();
                     int totalValue = this.getTotalValue(publicKey5, signature5, accounts);
                     objOut.writeObject(totalValue);
-                    KeyPair keyPair5 = Security.getKeyPair();
-                    objOut.writeObject(keyPair5.getPublic());
-                    objOut.writeObject(TOMUtil.signMessage(keyPair5.getPrivate(), "GET_TOTAL_VALUE".getBytes()));*/
-                    List<byte[]> accounts = (List<byte[]>) objIn.readObject();
-                    int totalValue = this.getTotalValue(accounts);
-                    objOut.writeObject(totalValue);
                     hasReply = true;
                     break;
                 case GET_GLOBAL_VALUE:
-                    /*byte[] publicKey6 = (byte[])objIn.readObject();
+                    byte[] publicKey6 = (byte[])objIn.readObject();
                     byte[] signature6 = (byte[])objIn.readObject();
                     int globalValue = this.getGlobalValue(publicKey6, signature6);
-                    objOut.writeObject(globalValue);
-                    KeyPair keyPair6 = Security.getKeyPair();
-                    objOut.writeObject(keyPair6.getPublic());
-                    objOut.writeObject(TOMUtil.signMessage(keyPair6.getPrivate(), "GET_GLOBAL_VALUE".getBytes()));*/
-                    int globalValue = this.getGlobalValue();
                     objOut.writeObject(globalValue);
                     hasReply = true;
                     break;
@@ -323,9 +235,6 @@ public class LedgerReplica extends DefaultSingleRecoverable {
 
                 case GET_LEDGER:
                     objOut.writeObject(this.getLedger());
-                    /*KeyPair keyPair7 = Security.getKeyPair();
-                    objOut.writeObject(keyPair7.getPublic());
-                    objOut.writeObject(TOMUtil.signMessage(keyPair7.getPrivate(), "GET_LEDGER".getBytes()));*/
                     hasReply=true;
                     break;
                 default:

@@ -31,8 +31,6 @@ public class Server {
         if (args.length < 1) {
             System.out.println("Usage: <clientID>");
         }
-        System.setProperty("javax.net.ssl.keyStore","security/serverkeystore.jks");
-        System.setProperty("javax.net.ssl.keyStorePassword","password");
 
 
         int id = Integer.valueOf(args[0]);

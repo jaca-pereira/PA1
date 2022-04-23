@@ -5,7 +5,7 @@ import data.Transaction;
 import java.util.List;
 import java.util.Map;
 
-public class Response {
+public class Reply {
 
     //Security stuff
     private byte[] publicKey;
@@ -18,32 +18,32 @@ public class Response {
     private List<Transaction> listResponse;
     private Map<String, List<Transaction>> ledgerResponse;
 
-    public Response () {}
+    public Reply() {}
 
-    public Response (byte[] publicKey, byte[] signature, boolean response) {
+    public Reply(byte[] publicKey, byte[] signature, boolean response) {
         this.boolResponse = response;
         this.publicKey = publicKey;
         this.signature = signature;
     }
-    public Response (byte[] publicKey, byte[] signature, byte[] response) {
+    public Reply(byte[] publicKey, byte[] signature, byte[] response) {
         this.publicKey = publicKey;
         this.signature = signature;
         this.byteResponse = response;
     }
 
-    public Response (byte[] publicKey, byte[] signature, int response) {
+    public Reply(byte[] publicKey, byte[] signature, int response) {
         this.publicKey = publicKey;
         this.signature = signature;
         this.intResponse = response;
     }
 
-    public Response (byte[] publicKey, byte[] signature, List<Transaction> response) {
+    public Reply(byte[] publicKey, byte[] signature, List<Transaction> response) {
         this.publicKey = publicKey;
         this.signature = signature;
         this.listResponse = response;
     }
 
-    public Response (byte[] publicKey, byte[] signature, Map<String, List<Transaction>> response) {
+    public Reply(byte[] publicKey, byte[] signature, Map<String, List<Transaction>> response) {
         this.publicKey = publicKey;
         this.signature = signature;
         this.ledgerResponse = response;
