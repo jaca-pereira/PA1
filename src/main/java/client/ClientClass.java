@@ -6,7 +6,6 @@ import java.net.*;
 import java.security.KeyPair;
 
 import java.security.KeyStore;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,17 +13,16 @@ import java.util.Scanner;
 
 
 import Security.Security;
-import data.Transaction;
 
+import data.Request;
+import data.Transaction;
 import org.glassfish.jersey.client.ClientConfig;
-import proxy.Data;
-import proxy.LedgerRequestType;
+import data.LedgerRequestType;
 
 import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import Security.InsecureHostNameVerifier;
-import proxy.Reply;
+import data.Reply;
 
 import javax.net.ssl.TrustManagerFactory;
 import javax.ws.rs.ProcessingException;
@@ -137,7 +135,7 @@ public class ClientClass {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(null);
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                Map<String, List<Transaction>> ledger = r.readEntity(Reply.class).getLedgerResponse();
+                List<Transaction> ledger = Reply.deserialize(r.readEntity(byte[].class)).getListReply();
                 System.out.println("Success: " + ledger);
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus() );
@@ -157,16 +155,16 @@ public class ClientClass {
         Client client = startClient();
 
         KeyPair clientKeyPair = Security.getKeyPair();
-        Data data = new Data(clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), "SEND_TRANSACTION".getBytes()), sender.getBytes(), reciever.getBytes(), Integer.parseInt(value), Long.parseLong(nonce));
+        Request request = new Request(LedgerRequestType.SEND_TRANSACTION, clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), LedgerRequestType.SEND_TRANSACTION.toString().getBytes()), sender.getBytes(), reciever.getBytes(), Integer.parseInt(value), Long.parseLong(nonce));
 
         WebTarget target = client.target( serverURI ).path("transaction");
 
         try {
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
-                    .post(Entity.entity(Data.serialize(data), MediaType.APPLICATION_JSON_TYPE));
+                    .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if(  r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                System.out.println("Success: " + r.readEntity(Reply.class).getBoolResponse());
+                System.out.println("Success: " + Reply.deserialize(r.readEntity(byte[].class)).getBoolReply());
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus() );
 
@@ -181,16 +179,16 @@ public class ClientClass {
         Client client = startClient();
 
         KeyPair clientKeyPair = Security.getKeyPair();
-        Data data = new Data(clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), "GET_GLOBAL_VALUE".getBytes()));
+        Request request = new Request(LedgerRequestType.GET_GLOBAL_VALUE, clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), LedgerRequestType.GET_GLOBAL_VALUE.toString().getBytes()));
 
         WebTarget target = client.target( serverURI ).path("value");
 
         try {
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
-                    .post(Entity.entity(Data.serialize(data), MediaType.APPLICATION_JSON_TYPE));
+                    .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                int value = r.readEntity(Reply.class).getIntResponse();
+                int value = Reply.deserialize(r.readEntity(byte[].class)).getIntReply();
                 System.out.println("Success: " + value);
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus() );
@@ -213,16 +211,16 @@ public class ClientClass {
         Client client = startClient();
 
         KeyPair clientKeyPair = Security.getKeyPair();
-        Data data = new Data(clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), "GET_TOTAL_VALUE".getBytes()), accounts);
+        Request request = new Request(LedgerRequestType.GET_TOTAL_VALUE, clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), LedgerRequestType.GET_TOTAL_VALUE.toString().getBytes()), accounts);
 
         WebTarget target = client.target( serverURI ).path("accounts/value");
 
         try {
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
-                    .post(Entity.entity(Data.serialize(data), MediaType.APPLICATION_JSON_TYPE));
+                    .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                int value = r.readEntity(Reply.class).getIntResponse();
+                int value = Reply.deserialize(r.readEntity(byte[].class)).getIntReply();
                 System.out.println("Success: " + value);
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus() );
@@ -239,16 +237,16 @@ public class ClientClass {
         Client client = startClient();
 
         KeyPair clientKeyPair = Security.getKeyPair();
-        Data data = new Data(clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), "GET_EXTRACT".getBytes()), account);
+        Request request = new Request(LedgerRequestType.GET_EXTRACT, clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), LedgerRequestType.GET_EXTRACT.toString().getBytes()), account);
 
         WebTarget target = client.target( serverURI ).path("account/extract");
 
         try {
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
-                    .post(Entity.entity(Data.serialize(data), MediaType.APPLICATION_JSON_TYPE));
+                    .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                List<Transaction> extract = r.readEntity(Reply.class).getListResponse();
+                List<Transaction> extract = Reply.deserialize(r.readEntity(byte[].class)).getListReply();
                 System.out.println("Success: " + extract);
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus() );
@@ -267,16 +265,16 @@ public class ClientClass {
         Client client = startClient();
 
         KeyPair clientKeyPair = Security.getKeyPair();
-        Data data = new Data(clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), "LOAD_MONEY".getBytes()), account, Integer.parseInt(value));
+        Request request = new Request(LedgerRequestType.LOAD_MONEY, clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), LedgerRequestType.LOAD_MONEY.toString().getBytes()), account, Integer.parseInt(value));
 
         WebTarget target = client.target( serverURI ).path("account/load");
 
         try {
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
-                    .post(Entity.entity(Data.serialize(data), MediaType.APPLICATION_JSON_TYPE));
+                    .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if(  r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                System.out.println("Success: " + r.readEntity(Reply.class).getBoolResponse());
+                System.out.println("Success: " + Reply.deserialize(r.readEntity(byte[].class)).getBoolReply());
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus() );
 
@@ -294,16 +292,16 @@ public class ClientClass {
         Client client = startClient();
 
         KeyPair clientKeyPair = Security.getKeyPair();
-        Data data = new Data(clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), "GET_BALANCE".getBytes()), account);
+        Request request = new Request(LedgerRequestType.GET_BALANCE, clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), LedgerRequestType.GET_BALANCE.toString().getBytes()), account);
 
         WebTarget target = client.target( serverURI ).path("account/balance");
 
         try {
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
-                    .post(Entity.entity(Data.serialize(data), MediaType.APPLICATION_JSON_TYPE));
+                    .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                int balance = r.readEntity(Reply.class).getIntResponse();
+                int balance = Reply.deserialize(r.readEntity(byte[].class)).getIntReply();
                 System.out.println("Success: " + balance);
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus() );
@@ -320,16 +318,16 @@ public class ClientClass {
         Client client = startClient();
 
         KeyPair clientKeyPair = Security.getKeyPair();
-        Data data = new Data(clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), "CREATE_ACCOUNT".getBytes()), account);
+        Request request = new Request(LedgerRequestType.CREATE_ACCOUNT, clientKeyPair.getPublic().getEncoded(), Security.signRequest(clientKeyPair.getPrivate(), LedgerRequestType.CREATE_ACCOUNT.toString().getBytes()), account);
 
         WebTarget target = client.target( serverURI ).path("account");
 
         try {
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
-                    .post(Entity.entity(Data.serialize(data), MediaType.APPLICATION_JSON_TYPE));
+                    .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                byte[] acc = r.readEntity(Reply.class).getByteResponse();
+                byte[] acc = Reply.deserialize(r.readEntity(byte[].class)).getByteReply();
                 System.out.println("Success: " + acc);
             } else
                 System.out.println("Error, HTTP error status: " + r.getStatus());

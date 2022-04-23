@@ -213,7 +213,7 @@ public final class TOMLayer extends Thread implements RequestReceiver {
     /**
      * Computes an hash for a TOM message
      *
-     * @param data Data from which to generate the hash
+     * @param data Request from which to generate the hash
      * @return Hash for the specified TOM message
      */
     public final byte[] computeHash(byte[] data) {

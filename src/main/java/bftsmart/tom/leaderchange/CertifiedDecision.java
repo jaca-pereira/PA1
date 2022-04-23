@@ -23,7 +23,7 @@ import java.io.ObjectOutput;
 import java.util.Set;
 
 /**
- * Data about the last consensus decision
+ * Request about the last consensus decision
  *
  * @author Joao Sousa
  */

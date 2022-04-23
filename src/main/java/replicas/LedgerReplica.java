@@ -5,14 +5,10 @@ import Security.Security;
 import bftsmart.tom.MessageContext;
 import bftsmart.tom.ServiceReplica;
 import bftsmart.tom.server.defaultservices.DefaultSingleRecoverable;
-import bftsmart.tom.util.TOMUtil;
-import data.Ledger;
-import data.Transaction;
+import data.*;
 import org.apache.log4j.BasicConfigurator;
-import proxy.LedgerRequestType;
 
 import java.io.*;
-import java.security.KeyPair;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -38,57 +34,56 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         new ServiceReplica(id, this, this);
     }
 
-    public byte[]  createAccount(byte[] publicKey, byte[] signature, byte[] account) {
-
-        if(!Security.verifySignature(Security.getPublicKey(publicKey),"CREATE_ACCOUNT".getBytes(), signature))
+    private byte[]  createAccount(Request request) {
+        if(!Security.verifySignature(Security.getPublicKey(request.getPublicKey()), request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.addAccount(account);
+        return this.ledger.addAccount(request.getAccount());
     }
 
-    public boolean loadMoney(byte[] publicKey, byte[] signature, byte[] account, int value) {
-        if(!Security.verifySignature(Security.getPublicKey(publicKey),"LOAD_MONEY".getBytes(), signature))
+    private boolean loadMoney(Request request) {
+        if(!Security.verifySignature(Security.getPublicKey(request.getPublicKey()),request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
-        if (value <= 0)
+        if (request.getValue() <= 0)
             throw new IllegalArgumentException("Value must be positive!");
-        this.ledger.sendTransaction(Ledger.LEDGER, account, value, -1);
+        this.ledger.sendTransaction(new Transaction(request.getRequestType(), Ledger.LEDGER, request.getAccount(), request.getValue(), -1));
         return true;
     }
 
-    public int getBalance(byte[] publicKey, byte[] signature, byte[] account) {
-        if(!Security.verifySignature(Security.getPublicKey(publicKey),"GET_BALANCE".getBytes(), signature))
+    private int getBalance(Request request) {
+        if(!Security.verifySignature(Security.getPublicKey(request.getPublicKey()),request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.getBalance(account);
+        return this.ledger.getBalance(new Transaction(request.getRequestType(), request.getAccount()));
     }
 
-    public List<Transaction> getExtract(byte[] publicKey, byte[] signature, byte[] account) {
-        if(!Security.verifySignature(Security.getPublicKey(publicKey),"GET_EXTRACT".getBytes(), signature))
+    private List<Transaction> getExtract(Request request) {
+        if(!Security.verifySignature(Security.getPublicKey(request.getPublicKey()),request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.getExtract(account);
+        return this.ledger.getExtract(new Transaction(request.getRequestType(), request.getAccount()));
     }
 
-    public boolean sendTransaction(byte[] publicKey, byte[] signature, byte[] originAccount, byte[] destinationAccount, int value, long nonce) {
-        if(!Security.verifySignature(Security.getPublicKey(publicKey),"SEND_TRANSACTION".getBytes(), signature))
+    private boolean sendTransaction(Request request) {
+        if(!Security.verifySignature(Security.getPublicKey(request.getPublicKey()),request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
-        if (value <= 0)
+        if (request.getValue() <= 0)
             throw new IllegalArgumentException("Value must be positive!");
         //verificar nonce?
-        this.ledger.sendTransaction(originAccount, destinationAccount, value, nonce);
+        this.ledger.sendTransaction(new Transaction(request.getRequestType(), request.getAccount(), request.getAccountDestiny(), request.getValue(), request.getNonce()));
         return true;
     }
 
-    public int getTotalValue(byte[] publicKey, byte[] signature, List<byte[]> accounts) {
-        if(!Security.verifySignature(Security.getPublicKey(publicKey),"GET_TOTAL_VALUE".getBytes(), signature))
+    private int getTotalValue(Request request) {
+        if(!Security.verifySignature(Security.getPublicKey(request.getPublicKey()),request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.getTotalValue(accounts);
+        return this.ledger.getTotalValue(new Transaction(request.getRequestType(), request.getAccounts()));
     }
 
-    public int getGlobalValue(byte[] publicKey, byte[] signature) {
-        if(!Security.verifySignature(Security.getPublicKey(publicKey),"GET_GLOBAL_VALUE".getBytes(), signature))
+    private int getGlobalValue(Request request) {
+        if(!Security.verifySignature(Security.getPublicKey(request.getPublicKey()),request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
         return this.ledger.getGlobalValue();
     }
 
-    public Map<String, List<Transaction>> getLedger() {
+    private List<Transaction> getLedger() {
         return this.ledger.getLedger();
     }
 
@@ -97,90 +92,42 @@ public class LedgerReplica extends DefaultSingleRecoverable {
     @Override
     public byte[] appExecuteOrdered(byte[] command, MessageContext msgCtx) {
         byte[] reply = null;
-        Ledger l;
-        boolean hasReply = false;
         try (ByteArrayInputStream byteIn = new ByteArrayInputStream(command);
              ObjectInput objIn = new ObjectInputStream(byteIn);
              ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
-            LedgerRequestType reqType = (LedgerRequestType)objIn.readObject();
-            switch (reqType) {
+            Request request = (Request) objIn.readObject();
+            switch (request.getRequestType()) {
                 case CREATE_ACCOUNT:
-                    byte[] publicKey = (byte[])objIn.readObject();
-                    byte[] signature = (byte[])objIn.readObject();
-                    byte[] account1 = (byte[])objIn.readObject();
-                    account1 = this.createAccount(publicKey, signature, account1);
-                    objOut.writeObject(account1);
-                    hasReply = true;
+                    objOut.writeObject(new Reply(this.createAccount(request)));
                     break;
                 case LOAD_MONEY:
-                    byte[] publicKey1 = (byte[])objIn.readObject();
-                    byte[] signature1 = (byte[])objIn.readObject();
-                    byte[] account2 = (byte[] )objIn.readObject();
-                    int value = (int)objIn.readObject();
-                    boolean ok= this.loadMoney(publicKey1, signature1, account2, value);
-                    objOut.writeObject(ok);
-                    hasReply = true;
+                    objOut.writeObject(new Reply(this.loadMoney(request)));
                     break;
                 case SEND_TRANSACTION:
-                    byte[] publicKey4 = (byte[])objIn.readObject();
-                    byte[] signature4 = (byte[])objIn.readObject();
-                    byte[] account5 = (byte[] )objIn.readObject();
-                    byte[] account6 = (byte[] )objIn.readObject();
-                    int amount = (int )objIn.readObject();
-                    long nonce = (long )objIn.readObject();
-                    boolean ok2 = this.sendTransaction(publicKey4, signature4, account5, account6, amount, nonce);
-                    objOut.writeObject(ok2);
-                    hasReply = true;
+                    objOut.writeObject(new Reply(this.sendTransaction(request)));
                     break;
                 case GET_BALANCE:
-                    byte[] publicKey2 = (byte[])objIn.readObject();
-                    byte[] signature2 = (byte[])objIn.readObject();
-                    byte[] account3 = (byte[] )objIn.readObject();
-                    int balance = this.getBalance(publicKey2, signature2, account3);
-                    objOut.writeObject(balance);
-                    hasReply = true;
+                    objOut.writeObject(new Reply(this.getBalance(request)));
                     break;
                 case GET_EXTRACT:
-                    byte[] publicKey3 = (byte[])objIn.readObject();
-                    byte[] signature3 = (byte[])objIn.readObject();
-                    byte[] account4 = (byte[] )objIn.readObject();
-                    List<Transaction> extract = this.getExtract(publicKey3, signature3, account4);
-                    objOut.writeObject(extract);
-                    hasReply = true;
+                    objOut.writeObject(new Reply(this.getExtract(request)));
                     break;
                 case GET_TOTAL_VALUE:
-                    byte[] publicKey5 = (byte[])objIn.readObject();
-                    byte[] signature5 = (byte[])objIn.readObject();
-                    List<byte[]> accounts = (List<byte[]>) objIn.readObject();
-                    int totalValue = this.getTotalValue(publicKey5, signature5, accounts);
-                    objOut.writeObject(totalValue);
-                    hasReply = true;
+                    objOut.writeObject(new Reply(this.getTotalValue(request)));
                     break;
                 case GET_GLOBAL_VALUE:
-                    byte[] publicKey6 = (byte[])objIn.readObject();
-                    byte[] signature6 = (byte[])objIn.readObject();
-                    int globalValue = this.getGlobalValue(publicKey6, signature6);
-                    objOut.writeObject(globalValue);
-                    hasReply = true;
+                    objOut.writeObject(new Reply(this.getGlobalValue(request)));
                     break;
-
-
                 case GET_LEDGER:
                     objOut.writeObject(this.getLedger());
-                    hasReply=true;
                     break;
                 default:
                     throw new UnsupportedOperationException("Operation does not exist!");
             }
-            if (hasReply) {
-                objOut.flush();
-                byteOut.flush();
-                reply = byteOut.toByteArray();
-            } else {
-                reply = new byte[0];
-            }
-
+            objOut.flush();
+            byteOut.flush();
+            reply = byteOut.toByteArray();
         } catch (IOException | ClassNotFoundException e) {
             logger.log(Level.SEVERE, "Ocurred during operation execution", e);
         }
@@ -191,66 +138,36 @@ public class LedgerReplica extends DefaultSingleRecoverable {
     @Override
     public byte[] appExecuteUnordered(byte[] command, MessageContext msgCtx) {
         byte[] reply = null;
-        Ledger l;
-        boolean hasReply = false;
-
         try (ByteArrayInputStream byteIn = new ByteArrayInputStream(command);
              ObjectInput objIn = new ObjectInputStream(byteIn);
              ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
-            LedgerRequestType reqType = (LedgerRequestType)objIn.readObject();
-            switch (reqType) {
+            Request request = (Request) objIn.readObject();
+            switch (request.getRequestType()) {
                 case GET_BALANCE:
-                    byte[] publicKey2 = (byte[])objIn.readObject();
-                    byte[] signature2 = (byte[])objIn.readObject();
-                    byte[] account3 = (byte[] )objIn.readObject();
-                    int balance = this.getBalance(publicKey2, signature2, account3);
-                    objOut.writeObject(balance);
-                    hasReply = true;
+                    objOut.writeObject(new Reply(this.getBalance(request)));
                     break;
                 case GET_EXTRACT:
-                    byte[] publicKey3 = (byte[])objIn.readObject();
-                    byte[] signature3 = (byte[])objIn.readObject();
-                    byte[] account4 = (byte[] )objIn.readObject();
-                    List<Transaction> extract = this.getExtract(publicKey3, signature3, account4);
-                    objOut.writeObject(extract);
-                    hasReply = true;
+                    objOut.writeObject(new Reply(this.getExtract(request)));
                     break;
                 case GET_TOTAL_VALUE:
-                    byte[] publicKey5 = (byte[])objIn.readObject();
-                    byte[] signature5 = (byte[])objIn.readObject();
-                    List<byte[]> accounts = (List<byte[]>) objIn.readObject();
-                    int totalValue = this.getTotalValue(publicKey5, signature5, accounts);
-                    objOut.writeObject(totalValue);
-                    hasReply = true;
+                    objOut.writeObject(new Reply(this.getTotalValue(request)));
                     break;
                 case GET_GLOBAL_VALUE:
-                    byte[] publicKey6 = (byte[])objIn.readObject();
-                    byte[] signature6 = (byte[])objIn.readObject();
-                    int globalValue = this.getGlobalValue(publicKey6, signature6);
-                    objOut.writeObject(globalValue);
-                    hasReply = true;
+                    objOut.writeObject(new Reply(this.getGlobalValue(request)));
                     break;
-
-
                 case GET_LEDGER:
                     objOut.writeObject(this.getLedger());
-                    hasReply=true;
                     break;
                 default:
                     throw new UnsupportedOperationException("Operation does not exist!");
             }
-            if (hasReply) {
-                objOut.flush();
-                byteOut.flush();
-                reply = byteOut.toByteArray();
-            } else {
-                reply = new byte[0];
-            }
+            objOut.flush();
+            byteOut.flush();
+            reply = byteOut.toByteArray();
         } catch (IOException | ClassNotFoundException e) {
             logger.log(Level.SEVERE, "Ocurred during operation execution", e);
         }
-
         return reply;
     }
 

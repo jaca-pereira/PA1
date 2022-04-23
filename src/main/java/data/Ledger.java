@@ -1,7 +1,6 @@
 package data;
 
 
-import java.io.Serializable;
 import java.util.*;
 
 public class Ledger {
@@ -9,7 +8,9 @@ public class Ledger {
     public static final byte[] LEDGER = new byte[]{0x0};
     private int operationsCounter;
     private int globalValue;
-    private Map<String, List<Transaction>> ledger;
+
+    private LedgerDataStructure ledger;
+
     //mais simples ter uma lista com as operações ordenadas
     //um inteiro a representar o balance da conta tb
     //fazer uma classe
@@ -18,81 +19,54 @@ public class Ledger {
         this.operationsCounter++;
         if (this.operationsCounter == 20) {
             //serializar :)
+            this.operationsCounter = 0;
         }
     }
 
     public Ledger() {
-        this.ledger = new HashMap<>();
+        this.ledger = new LedgerDataStructure();
         this.operationsCounter = 0;
         this.globalValue = 0;
     }
 
     public byte[]  addAccount(byte[] account) {
-        if (this.ledger.get(new String(account))!=null)
-            throw new IllegalArgumentException("Account already exists!");
-        this.ledger.put(new String(account), new LinkedList<>());
+        this.ledger.addAccount(account);
         this.incrementCounter();
         return account;
     }
 
-    public int getBalance(byte[] account) {
-        List<Transaction> transactionsList = this.ledger.get(new String(account));
-        if (transactionsList == null)
-            throw new IllegalArgumentException("Account does not exist!");
-        int balance = 0;
-        for(Transaction t: transactionsList) {
-            if (new String(t.getOriginalAccount()).equals(new String(account)))
-                balance -= t.getValue();
-            else
-                balance += t.getValue();
-        }
+    public int getBalance(Transaction t) {
+        Account account = this.ledger.transaction(t);
         this.incrementCounter();
-        return balance;
+        return account.getBalance();
     }
 
     public int getGlobalValue() {
+        this.incrementCounter();
         return this.globalValue;
     }
 
-    public List<Transaction> getExtract(byte[] account) {
-        List<Transaction> transactionsList = this.ledger.get(new String(account));
-        if (transactionsList == null)
-            throw new IllegalArgumentException("Account does not exist!");
+    public List<Transaction> getExtract(Transaction t) {
+        Account account = this.ledger.transaction(t);
         this.incrementCounter();
-        return transactionsList;
+        return account.getTransactionList();
     }
 
-
-
-    public int getTotalValue(List<byte[]> accounts) {
-
-
-        int total = 0;
-        for (byte[] i: accounts) {
-            if (this.ledger.get(new String(i))==null)
-                throw new IllegalArgumentException("Account " + new String(i) + " does not exist!");
-            total += this.getBalance(i);
-        }
-        return total;
-    }
-
-    public void sendTransaction(byte[] originAccount, byte[] destinationAccount, int value, long nonce) {
-        List<Transaction> destinationTransactionsList = this.ledger.get(new String(destinationAccount));
-        if (destinationTransactionsList == null)
-            throw new IllegalArgumentException("Destination account does not exist!");
-        if (!Arrays.equals(originAccount, LEDGER)) {
-            List<Transaction> originTransactionsList = this.ledger.get(new String(originAccount));
-            if (originTransactionsList == null)
-                throw new IllegalArgumentException("Origin account does not exist!");
-            originTransactionsList.add(new Transaction(originAccount, destinationAccount, value, nonce));
-        } else {
-            this.globalValue += value;
-        }
-        destinationTransactionsList.add(new Transaction(originAccount, destinationAccount, value, nonce));
+    public int getTotalValue(Transaction t) {
         this.incrementCounter();
+        return this.ledger.transactionMultipleAccounts(t);
     }
 
-    public Map<String, List<Transaction>> getLedger() {
-        return this.ledger;
+    public void sendTransaction(Transaction t) {
+        this.incrementCounter();
+        this.ledger.transactionBetweenAccounts(t);
+        if(t.getNonce() == -1)
+            this.globalValue += t.getValue();
     }
+
+    public List<Transaction> getLedger() {
+        this.incrementCounter();
+        return this.ledger.getLedger();
+    }
+
 }

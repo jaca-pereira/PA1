@@ -1,5 +1,7 @@
 package proxy;
 
+import data.Reply;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -14,44 +16,44 @@ public interface ServiceAPI {
     @Path("/account")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    Reply createAccount(byte[] data);
+    byte[] createAccount(byte[] data);
 
     @POST
     @Path("/account/load")
     @Consumes(MediaType.APPLICATION_JSON)
-    Reply loadMoney(byte[] data);
+    byte[] loadMoney(byte[] data);
 
     @POST
     @Path("/account/balance")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    Reply getBalance(byte[] data);
+    byte[] getBalance(byte[] data);
 
     @POST
     @Path("/account/extract")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    Reply getExtract(byte[] data);
+    byte[] getExtract(byte[] data);
 
     @POST
     @Path("/transaction")
     @Consumes(MediaType.APPLICATION_JSON)
-    Reply sendTransaction(byte[] data);
+    byte[] sendTransaction(byte[] data);
 
     @POST
     @Path("/accounts/value")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    Reply getTotalValue(byte[] data);
+    byte[] getTotalValue(byte[] data);
 
     @POST
     @Path("/value")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    Reply getGlobalValue(byte[] data);
+    byte[] getGlobalValue(byte[] data);
 
     @POST
     @Path("/ledger")
     @Produces(MediaType.APPLICATION_JSON)
-    Reply getLedger();
+    byte[] getLedger();
 }

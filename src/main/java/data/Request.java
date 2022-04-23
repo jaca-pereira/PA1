@@ -1,23 +1,23 @@
-package proxy;
+package data;
 
 
 import java.io.*;
 import java.util.List;
 
-public class Data implements Serializable {
+public class Request implements Serializable {
     private static final long serialVersionUID = 1L;
 
-
+    private LedgerRequestType requestType;
     private byte[] publicKey;
     private byte[] signature;
-
     private byte[] account;
     private byte[] accountDestiny;
     private  int value;
     private long nonce;
     private List<byte[]> accounts;
 
-    public Data(byte[] publicKey, byte[] signature, byte[] account, byte[] accountDestiny, int value, long nonce) {
+    public Request(LedgerRequestType requestType, byte[] publicKey, byte[] signature, byte[] account, byte[] accountDestiny, int value, long nonce) {
+        this.requestType = requestType;
         this.publicKey = publicKey;
         this.signature = signature;
         this.account = account;
@@ -26,31 +26,39 @@ public class Data implements Serializable {
         this.nonce = nonce;
     }
 
-    public Data(byte[] publicKey, byte[] signature, byte[] account) {
+    public Request(LedgerRequestType requestType, byte[] publicKey, byte[] signature, byte[] account) {
+        this.requestType = requestType;
         this.publicKey = publicKey;
         this.signature = signature;
         this.account = account;
     }
 
-    public Data(byte[] publicKey, byte[] signature, byte[] account, int value) {
+    public Request(LedgerRequestType requestType, byte[] publicKey, byte[] signature, byte[] account, int value) {
+        this.requestType = requestType;
         this.publicKey = publicKey;
         this.signature = signature;
         this.account = account;
         this.value = value;
     }
 
-    public Data(byte[] publicKey, byte[] signature) {
+    public Request(LedgerRequestType requestType, byte[] publicKey, byte[] signature) {
+        this.requestType = requestType;
         this.publicKey = publicKey;
         this.signature = signature;
     }
 
-    public Data(byte[] publicKey, byte[] signature, List<byte[]> accounts) {
+    public Request(LedgerRequestType requestType, byte[] publicKey, byte[] signature, List<byte[]> accounts) {
+        this.requestType = requestType;
         this.publicKey = publicKey;
         this.signature = signature;
         this.accounts = accounts;
     }
 
-    public static byte[] serialize(Data obj) {
+    public Request(LedgerRequestType requestType) {
+        this.requestType = requestType;
+    }
+
+    public static byte[] serialize(Request obj) {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             ObjectOutputStream os = new ObjectOutputStream(out);
@@ -62,17 +70,21 @@ public class Data implements Serializable {
         return null;
     }
 
-    public static Data deserialize(byte[] data) {
+    public static Request deserialize(byte[] data) {
         try {
             ByteArrayInputStream in = new ByteArrayInputStream(data);
             ObjectInputStream is = new ObjectInputStream(in);
-            return (Data) is.readObject();
+            return (Request) is.readObject();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
+
+    public LedgerRequestType getRequestType() {
+        return this.requestType;
+    }
 
     public byte[] getPublicKey() {
         return publicKey;

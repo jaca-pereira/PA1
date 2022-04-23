@@ -1,4 +1,4 @@
-package proxy;
+package data;
 
 public enum LedgerRequestType {
     CREATE_ACCOUNT,
@@ -10,3 +10,5 @@ public enum LedgerRequestType {
     LOAD_MONEY,
     GET_BALANCE;
 }
+
+
