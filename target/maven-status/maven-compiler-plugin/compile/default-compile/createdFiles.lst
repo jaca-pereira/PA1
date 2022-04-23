@@ -87,6 +87,8 @@ data/Transaction.class
 bftsmart/tom/AsynchServiceProxy$1.class
 bftsmart/reconfiguration/VMServices.class
 bftsmart/tom/util/ShutdownHookThread.class
+Security/Security.class
+Security/InsecureHostNameVerifier.class
 bftsmart/tom/util/BatchBuilder.class
 bftsmart/tom/server/Executable.class
 bftsmart/statemanagement/durability/CSTRequest.class

@@ -6,8 +6,32 @@
   <component name="ChangeListManager">
     <list default="true" id="201f41f4-2df3-4068-b188-8cdd7e142483" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/src/main/java/proxy/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/Service.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/proxy/ServiceAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/ServiceAPI.java" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/config/currentView" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/security/ca-cert" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/security/ca-cert.srl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/security/ca-key" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/security/cert-file" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/security/cert-signed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/security/clientkeystore.jks" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/ClientClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/ClientClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/Ledger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/Ledger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/proxy/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/proxy/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/PA1-1.0-SNAPSHOT-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/PA1-1.0-SNAPSHOT-jar-with-dependencies.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/client/ClientClass$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/client/ClientClass$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/client/ClientClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/client/ClientClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/Ledger.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/data/Ledger.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/proxy/Data.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/proxy/Data.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/proxy/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/proxy/Server.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/proxy/Service.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/proxy/Service.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/replicas/LedgerReplica$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/replicas/LedgerReplica$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/replicas/LedgerReplica.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/replicas/LedgerReplica.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <list id="ffa4e16f-2d97-4ed4-bcd7-199337e52c39" name="Changes by Palindra" comment="" />
     <option name="SHOW_DIALOG" value="false" />

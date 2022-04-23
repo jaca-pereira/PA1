@@ -51,6 +51,7 @@
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/communication/client/netty/NettyTOMMessageEncoder.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/reconfiguration/util/ECDSAKeyLoader.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/tom/MessageContext.java
+/home/joao/Desktop/csd/PA1/src/main/java/Security/Security.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/statemanagement/durability/CSTSMMessage.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/communication/server/ServersCommunicationLayer.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/tom/util/SignatureTest.java
@@ -101,6 +102,7 @@
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/communication/ServerCommunicationSystem.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/communication/client/CommunicationSystemServerSide.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/reconfiguration/ViewController.java
+/home/joao/Desktop/csd/PA1/src/main/java/Security/InsecureHostNameVerifier.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/tom/core/DeliveryThread.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/communication/SystemMessage.java
 /home/joao/Desktop/csd/PA1/src/main/java/bftsmart/communication/client/netty/NettyServerPipelineFactory.java
