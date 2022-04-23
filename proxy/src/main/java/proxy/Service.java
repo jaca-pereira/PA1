@@ -192,6 +192,7 @@ public class Service implements ServiceAPI {
 
         @Override
     public byte[] getLedger() {
+
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 

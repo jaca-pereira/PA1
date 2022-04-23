@@ -1,6 +1,7 @@
 package data;
 
 public enum LedgerRequestType {
+    HOME,
     CREATE_ACCOUNT,
     GET_EXTRACT,
     SEND_TRANSACTION,

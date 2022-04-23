@@ -62,6 +62,8 @@ public class ClientClass {
 
     private static void executeCommand(LedgerRequestType command, Scanner scanner) {
         switch (command) {
+            case HOME:
+                home();
             case CREATE_ACCOUNT:
                 createAccount(scanner);
                 break;
@@ -90,6 +92,7 @@ public class ClientClass {
                 System.out.println("Command unknown!");
         }
     }
+
 
     private static SSLContext getContext() throws Exception {
         KeyStore ts = KeyStore.getInstance("JKS");
@@ -124,6 +127,23 @@ public class ClientClass {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private static void home() {
+        Client client = startClient();
+        WebTarget target = client.target( serverURI ).path("home");
+        try {
+            Response r = target.request()
+                    .accept(MediaType.APPLICATION_JSON)
+                    .post(null);
+            if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
+                System.out.println("Success: " + r.readEntity(String.class));
+            } else
+                System.out.println("Error, HTTP error status: " + r.getStatus() );
+        } catch ( ProcessingException pe ) { //Error in communication with server
+            System.out.println("Timeout occurred.");
+            pe.printStackTrace();
+        }
     }
 
     private static void getLedger() {
