@@ -43,7 +43,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
     private boolean loadMoney(Request request) {
         if(!Security.verifySignature(Security.getPublicKey(request.getPublicKey()),request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
-        if (request.getValue() <= 0)
+        if (request.getValue() < 0)
             throw new IllegalArgumentException("Value must be positive!");
         this.ledger.sendTransaction(new Transaction(request.getRequestType(), Ledger.LEDGER, request.getAccount(), request.getValue(), -1));
         return true;
@@ -64,7 +64,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
     private boolean sendTransaction(Request request) {
         if(!Security.verifySignature(Security.getPublicKey(request.getPublicKey()),request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
-        if (request.getValue() <= 0)
+        if (request.getValue() < 0)
             throw new IllegalArgumentException("Value must be positive!");
         //verificar nonce?
         this.ledger.sendTransaction(new Transaction(request.getRequestType(), request.getAccount(), request.getAccountDestiny(), request.getValue(), request.getNonce()));
@@ -157,7 +157,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                     objOut.writeObject(new Reply(this.getGlobalValue(request)));
                     break;
                 case GET_LEDGER:
-                    objOut.writeObject(this.getLedger());
+                    objOut.writeObject(new Reply(this.getLedger()));
                     break;
                 default:
                     throw new UnsupportedOperationException("Operation does not exist!");
