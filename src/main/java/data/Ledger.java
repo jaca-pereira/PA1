@@ -10,6 +10,9 @@ public class Ledger {
     private int operationsCounter;
     private int globalValue;
     private Map<String, List<Transaction>> ledger;
+    //mais simples ter uma lista com as operações ordenadas
+    //um inteiro a representar o balance da conta tb
+    //fazer uma classe
 
     private void incrementCounter() {
         this.operationsCounter++;

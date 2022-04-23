@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.net.*;
 
 import java.security.KeyPair;
+
 import java.security.KeyStore;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -16,13 +17,14 @@ import Security.Security;
 import data.Transaction;
 
 import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.ClientProperties;
 import proxy.Data;
 import proxy.LedgerRequestType;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
+import Security.InsecureHostNameVerifier;
+
 import javax.net.ssl.TrustManagerFactory;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
@@ -43,11 +45,11 @@ public class ClientClass {
         }
 
         try {
-            serverURI = new URI(String.format("http://%s:%s/", args[0], args[1]));
+            serverURI = new URI(String.format("https://%s:%s/", args[0], args[1]));
+
         } catch (Exception e) {
             System.exit(-1);
         }
-
 
         Scanner scanner = new Scanner(System.in);
         String command = null;
@@ -91,19 +93,12 @@ public class ClientClass {
     }
 
     private static SSLContext getContext() throws Exception {
-        KeyStore ks = KeyStore.getInstance("JKS");
         KeyStore ts = KeyStore.getInstance("JKS");
 
-        try (FileInputStream fis = new FileInputStream("security/keystore.ks")) {
-            ks.load(fis, "password".toCharArray());
-        }
-
-        try (FileInputStream fis = new FileInputStream("security/truststore.ks")) {
+        try (FileInputStream fis = new FileInputStream("security/clientcacerts.jks")) {
             ts.load(fis, "password".toCharArray());
         }
 
-        KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
-        kmf.init(ks, "password".toCharArray());
 
         TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
         tmf.init(ts);
@@ -111,18 +106,20 @@ public class ClientClass {
         String protocol = "TLSv1.3";
         SSLContext sslContext = SSLContext.getInstance(protocol);
 
-        sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), new SecureRandom());
+        sslContext.init(null, tmf.getTrustManagers(), null);
 
         return sslContext;
     }
 
+
     private static Client startClient() {
 
         try {
-            SSLContext sslContext = getContext();
+            SSLContext context = getContext();
+            HttpsURLConnection.setDefaultHostnameVerifier(new InsecureHostNameVerifier());
             HttpsURLConnection.setDefaultSSLSocketFactory(SSLContext.getDefault().getSocketFactory());
             ClientConfig config = new ClientConfig();
-            return ClientBuilder.newBuilder().sslContext(sslContext)
+            return ClientBuilder.newBuilder().sslContext(context)
                     .withConfig(config).build();
         } catch (Exception e) {
             e.printStackTrace();
