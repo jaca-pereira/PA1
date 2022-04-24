@@ -17,11 +17,19 @@ public class Transaction implements Serializable {
     public Transaction(LedgerRequestType transactionType, byte[] originAccount) {
         this.originAccount = originAccount;
         this.transactionType = transactionType;
+        this.nonce = -1;
+        this.destinationAccount=null;
+        this.value = -1;
+        this.accounts = null;
     }
 
     public Transaction(LedgerRequestType transactionType, List<byte[]> accounts) {
         this.accounts = accounts;
         this.transactionType = transactionType;
+        this.originAccount = originAccount;
+        this.nonce = -1;
+        this.destinationAccount=null;
+        this.value = -1;
     }
 
     public Transaction(LedgerRequestType transactionType, byte[] originAccount, byte[] destinationAccount, int value, long nonce) {
@@ -30,6 +38,7 @@ public class Transaction implements Serializable {
         this.destinationAccount = destinationAccount;
         this.value = value;
         this.nonce = nonce;
+        this.accounts = null;
     }
 
     public LedgerRequestType getTransactionType() {

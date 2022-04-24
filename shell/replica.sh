@@ -4,7 +4,11 @@ cd ../replica
 
 mvn clean compile assembly:single
 
-docker build -t replica .
+for i in `seq 4`; do
 
-docker run -t replica
+	docker build -t replica .
+
+	docker run -d --name "replica_($i-1)" replica java -cp replica.jar replicas.LedgerReplica ($i-1)
+
+done
 

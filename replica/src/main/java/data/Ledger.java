@@ -1,6 +1,9 @@
 package data;
 
 
+import redis.clients.jedis.Jedis;
+import com.google.gson.Gson;
+
 import java.util.*;
 
 public class Ledger {
@@ -9,21 +12,29 @@ public class Ledger {
     private int operationsCounter;
     private int globalValue;
 
+    private Jedis jedis;
     private LedgerDataStructure ledger;
 
+    private void serializeToJedis() {
+        Gson gson = new Gson();
+        String json = gson.toJson(this.ledger.getLedger());
+        jedis.set("ledger",json);
+    }
 
     private void incrementCounter() {
         this.operationsCounter++;
-        if (this.operationsCounter == 20) {
-            //serializar :)
+        if (this.operationsCounter == 1) {
             this.operationsCounter = 0;
+            this.serializeToJedis();
         }
     }
 
-    public Ledger() {
+    public Ledger(Jedis jedis) {
         this.ledger = new LedgerDataStructure();
         this.operationsCounter = 0;
         this.globalValue = 0;
+        this.jedis = jedis;
+        this.serializeToJedis();
     }
 
     public byte[]  addAccount(byte[] account) {
