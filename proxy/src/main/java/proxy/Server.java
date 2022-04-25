@@ -30,6 +30,7 @@ public class Server {
 
         if (args.length < 1) {
             System.out.println("Usage: <clientIDs>");
+            System.exit(-1);
         }
 
 

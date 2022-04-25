@@ -1,10 +1,10 @@
 client/BenchmarkClient.class
-client/ClientClass.class
+client/Client$1.class
 client/OperationsTestClient.class
+client/Client.class
 data/LedgerRequestType.class
 Security/InsecureHostNameVerifier.class
 data/Transaction.class
 data/Request.class
 Security/Security.class
 data/Reply.class
-client/ClientClass$1.class

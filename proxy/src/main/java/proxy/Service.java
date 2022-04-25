@@ -22,11 +22,6 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public String home() {
-        return "Hello World";
-    }
-
-    @Override
     public byte[] createAccount(byte[] request) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {

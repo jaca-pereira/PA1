@@ -33,7 +33,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>client.ClientClass</mainClass>
+                            <mainClass>client.Client</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

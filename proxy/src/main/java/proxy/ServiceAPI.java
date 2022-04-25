@@ -6,10 +6,6 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/")
 public interface ServiceAPI {
-    @POST
-    @Path("/home")
-    @Produces(MediaType.APPLICATION_JSON)
-    String home();
 
     @POST
     @Path("/account")

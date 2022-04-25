@@ -16,42 +16,36 @@ public class Request implements Serializable {
     private long nonce;
     private List<byte[]> accounts;
 
-    public Request(LedgerRequestType requestType, byte[] publicKey, byte[] signature, byte[] account, byte[] accountDestiny, int value, long nonce) {
+    public Request(LedgerRequestType requestType, byte[] account, byte[] accountDestiny, int value, long nonce) {
         this.requestType = requestType;
-        this.publicKey = publicKey;
-        this.signature = signature;
         this.account = account;
         this.accountDestiny = accountDestiny;
         this.value = value;
         this.nonce = nonce;
+        this.publicKey = null;
+        this.signature = null;
     }
 
-    public Request(LedgerRequestType requestType, byte[] publicKey, byte[] signature, byte[] account) {
+    public Request(LedgerRequestType requestType, byte[] account) {
         this.requestType = requestType;
-        this.publicKey = publicKey;
-        this.signature = signature;
         this.account = account;
+        this.publicKey = null;
+        this.signature = null;
     }
 
-    public Request(LedgerRequestType requestType, byte[] publicKey, byte[] signature, byte[] account, int value) {
+    public Request(LedgerRequestType requestType, byte[] account, int value) {
         this.requestType = requestType;
-        this.publicKey = publicKey;
-        this.signature = signature;
         this.account = account;
         this.value = value;
+        this.publicKey = null;
+        this.signature = null;
     }
 
-    public Request(LedgerRequestType requestType, byte[] publicKey, byte[] signature) {
+    public Request(LedgerRequestType requestType, List<byte[]> accounts) {
         this.requestType = requestType;
-        this.publicKey = publicKey;
-        this.signature = signature;
-    }
-
-    public Request(LedgerRequestType requestType, byte[] publicKey, byte[] signature, List<byte[]> accounts) {
-        this.requestType = requestType;
-        this.publicKey = publicKey;
-        this.signature = signature;
         this.accounts = accounts;
+        this.publicKey = null;
+        this.signature = null;
     }
 
     public Request(LedgerRequestType requestType) {
@@ -115,6 +109,11 @@ public class Request implements Serializable {
     }
 
 
+    public void setPublicKey(byte[] publicKey) {
+        this.publicKey = publicKey;
+    }
 
-
+    public void setSignature(byte[] signature) {
+        this.signature = signature;
+    }
 }
