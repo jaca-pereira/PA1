@@ -29,7 +29,7 @@ public class Server {
     public static void main(String[] args) throws UnknownHostException, NoSuchAlgorithmException, KeyManagementException {
 
         if (args.length < 1) {
-            System.out.println("Usage: <clientID>");
+            System.out.println("Usage: <clientIDs>");
         }
 
 

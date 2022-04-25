@@ -37,14 +37,15 @@ public class ClientClass {
     public static final String END = "END";
     private static URI serverURI;
 
+    private static final String PORT = "8080";
     public static void main(String[] args) {
-        if (args.length < 2) {
-            System.out.println("Usage: Client <ip> <port>");
+        if (args.length < 1) {
+            System.out.println("Usage: Client <first_proxy_ip> <nr_proxies>");
             System.exit(-1);
         }
 
         try {
-            serverURI = new URI(String.format("https://%s:%s/", args[0], args[1]));
+            serverURI = new URI(String.format("https://%s:%s", args[0], PORT));
 
         } catch (Exception e) {
             System.exit(-1);

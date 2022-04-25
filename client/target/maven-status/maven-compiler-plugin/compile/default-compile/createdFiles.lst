@@ -1,4 +1,6 @@
+client/BenchmarkClient.class
 client/ClientClass.class
+client/OperationsTestClient.class
 data/LedgerRequestType.class
 Security/InsecureHostNameVerifier.class
 data/Transaction.class

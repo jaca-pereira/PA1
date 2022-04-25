@@ -34,14 +34,14 @@ public class LedgerReplica extends DefaultSingleRecoverable {
     }
 
     public LedgerReplica(int id) {
-        String ip = "127.0.0.1";
+        /*String ip = "127.0.0.1";
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxTotal(128);
         jedisPoolConfig.setMaxIdle(128);
         jedisPoolConfig.setMinIdle(100);
         JedisPool jedisPool = new JedisPool(jedisPoolConfig, ip, PORT);
-        Jedis jedis = jedisPool.getResource();
-        ledger = new Ledger(jedis);
+        Jedis jedis = jedisPool.getResource();*/
+        ledger = new Ledger();
         logger = Logger.getLogger(LedgerReplica.class.getName());
         BasicConfigurator.configure();
         new ServiceReplica(id, this, this);
