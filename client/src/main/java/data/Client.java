@@ -6,6 +6,8 @@ import java.net.*;
 import java.nio.ByteBuffer;
 import java.security.*;
 
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.List;
 
 
@@ -135,7 +137,10 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if(  r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                return  "Success: " + Reply.deserialize(r.readEntity(byte[].class)).getBoolReply();
+                Reply rep = Reply.deserialize(r.readEntity(byte[].class));
+                if (!Security.verifySignature(rep.getPublicKey(), request.getRequestType().toString().getBytes(), rep.getSignature()))
+                    return "Bad signature.";
+                return  "Success: " + rep.getBoolReply();
             } else
                 return "Error, HTTP error status: " + r.getStatus();
 
@@ -155,8 +160,10 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                int value = Reply.deserialize(r.readEntity(byte[].class)).getIntReply();
-                return "Success: " + value;
+                Reply rep = Reply.deserialize(r.readEntity(byte[].class));
+                if (!Security.verifySignature(rep.getPublicKey(), request.getRequestType().toString().getBytes(), rep.getSignature()))
+                    return "Bad signature.";
+                return "Success: " + rep.getIntReply();
             } else
                 return "Error, HTTP error status: " + r.getStatus();
 
@@ -176,12 +183,16 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                int value = Reply.deserialize(r.readEntity(byte[].class)).getIntReply();
+                Reply rep = Reply.deserialize(r.readEntity(byte[].class));
+
+                if (!Security.verifySignature(rep.getPublicKey(), request.getRequestType().toString().getBytes(), rep.getSignature()))
+                    return "Bad signature.";
+                int value = rep.getIntReply();
                 return "Success: " + value;
             } else
                 return "Error, HTTP error status: " + r.getStatus();
 
-        } catch ( ProcessingException pe ) {
+        } catch (ProcessingException pe ) {
             pe.printStackTrace(); //
             return "Timeout occurred.";
         }
@@ -197,12 +208,14 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                List<Transaction> extract = Reply.deserialize(r.readEntity(byte[].class)).getListReply();
-                return "Success: " + extract;
+                Reply rep = Reply.deserialize(r.readEntity(byte[].class));
+                if (!Security.verifySignature(rep.getPublicKey(), request.getRequestType().toString().getBytes(), rep.getSignature()))
+                    return "Bad signature.";
+                return "Success: " + rep.getListReply();
             } else
                 return "Error, HTTP error status: " + r.getStatus();
 
-        } catch ( ProcessingException pe ) {
+        } catch (ProcessingException pe ) {
             pe.printStackTrace();
             return "Timeout occurred.";
         }
@@ -218,11 +231,14 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if(  r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                return "Success: " + Reply.deserialize(r.readEntity(byte[].class)).getBoolReply();
+                Reply rep = Reply.deserialize(r.readEntity(byte[].class));
+                if (!Security.verifySignature(rep.getPublicKey(), request.getRequestType().toString().getBytes(), rep.getSignature()))
+                    return "Bad signature.";
+                return "Success: " + rep.getBoolReply();
             } else
                 return "Error, HTTP error status: " + r.getStatus();
 
-        } catch ( ProcessingException pe ) {
+        } catch (ProcessingException pe) {
             pe.printStackTrace();
             return "Timeout occurred.";
         }
@@ -239,12 +255,14 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                int balance = Reply.deserialize(r.readEntity(byte[].class)).getIntReply();
-                return "Success: " + balance;
+                Reply rep = Reply.deserialize(r.readEntity(byte[].class));
+                if (!Security.verifySignature(rep.getPublicKey(), request.getRequestType().toString().getBytes(), rep.getSignature()))
+                    return "Bad signature.";
+                return "Success: " + rep.getIntReply();
             } else
                 return "Error, HTTP error status: " + r.getStatus();
 
-        } catch ( ProcessingException pe ) {
+        } catch (ProcessingException pe ) {
             pe.printStackTrace();
             return "Timeout occurred.";
         }
@@ -263,25 +281,18 @@ public class Client {
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
 
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                byte[] acc = Reply.deserialize(r.readEntity(byte[].class)).getByteReply();
-                return "Success: " + acc;
+                Reply rep = Reply.deserialize(r.readEntity(byte[].class));
+
+                if (!Security.verifySignature(rep.getPublicKey(), request.getRequestType().toString().getBytes(), rep.getSignature()))
+                    return "Bad signature.";
+                return "Success: " + rep.getByteReply();
             } else
                 return "Error, HTTP error status: " + r.getStatus();
 
-        } catch ( ProcessingException pe ) { //Error in communication with server
+        } catch (ProcessingException pe) { //Error in communication with server
             pe.printStackTrace();
             return "Timeout occurred.";
         }
 
     }
-
-    private byte[] accountIdCreator(byte[] sha256) {
-        ByteBuffer buffer = ByteBuffer.wrap(new byte[sha256.length + this.keyPair.getPublic().getEncoded().length]);
-        buffer.put(sha256);
-        buffer.put(this.keyPair.getPublic().getEncoded());
-
-        return buffer.array();
-    }
-
-
 }

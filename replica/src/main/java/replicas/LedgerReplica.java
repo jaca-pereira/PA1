@@ -79,7 +79,6 @@ public class LedgerReplica extends DefaultSingleRecoverable {
             throw new IllegalArgumentException("Signature not valid!");
         if (request.getValue() < 0)
             throw new IllegalArgumentException("Value must be positive!");
-        //verificar nonce?
         this.ledger.sendTransaction(new Transaction(request.getRequestType(), request.getAccount(), request.getAccountDestiny(), request.getValue(), request.getNonce()));
         return true;
     }

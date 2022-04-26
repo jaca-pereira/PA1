@@ -33,7 +33,10 @@ public class Service implements ServiceAPI {
             byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                return Reply.serialize((Reply) objIn.readObject());
+                Reply rep = (Reply) objIn.readObject();
+                rep.setPublicKey(this.keyPair.getPublic());
+                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.CREATE_ACCOUNT.toString().getBytes()));
+                return Reply.serialize(rep);
             }
 
         } catch (IOException | ClassNotFoundException e) {
@@ -55,7 +58,10 @@ public class Service implements ServiceAPI {
             byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                return Reply.serialize((Reply) objIn.readObject());
+                Reply rep = (Reply) objIn.readObject();
+                rep.setPublicKey(this.keyPair.getPublic());
+                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.LOAD_MONEY.toString().getBytes()));
+                return Reply.serialize(rep);
 
             }
 
@@ -78,8 +84,8 @@ public class Service implements ServiceAPI {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
                 Reply rep = (Reply) objIn.readObject();
-                rep.setPublicKey(this.keyPair.getPublic().getEncoded());
-                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), request));
+                rep.setPublicKey(this.keyPair.getPublic());
+                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.GET_BALANCE.toString().getBytes()));
                 return Reply.serialize(rep);
 
             }
@@ -103,8 +109,8 @@ public class Service implements ServiceAPI {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
                 Reply rep = (Reply) objIn.readObject();
-                rep.setPublicKey(this.keyPair.getPublic().getEncoded());
-                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), request));
+                rep.setPublicKey(this.keyPair.getPublic());
+                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.GET_EXTRACT.toString().getBytes()));
                 return Reply.serialize(rep);
             }
 
@@ -127,8 +133,8 @@ public class Service implements ServiceAPI {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
                 Reply rep = (Reply) objIn.readObject();
-                rep.setPublicKey(this.keyPair.getPublic().getEncoded());
-                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), request));
+                rep.setPublicKey(this.keyPair.getPublic());
+                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.SEND_TRANSACTION.toString().getBytes()));
                 return Reply.serialize(rep);
             }
 
@@ -151,8 +157,8 @@ public class Service implements ServiceAPI {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
                 Reply rep = (Reply) objIn.readObject();
-                rep.setPublicKey(this.keyPair.getPublic().getEncoded());
-                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), request));
+                rep.setPublicKey(this.keyPair.getPublic());
+                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.GET_TOTAL_VALUE.toString().getBytes()));
                 return Reply.serialize(rep);
             }
 
@@ -175,8 +181,8 @@ public class Service implements ServiceAPI {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
                 Reply rep = (Reply) objIn.readObject();
-                rep.setPublicKey(this.keyPair.getPublic().getEncoded());
-                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), request));
+                rep.setPublicKey(this.keyPair.getPublic());
+                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.GET_GLOBAL_VALUE.toString().getBytes()));
                 return Reply.serialize(rep);
             }
         } catch (IOException | ClassNotFoundException e) {

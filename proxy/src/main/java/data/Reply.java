@@ -1,15 +1,15 @@
 package data;
 
 import java.io.*;
+import java.security.PublicKey;
 import java.util.List;
 
 public class Reply implements Serializable {
 
     private static final long serialVersionUID = 1L;
     //Security stuff
-    private byte[] publicKey;
+    private PublicKey publicKey;
     private byte[] signature;
-
     //Response stuff
     private boolean boolReply;
     private byte[] byteReply;
@@ -56,8 +56,15 @@ public class Reply implements Serializable {
     }
 
 
+    public PublicKey getPublicKey() {
+        return publicKey;
+    }
 
-    public void setPublicKey(byte[] publicKey) {
+    public byte[] getSignature() {
+        return signature;
+    }
+
+    public void setPublicKey(PublicKey publicKey) {
         this.publicKey = publicKey;
     }
 

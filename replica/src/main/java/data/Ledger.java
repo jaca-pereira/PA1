@@ -23,7 +23,7 @@ public class Ledger {
 
     private void incrementCounter() {
         this.operationsCounter++;
-        if (this.operationsCounter == 1) {
+        if (this.operationsCounter == 4) {
             this.operationsCounter = 0;
             this.serializeToJedis();
         }
