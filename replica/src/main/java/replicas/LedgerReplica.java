@@ -47,9 +47,10 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         new ServiceReplica(id, this, this);
     }
 
-    private byte[]  createAccount(Request request) {
-        if(!Security.verifySignature(request.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
+    private byte[] createAccount(Request request) {
+        if(!Security.verifySignature(Security.getPublicKey(request.getPublicKey()), request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
+
         return this.ledger.addAccount(request.getAccount());
     }
 
@@ -58,20 +59,20 @@ public class LedgerReplica extends DefaultSingleRecoverable {
             throw new IllegalArgumentException("Signature not valid!");
         if (request.getValue() < 0)
             throw new IllegalArgumentException("Value must be positive!");
-        this.ledger.sendTransaction(new Transaction(request.getRequestType(), Ledger.LEDGER, request.getAccount(), request.getValue(), -1));
+        this.ledger.sendTransaction(new Transaction(request.getRequestType(), Ledger.LEDGER, request.getAccount(), request.getValue(), -1, request.getSignature()));
         return true;
     }
 
     private int getBalance(Request request) {
         if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.getBalance(new Transaction(request.getRequestType(), request.getAccount()));
+        return this.ledger.getBalance(new Transaction(request.getRequestType(), request.getAccount(), request.getSignature()));
     }
 
     private List<Transaction> getExtract(Request request) {
         if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.getExtract(new Transaction(request.getRequestType(), request.getAccount()));
+        return this.ledger.getExtract(new Transaction(request.getRequestType(), request.getAccount(), request.getSignature()));
     }
 
     private boolean sendTransaction(Request request) {
@@ -79,14 +80,14 @@ public class LedgerReplica extends DefaultSingleRecoverable {
             throw new IllegalArgumentException("Signature not valid!");
         if (request.getValue() < 0)
             throw new IllegalArgumentException("Value must be positive!");
-        this.ledger.sendTransaction(new Transaction(request.getRequestType(), request.getAccount(), request.getAccountDestiny(), request.getValue(), request.getNonce()));
+        this.ledger.sendTransaction(new Transaction(request.getRequestType(), request.getAccount(), request.getAccountDestiny(), request.getValue(), request.getNonce(), request.getSignature()));
         return true;
     }
 
     private int getTotalValue(Request request) {
         if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.getTotalValue(new Transaction(request.getRequestType(), request.getAccounts()));
+        return this.ledger.getTotalValue(new Transaction(request.getRequestType(), request.getAccounts(), request.getSignature()));
     }
 
     private int getGlobalValue(Request request) {
