@@ -1,27 +1,27 @@
 Concurrent Clients 2.
 All durations in ms.
 Creating account rafael.palindra@campus.fct.unl.pt.
-Success: [B@8ad6665
-Duration: 118.
+Success: [B@3a4621bd
+Duration: 257.
 
 Loading 10 money.
 Success: true
-Duration: 112.
+Duration: 115.
 
 Getting account balance.
 Success: 10
-Duration: 68.
+Duration: 46.
 
 Getting account extract.
-Success: [data.Transaction@5443d039, data.Transaction@63787180, data.Transaction@7d1cfb8b]
+Success: [data.Transaction@ee86bcb, data.Transaction@177bea38, data.Transaction@7f132176]
 Duration: 53.
 
 Getting global ledger value.
-Success: 40
-Duration: 95.
+Success: 20
+Duration: 89.
 
 Getting ledger.
-Success: [data.Transaction@7241a47d, data.Transaction@70f59913, data.Transaction@77258e59, data.Transaction@5dcd8c7a, data.Transaction@2250b9f2, data.Transaction@7e3181aa, data.Transaction@253d9f73, data.Transaction@142269f2, data.Transaction@331acdad, data.Transaction@41d426b5, data.Transaction@8dbfffb, data.Transaction@f316aeb, data.Transaction@6aa3a905, data.Transaction@a22cb6a, data.Transaction@5dd1c9f2, data.Transaction@59b38691, data.Transaction@2e2ff723, data.Transaction@324a0017, data.Transaction@6187d1f5, data.Transaction@2445445a, data.Transaction@7502291e, data.Transaction@17aad511]
-Duration: 122.
+Success: [data.Transaction@22d7b4f8, data.Transaction@149dd36b, data.Transaction@38831718, data.Transaction@2c1156a7, data.Transaction@33fe57a9, data.Transaction@4982cc36]
+Duration: 102.
 
-Total duration of test: 568.
+Total duration of test: 662.

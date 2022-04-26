@@ -25,16 +25,16 @@ public class Ledger {
         this.operationsCounter++;
         if (this.operationsCounter == 1) {
             this.operationsCounter = 0;
-            //this.serializeToJedis();
+            this.serializeToJedis();
         }
     }
 
-    public Ledger() {
+    public Ledger(Jedis jedis) {
         this.ledger = new LedgerDataStructure();
         this.operationsCounter = 0;
         this.globalValue = 0;
-        this.jedis = null;
-        //this.serializeToJedis();
+        this.jedis = jedis;
+        this.serializeToJedis();
     }
 
     public byte[]  addAccount(byte[] account) {
