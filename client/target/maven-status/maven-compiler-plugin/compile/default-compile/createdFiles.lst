@@ -6,5 +6,6 @@ data/LedgerRequestType.class
 Security/InsecureHostNameVerifier.class
 data/Transaction.class
 data/Request.class
+results/Results.class
 Security/Security.class
 data/Reply.class

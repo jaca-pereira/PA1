@@ -77,23 +77,23 @@ public class Client {
     public String executeCommand(Request request) {
         switch (request.getRequestType()) {
             case CREATE_ACCOUNT:
-                return createAccount(request);
+                return createAccount(request) + "\n";
             case GET_BALANCE:
-                return getBalance(request);
+                return getBalance(request) + "\n";
             case LOAD_MONEY:
-                return loadMoney(request);
+                return loadMoney(request) + "\n";
             case GET_EXTRACT:
-                return getExtract(request);
+                return getExtract(request) + "\n";
             case GET_TOTAL_VALUE:
-                return getTotalValue(request);
+                return getTotalValue(request) + "\n";
             case GET_GLOBAL_VALUE:
-                return getGlobalValue(request);
+                return getGlobalValue(request) + "\n";
             case SEND_TRANSACTION:
-                return sendTransaction(request);
+                return sendTransaction(request) + "\n";
             case GET_LEDGER:
-                return getLedger();
+                return getLedger() + "\n";
             default:
-                return "Command unknown!";
+                return "Command unknown!" + "\n";
         }
     }
 
