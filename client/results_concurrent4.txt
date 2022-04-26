@@ -2,34 +2,34 @@ Concurrent Clients 4.
 All durations in ms.
 Sending 5 money from rafael.palindra@campus.fct.unl.pt to jaca.pereira@campus.fct.unl.pt
 Success: true
-Duration: 399.
+Duration: 242.
 
 Getting origin account balance.
 Success: 10
-Duration: 124.
+Duration: 115.
 
 Getting origin account extract.
 Success: [data.Transaction@6cfcd46d, data.Transaction@52045dbe, data.Transaction@674658f7, data.Transaction@5c8eee0f, data.Transaction@565b064f, data.Transaction@26425897, data.Transaction@73163d48, data.Transaction@58c34bb3, data.Transaction@56a4479a]
-Duration: 58.
+Duration: 63.
 
 Getting destination account balance.
 Success: 10
-Duration: 109.
+Duration: 119.
 
 Getting destination account extract.
 Success: [data.Transaction@65b3a85a, data.Transaction@34997338, data.Transaction@57eda880, data.Transaction@2b5825fa, data.Transaction@53d1b9b3, data.Transaction@2cae1042, data.Transaction@163d04ff, data.Transaction@7c209437, data.Transaction@2262b621]
-Duration: 59.
+Duration: 71.
 
 Getting total accounts value.
 Success: 20
-Duration: 53.
+Duration: 66.
 
 Getting global ledger value.
 Success: 20
-Duration: 105.
+Duration: 108.
 
 Getting ledger.
 Success: [data.Transaction@16ecee1, data.Transaction@3b220bcb, data.Transaction@2b95e48b, data.Transaction@4a3329b9, data.Transaction@3dddefd8, data.Transaction@160ac7fb, data.Transaction@12bfd80d, data.Transaction@41925502, data.Transaction@13e3c1c7, data.Transaction@5316e95f, data.Transaction@3f053c80, data.Transaction@6c6c5427, data.Transaction@618c5d94, data.Transaction@5b40ceb, data.Transaction@13c3c1e1, data.Transaction@1d8062d2]
-Duration: 5140.
+Duration: 142.
 
-Total duration of test: 6047.
+Total duration of test: 926.

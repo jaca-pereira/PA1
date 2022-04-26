@@ -2,34 +2,34 @@ Concurrent Clients 3.
 All durations in ms.
 Sending 5 money from jaca.pereira@campus.fct.unl.pt to rafael.palindra@campus.fct.unl.pt
 Success: true
-Duration: 333.
+Duration: 409.
 
 Getting origin account balance.
 Success: 5
-Duration: 122.
+Duration: 143.
 
 Getting origin account extract.
 Success: [data.Transaction@57ea113a, data.Transaction@acdb094, data.Transaction@674bd420, data.Transaction@2b0f373b, data.Transaction@2ceb80a1, data.Transaction@4b45dcb8]
-Duration: 61.
+Duration: 57.
 
 Getting destination account balance.
 Success: 15
-Duration: 97.
+Duration: 110.
 
 Getting destination account extract.
 Success: [data.Transaction@732f29af, data.Transaction@d3957fe, data.Transaction@6622fc65, data.Transaction@299321e2, data.Transaction@23fb172e, data.Transaction@64ba3208]
-Duration: 60.
+Duration: 50.
 
 Getting total accounts value.
 Success: 20
-Duration: 58.
+Duration: 62.
 
 Getting global ledger value.
 Success: 20
-Duration: 88.
+Duration: 105.
 
 Getting ledger.
 Success: [data.Transaction@3bd418e4, data.Transaction@544820b7, data.Transaction@6b98a075, data.Transaction@2e61d218, data.Transaction@3569fc08, data.Transaction@20b12f8a, data.Transaction@e84a8e1, data.Transaction@2e554a3b, data.Transaction@54a67a45, data.Transaction@7d42c224, data.Transaction@56aaaecd]
-Duration: 113.
+Duration: 141.
 
-Total duration of test: 932.
+Total duration of test: 1077.

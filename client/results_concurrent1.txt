@@ -2,26 +2,26 @@ Concurrent Clients 1.
 All durations in ms.
 Creating account jaca.pereira@campus.fct.unl.pt.
 Success: [B@37e4d7bb
-Duration: 876.
+Duration: 932.
 
 Loading 10 money.
 Success: true
-Duration: 85.
+Duration: 79.
 
 Getting account balance.
 Success: 10
-Duration: 104.
+Duration: 117.
 
 Getting account extract.
 Success: [data.Transaction@36a5cabc, data.Transaction@432038ec, data.Transaction@7daa0fbd]
-Duration: 77.
+Duration: 121.
 
 Getting global ledger value.
 Success: 10
-Duration: 53.
+Duration: 86.
 
 Getting ledger.
 Success: [data.Transaction@10a9d961, data.Transaction@130e116b, data.Transaction@e383572]
-Duration: 138.
+Duration: 154.
 
-Total duration of test: 1333.
+Total duration of test: 1489.
