@@ -1,12 +1,14 @@
 package data;
 
 import java.io.*;
+import java.nio.ByteBuffer;
 import java.util.List;
 
 public class Transaction implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private long nonce;
+    private byte[] id;
     private LedgerRequestType transactionType;
     private byte[] originAccount;
     private byte[] destinationAccount;
@@ -17,11 +19,19 @@ public class Transaction implements Serializable {
     public Transaction(LedgerRequestType transactionType, byte[] originAccount) {
         this.originAccount = originAccount;
         this.transactionType = transactionType;
+        this.nonce = -1;
+        this.destinationAccount=null;
+        this.value = -1;
+        this.accounts = null;
     }
 
     public Transaction(LedgerRequestType transactionType, List<byte[]> accounts) {
         this.accounts = accounts;
         this.transactionType = transactionType;
+        this.originAccount = originAccount;
+        this.nonce = -1;
+        this.destinationAccount=null;
+        this.value = -1;
     }
 
     public Transaction(LedgerRequestType transactionType, byte[] originAccount, byte[] destinationAccount, int value, long nonce) {
@@ -30,6 +40,18 @@ public class Transaction implements Serializable {
         this.destinationAccount = destinationAccount;
         this.value = value;
         this.nonce = nonce;
+        this.id = this.idGenerator();
+        this.accounts = null;
+    }
+
+    private byte[] idGenerator() {
+        ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+        byte[] nonce = buffer.putLong(this.nonce).array();
+
+        ByteBuffer id = ByteBuffer.wrap(new byte[nonce.length + this.originAccount.length]);
+        id.put(nonce);
+        id.put(this.originAccount);
+        return id.array();
     }
 
     public LedgerRequestType getTransactionType() {
@@ -53,6 +75,10 @@ public class Transaction implements Serializable {
 
     public long getNonce() {
         return nonce;
+    }
+
+    public byte[] getId() {
+        return this.id;
     }
 
     public static byte[] serialize(Transaction obj) {

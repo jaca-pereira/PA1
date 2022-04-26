@@ -5,10 +5,12 @@ import java.util.*;
 public class LedgerDataStructure {
     private Map<String, Account> ledgerMap;
     private List<Transaction> ledgerList;
+    private List<byte[]> idTransactions;
 
     public LedgerDataStructure() {
         this.ledgerMap = new HashMap<>();
         this.ledgerList = new LinkedList<>();
+        this.idTransactions = new LinkedList<>();
     }
 
     public void addAccount(byte[] account) {
@@ -28,14 +30,17 @@ public class LedgerDataStructure {
     }
 
     public void transactionBetweenAccounts(Transaction t) {
-        Account destinationAccount = ledgerMap.get(new String(t.getDestinationAccount()));
+        Account destinationAccount = this.ledgerMap.get(new String(t.getDestinationAccount()));
         if (destinationAccount == null)
             throw new IllegalArgumentException("Destination account does not exist!");
         if (t.getNonce()!=-1) {
-            Account originAccount = ledgerMap.get(new String(t.getOriginAccount()));
+            Account originAccount = this.ledgerMap.get(new String(t.getOriginAccount()));
             if (originAccount == null)
                 throw new IllegalArgumentException("Origin account does not exist!");
+            if (this.idTransactions.contains(t.getId()))
+                throw new IllegalArgumentException("Request already made! Byzantine attack?");
             if (originAccount.getBalance()>=t.getValue()) {
+                this.idTransactions.add(t.getId());
                 originAccount.addTransaction(t);
                 originAccount.changeBalance(-t.getValue());
             }else

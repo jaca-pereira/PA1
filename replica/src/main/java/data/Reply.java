@@ -9,7 +9,6 @@ public class Reply implements Serializable {
     //Security stuff
     private byte[] publicKey;
     private byte[] signature;
-
     //Response stuff
     private boolean boolReply;
     private byte[] byteReply;
