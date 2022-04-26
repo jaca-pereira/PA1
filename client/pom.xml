@@ -38,7 +38,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>client.ClientAfterReplicaFail</mainClass>
+                            <mainClass>client.NoConcurrencyClient</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

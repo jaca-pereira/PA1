@@ -2,4 +2,4 @@ Sequential Client.
 All durations in ms.
 Getting ledger.
 Success: [data.Transaction@6057aebb, data.Transaction@63eef88a, data.Transaction@53251a66, data.Transaction@6853425f, data.Transaction@352c1b98, data.Transaction@21129f1f, data.Transaction@5a9f4771, data.Transaction@282cb7c7, data.Transaction@7d898981, data.Transaction@48d61b48, data.Transaction@68d279ec, data.Transaction@258d79be, data.Transaction@14f9390f, data.Transaction@6c0d7c83, data.Transaction@176b75f7, data.Transaction@5965be2d]
-Duration: 447.
+Duration: 422.
