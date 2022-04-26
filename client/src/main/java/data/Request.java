@@ -2,6 +2,10 @@ package data;
 
 
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.List;
 
 public class Request implements Serializable {
@@ -116,4 +120,31 @@ public class Request implements Serializable {
     public void setSignature(byte[] signature) {
         this.signature = signature;
     }
+
+    public void setAccount() throws NoSuchAlgorithmException {
+        this.account = this.idMaker();
+    }
+
+    private byte[] idMaker() throws NoSuchAlgorithmException {
+        SecureRandom generator = new SecureRandom();
+        byte[] srn = generator.generateSeed(32);
+
+        byte[] timer = String.valueOf(System.currentTimeMillis()).getBytes();
+
+        ByteBuffer buffersha256 = ByteBuffer.wrap(new byte[this.account.length + srn.length + timer.length]);
+        buffersha256.put(this.account);
+        buffersha256.put(srn);
+        buffersha256.put(timer);
+
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] sha256 = digest.digest(buffersha256.array());
+
+        ByteBuffer buffer = ByteBuffer.wrap(new byte[sha256.length + this.publicKey.length]);
+        buffer.put(sha256);
+        buffer.put(this.publicKey);
+
+        return buffer.array();
+    }
+
+
 }

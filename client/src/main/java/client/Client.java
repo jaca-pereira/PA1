@@ -3,9 +3,9 @@ package client;
 import java.io.FileInputStream;
 import java.net.*;
 
-import java.security.KeyPair;
+import java.nio.ByteBuffer;
+import java.security.*;
 
-import java.security.KeyStore;
 import java.util.List;
 
 
@@ -74,7 +74,7 @@ public class Client {
         return null;
     }
 
-    public String executeCommand(Request request) {
+    public String executeCommand(Request request) throws NoSuchAlgorithmException {
         switch (request.getRequestType()) {
             case CREATE_ACCOUNT:
                 return createAccount(request) + "\n";
@@ -246,10 +246,10 @@ public class Client {
         }
     }
 
-    private String createAccount(Request request) {
-
+    private String createAccount(Request request) throws NoSuchAlgorithmException {
 
         request.setPublicKey(this.keyPair.getPublic().getEncoded());
+        request.setAccount();
         request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
         WebTarget target = client.target( serverURI ).path("account");
 
@@ -269,6 +269,14 @@ public class Client {
             return "Timeout occurred.";
         }
 
+    }
+
+    private byte[] accountIdCreator(byte[] sha256) {
+        ByteBuffer buffer = ByteBuffer.wrap(new byte[sha256.length + this.keyPair.getPublic().getEncoded().length]);
+        buffer.put(sha256);
+        buffer.put(this.keyPair.getPublic().getEncoded());
+
+        return buffer.array();
     }
 
 
