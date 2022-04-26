@@ -38,7 +38,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>client.Client</mainClass>
+                            <mainClass>data.ConcurrencyClient</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
