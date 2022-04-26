@@ -1,5 +1,7 @@
 package data;
 
+import Security.Security;
+
 import java.io.*;
 import java.security.PublicKey;
 import java.util.List;
@@ -8,7 +10,7 @@ public class Reply implements Serializable {
 
     private static final long serialVersionUID = 1L;
     //Security stuff
-    private PublicKey publicKey;
+    private byte[] publicKey;
     private byte[] signature;
     //Response stuff
     private boolean boolReply;
@@ -57,14 +59,14 @@ public class Reply implements Serializable {
 
 
     public PublicKey getPublicKey() {
-        return publicKey;
+        return Security.getPublicKey(this.publicKey);
     }
 
     public byte[] getSignature() {
         return signature;
     }
 
-    public void setPublicKey(PublicKey publicKey) {
+    public void setPublicKey(byte[] publicKey) {
         this.publicKey = publicKey;
     }
 

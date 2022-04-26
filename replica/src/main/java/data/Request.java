@@ -1,7 +1,10 @@
 package data;
 
 
+import Security.Security;
+
 import java.io.*;
+import java.security.PublicKey;
 import java.util.List;
 
 public class Request implements Serializable {
@@ -80,8 +83,8 @@ public class Request implements Serializable {
         return this.requestType;
     }
 
-    public byte[] getPublicKey() {
-        return publicKey;
+    public PublicKey getPublicKey() {
+        return Security.getPublicKey(this.publicKey);
     }
     public byte[] getSignature() {
         return signature;
