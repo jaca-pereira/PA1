@@ -38,7 +38,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>data.ConcurrencyClientConcurrentProxies</mainClass>
+                            <mainClass>client.ClientAfterReplicaFail</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
