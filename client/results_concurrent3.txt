@@ -2,34 +2,34 @@ Concurrent Clients 3.
 All durations in ms.
 Sending 5 money from jaca.pereira@campus.fct.unl.pt to rafael.palindra@campus.fct.unl.pt
 Success: true
-Duration: 267.
+Duration: 125.
 
 Getting origin account balance.
 Success: 5
-Duration: 86.
+Duration: 72.
 
 Getting origin account extract.
-Success: [data.Transaction@57ea113a, data.Transaction@acdb094, data.Transaction@674bd420, data.Transaction@2b0f373b, data.Transaction@2ceb80a1, data.Transaction@4b45dcb8]
-Duration: 45.
+Success: [data.Transaction@12bd8a64, data.Transaction@61e94def, data.Transaction@3300f4fd, data.Transaction@ebb6851, data.Transaction@70ab2d48, data.Transaction@5b068087]
+Duration: 32.
 
 Getting destination account balance.
 Success: 15
-Duration: 75.
+Duration: 72.
 
 Getting destination account extract.
-Success: [data.Transaction@732f29af, data.Transaction@d3957fe, data.Transaction@6622fc65, data.Transaction@299321e2, data.Transaction@23fb172e, data.Transaction@64ba3208]
-Duration: 54.
+Success: [data.Transaction@56303b57, data.Transaction@4b2a01d4, data.Transaction@8692d67, data.Transaction@78f5c518, data.Transaction@2f48b3d2, data.Transaction@34f7234e]
+Duration: 51.
 
 Getting total accounts value.
 Success: 20
-Duration: 53.
+Duration: 34.
 
 Getting global ledger value.
-Success: 20
-Duration: 83.
+Success: 40
+Duration: 79.
 
 Getting ledger.
-Success: [data.Transaction@3bd418e4, data.Transaction@544820b7, data.Transaction@6b98a075, data.Transaction@2e61d218, data.Transaction@3569fc08, data.Transaction@20b12f8a, data.Transaction@e84a8e1, data.Transaction@2e554a3b, data.Transaction@54a67a45, data.Transaction@7d42c224, data.Transaction@56aaaecd]
-Duration: 90.
+Success: [data.Transaction@6b7906b3, data.Transaction@3a1dd365, data.Transaction@395b56bb, data.Transaction@256f8274, data.Transaction@68044f4, data.Transaction@52d239ba, data.Transaction@315f43d5, data.Transaction@68fa0ba8, data.Transaction@6c5945a7, data.Transaction@2f05be7f, data.Transaction@640f11a1, data.Transaction@5c10f1c3, data.Transaction@7ac2e39b, data.Transaction@78365cfa, data.Transaction@64a8c844, data.Transaction@3f6db3fb, data.Transaction@52de51b6, data.Transaction@18c5069b, data.Transaction@3a0d172f, data.Transaction@68ad99fe, data.Transaction@485e36bc, data.Transaction@781f10f2, data.Transaction@2a79d4b1, data.Transaction@2e9fda69, data.Transaction@17cdf2d0, data.Transaction@1755e85b, data.Transaction@736d6a5c]
+Duration: 83.
 
-Total duration of test: 753.
+Total duration of test: 548.

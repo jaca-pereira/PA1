@@ -74,6 +74,10 @@ public class Client {
         return null;
     }
 
+    public KeyPair getKeyPair() {
+        return keyPair;
+    }
+
     public String executeCommand(Request request) throws NoSuchAlgorithmException {
         switch (request.getRequestType()) {
             case CREATE_ACCOUNT:
@@ -249,7 +253,7 @@ public class Client {
     private String createAccount(Request request) throws NoSuchAlgorithmException {
 
         request.setPublicKey(this.keyPair.getPublic().getEncoded());
-        request.setAccount();
+
         request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
         WebTarget target = client.target( serverURI ).path("account");
 

@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,8 +19,9 @@ public class NoConcurrencyClient {
 
    private static final String PORT = "8080";
 
+
    private static Results results;
-   public static void main(String[] args) throws URISyntaxException, IOException {
+   public static void main(String[] args) throws URISyntaxException, IOException, NoSuchAlgorithmException {
       if (args.length < 1) {
          System.out.println("Usage: <proxy_ip_without_last_.>");
          System.exit(-1);
@@ -28,24 +31,26 @@ public class NoConcurrencyClient {
       results = new Results("results.txt");
       results.writeResults("Sequential Clients.\n");
       results.writeResults("All durations in ms.\n");
-      byte[] originAccount = accountIdCreator("jaca.pereira@campus.fct.unl.pt");
+
 
       String ip = args[0] + 10;
       URI proxyURI = new URI(String.format("https://%s:%s/", ip, PORT));
       Client client = new Client(proxyURI);
-      testAccountCreation(client, originAccount, "jaca.pereira@campus.fct.unl.pt");
+      String email = "jaca.pereira@campus.fct.unl.pt";
+      byte[] originAccount = idMaker(email.getBytes(), client.getKeyPair().getPublic().getEncoded());
+      testAccountCreation(client,email, originAccount);
 
 
-      byte[] destinationAccount = accountIdCreator("rafael.palindra@campus.fct.unl.pt");
+
       ip = args[0] + 11;
-
       proxyURI = new URI(String.format("https://%s:%s/", ip, PORT));
       client = new Client(proxyURI);
-      testAccountCreation(client,destinationAccount, "rafael.palindra@campus.fct.unl.pt");
+      email = "rafael.palindra@campus.fct.unl.pt";
+      byte[] destinationAccount = idMaker(email.getBytes(), client.getKeyPair().getPublic().getEncoded());
+      testAccountCreation(client,email, destinationAccount);
 
 
       ip = args[0] + 12;
-
       proxyURI = new URI(String.format("https://%s:%s/", ip, PORT));
       client = new Client(proxyURI);
       testTransactions(client,originAccount, destinationAccount, "jaca.pereira@campus.fct.unl.pt", "rafael.palindra@campus.fct.unl.pt");
@@ -55,31 +60,36 @@ public class NoConcurrencyClient {
 
       proxyURI = new URI(String.format("https://%s:%s/", ip, PORT));
       client = new Client(proxyURI);
-      testTransactions(client, originAccount, destinationAccount, "rafael.palindra@campus.fct.unl.pt", "jaca.pereira@campus.fct.unl.pt");
+      testTransactions(client, destinationAccount, originAccount, "rafael.palindra@campus.fct.unl.pt", "jaca.pereira@campus.fct.unl.pt");
 
 
       results.close();
    }
-   public static byte[] accountIdCreator(String accountEmail) {
-      byte[] email = accountEmail.getBytes();
 
+   public static byte[] idMaker(byte[] account, byte[] publicKey) throws NoSuchAlgorithmException {
       SecureRandom generator = new SecureRandom();
       byte[] srn = generator.generateSeed(32);
 
       byte[] timer = String.valueOf(System.currentTimeMillis()).getBytes();
 
-      ByteBuffer accountId = ByteBuffer.wrap(new byte[email.length + srn.length + timer.length]);
-      accountId.put(email);
-      accountId.put(srn);
-      accountId.put(timer);
+      ByteBuffer buffersha256 = ByteBuffer.wrap(new byte[account.length + srn.length + timer.length]);
+      buffersha256.put(account);
+      buffersha256.put(srn);
+      buffersha256.put(timer);
 
-      return accountId.array();
+      MessageDigest digest = MessageDigest.getInstance("SHA-256");
+      byte[] sha256 = digest.digest(buffersha256.array());
+
+      ByteBuffer buffer = ByteBuffer.wrap(new byte[sha256.length + publicKey.length]);
+      buffer.put(sha256);
+      buffer.put(publicKey);
+
+      return buffer.array();
    }
 
-   private static void testAccountCreation(Client client,byte[] account, String accountEmail) throws IOException {
+   private static byte[] testAccountCreation(Client client, String accountEmail, byte[] account) throws IOException, NoSuchAlgorithmException {
 
       String result="";
-
 
       //create_account
       long before = System.currentTimeMillis();
@@ -149,9 +159,10 @@ public class NoConcurrencyClient {
 
       result+="Total duration of test: " + totalDuration +".\n";;
       results.writeResults(result);
+      return account;
    }
 
-   private static void testTransactions(Client client, byte[] originAccount, byte[] destinationAccount, String originAccountEmail, String destinyAccountEmail) throws IOException {
+   private static void testTransactions(Client client, byte[] originAccount, byte[] destinationAccount, String originAccountEmail, String destinyAccountEmail) throws IOException, NoSuchAlgorithmException {
 
       String result="";
 

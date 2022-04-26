@@ -9,6 +9,8 @@ import java.io.IOException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +26,8 @@ public class ConcurrencyClient {
 
     private static Results results4;
 
-    public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
+
+    public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException, NoSuchAlgorithmException {
         if (args.length < 1) {
             System.out.println("Usage: <proxy_ip_without_last_.>");
             System.exit(-1);
@@ -46,63 +49,76 @@ public class ConcurrencyClient {
 
         String originEmail = "jaca.pereira@campus.fct.unl.pt";
         String destinationEmail= "rafael.palindra@campus.fct.unl.pt";
-        byte[] originAccount = NoConcurrencyClient.accountIdCreator(originEmail);
-        byte[] destinationAccount = NoConcurrencyClient.accountIdCreator(destinationEmail);
+
 
         String ip = args[0] + 10;
         URI proxyURI = new URI(String.format("https://%s:%s/", ip, PORT));;
+        Client client1 = new Client(proxyURI);
+        byte[] originAccount = NoConcurrencyClient.idMaker(originEmail.getBytes(), client1.getKeyPair().getPublic().getEncoded());
+        byte[] originAccount2 = originAccount;
         Thread t1 = new Thread(new Runnable() {
             private Client client;
-            private byte[] originAccount;
 
             private String originEmail;
             private Results resultsConcurrent;
+            private byte[] account;
 
 
-            public Runnable init(Client client, byte[] originAccount, String originEmail, Results resultsConcurrent ) {
+            public Runnable init(Client client, String originEmail, byte[] account, Results resultsConcurrent ) {
                 this.client = client;
-                this.originAccount = originAccount;
                 this.originEmail = originEmail;
                 this.resultsConcurrent = resultsConcurrent;
+                this.account = account;
                 return this;
             }
             @Override
             public void run() {
                 try {
-                    testAccountCreation(client,originAccount, originEmail, resultsConcurrent);
+                    testAccountCreation(client, originEmail, account, resultsConcurrent);
+
                 } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (NoSuchAlgorithmException e) {
                     throw new RuntimeException(e);
                 }
             }
-        }.init(new Client(proxyURI), originAccount, originEmail, results1));
+        }.init(client1, originEmail, originAccount, results1));
 
 
         ip = args[0] + 11;
         proxyURI = new URI(String.format("https://%s:%s/", ip, PORT));;
+        Client client2 = new Client(proxyURI);
+        byte[] destinationAccount = NoConcurrencyClient.idMaker(destinationEmail.getBytes(), client2.getKeyPair().getPublic().getEncoded());
+        byte[] destinationAccount2 = destinationAccount;
         Thread t2 = new Thread(new Runnable() {
             private Client client;
-            private byte[] originAccount;
+
 
             private String originEmail;
             private Results resultsConcurrent;
 
+            private byte[] account;
 
-            public Runnable init(Client client, byte[] originAccount, String originEmail, Results resultsConcurrent ) {
+
+            public Runnable init(Client client, String originEmail, byte[] account, Results resultsConcurrent ) {
                 this.client = client;
-                this.originAccount = originAccount;
+
                 this.originEmail = originEmail;
                 this.resultsConcurrent = resultsConcurrent;
+                this.account = account;
                 return this;
             }
             @Override
             public void run() {
                 try {
-                    testAccountCreation(client,originAccount, originEmail, resultsConcurrent);
+                    testAccountCreation(client, originEmail, account, resultsConcurrent);
                 } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (NoSuchAlgorithmException e) {
                     throw new RuntimeException(e);
                 }
             }
-        }.init(new Client(proxyURI), destinationAccount, destinationEmail, results2));
+        }.init(client2, destinationEmail, destinationAccount,  results2));
 
 
         ip = args[0] + 12;
@@ -132,6 +148,8 @@ public class ConcurrencyClient {
                 try {
                     testTransactions(client,originAccount, destinationAccount, originEmail, destinationEmail, resultsConcurrent);
                 } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (NoSuchAlgorithmException e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -166,14 +184,17 @@ public class ConcurrencyClient {
                     testTransactions(client,originAccount, destinationAccount, originEmail, destinationEmail, resultsConcurrent);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
+                } catch (NoSuchAlgorithmException e) {
+                    throw new RuntimeException(e);
                 }
             }
-        }.init(new Client(proxyURI), destinationAccount, originAccount, destinationEmail, originEmail, results4));
+        }.init(new Client(proxyURI), destinationAccount2, originAccount2, destinationEmail, originEmail, results4));
 
         t1.run();
         t2.run();
         t1.join();
         t2.join();
+
 
         t3.run();
         t4.run();
@@ -188,7 +209,7 @@ public class ConcurrencyClient {
     }
 
 
-    private static void testAccountCreation(Client client, byte[] account, String accountEmail, Results resultsConcurrent) throws IOException {
+    private static byte[] testAccountCreation(Client client, String accountEmail, byte[] account, Results resultsConcurrent) throws IOException, NoSuchAlgorithmException {
 
         String result="";
 
@@ -261,9 +282,10 @@ public class ConcurrencyClient {
 
         result+="Total duration of test: " + totalDuration +".\n";;
         resultsConcurrent.writeResults(result);
+        return account;
     }
 
-    private static void testTransactions(Client client, byte[] originAccount, byte[] destinationAccount, String originAccountEmail, String destinyAccountEmail, Results resultsConcurrent) throws IOException {
+    private static void testTransactions(Client client, byte[] originAccount, byte[] destinationAccount, String originAccountEmail, String destinyAccountEmail, Results resultsConcurrent) throws IOException, NoSuchAlgorithmException {
 
         String result="";
 
