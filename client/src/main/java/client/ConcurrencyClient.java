@@ -290,7 +290,7 @@ public class ConcurrencyClient {
         String result="";
 
         long before = System.currentTimeMillis();
-        Request request = new Request(LedgerRequestType.SEND_TRANSACTION, originAccount, destinationAccount, 5, 1);
+        Request request = new Request(LedgerRequestType.SEND_TRANSACTION, originAccount, destinationAccount, 5, System.currentTimeMillis());
         result+="Sending 5 money from " + originAccountEmail + " to "+ destinyAccountEmail +"\n";
         result+=client.executeCommand(request);
         long after = System.currentTimeMillis();

@@ -1,12 +1,14 @@
 package data;
 
 import java.io.*;
+import java.nio.ByteBuffer;
 import java.util.List;
 
 public class Transaction implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private long nonce;
+    private byte[] id;
     private LedgerRequestType transactionType;
     private byte[] originAccount;
     private byte[] destinationAccount;
@@ -38,7 +40,18 @@ public class Transaction implements Serializable {
         this.destinationAccount = destinationAccount;
         this.value = value;
         this.nonce = nonce;
+        this.id = this.idGenerator();
         this.accounts = null;
+    }
+
+    private byte[] idGenerator() {
+        ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+        byte[] nonce = buffer.putLong(this.nonce).array();
+
+        ByteBuffer id = ByteBuffer.wrap(new byte[nonce.length + this.originAccount.length]);
+        id.put(nonce);
+        id.put(this.originAccount);
+        return id.array();
     }
 
     public LedgerRequestType getTransactionType() {
@@ -62,6 +75,10 @@ public class Transaction implements Serializable {
 
     public long getNonce() {
         return nonce;
+    }
+
+    public byte[] getId() {
+        return this.id;
     }
 
     public static byte[] serialize(Transaction obj) {
