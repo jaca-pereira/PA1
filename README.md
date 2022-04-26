@@ -83,6 +83,8 @@ Clients are not included in docker because results files wouldn't persist.
 
 Keystore and truststore for client already included. To generate new ones, run instructions in Keystore and Truststore generation.
 
+Note: results files may be off in Transactions because serialization is not well performed when printing but the success of the operations demonstrates that they are being well saved.
+
 	
 
 
