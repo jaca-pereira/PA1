@@ -18,6 +18,7 @@ public class Ledger {
     private void serializeToJedis() {
         Gson gson = new Gson();
         String json = gson.toJson(this.ledger.getLedger());
+
         jedis.set("ledger",json);
     }
 

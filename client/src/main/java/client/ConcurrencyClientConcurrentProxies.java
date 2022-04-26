@@ -33,10 +33,10 @@ public class ConcurrencyClientConcurrentProxies {
             System.exit(-1);
         }
 
-        results1 = new Results("results_concurrent1.txt");
-        results2 = new Results("results_concurrent2.txt");
-        results3 = new Results("results_concurrent3.txt");
-        results4 = new Results("results_concurrent4.txt");
+        results1 = new Results("results_concurrent_proxies1.txt");
+        results2 = new Results("results_concurrent_proxies2.txt");
+        results3 = new Results("results_concurrent_proxies3.txt");
+        results4 = new Results("results_concurrent_proxies4.txt");
 
         results1.writeResults("Concurrent Clients 1.\n");
         results1.writeResults("All durations in ms.\n");

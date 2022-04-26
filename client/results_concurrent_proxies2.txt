@@ -2,26 +2,26 @@ Concurrent Clients 2.
 All durations in ms.
 Creating account rafael.palindra@campus.fct.unl.pt.
 Success: [B@3a4621bd
-Duration: 148.
+Duration: 155.
 
 Loading 10 money.
 Success: true
-Duration: 124.
+Duration: 125.
 
 Getting account balance.
 Success: 10
-Duration: 55.
+Duration: 53.
 
 Getting account extract.
 Success: [data.Transaction@ee86bcb, data.Transaction@177bea38, data.Transaction@7f132176]
-Duration: 60.
+Duration: 70.
 
 Getting global ledger value.
 Success: 20
-Duration: 102.
+Duration: 99.
 
 Getting ledger.
 Success: [data.Transaction@22d7b4f8, data.Transaction@149dd36b, data.Transaction@38831718, data.Transaction@2c1156a7, data.Transaction@33fe57a9, data.Transaction@4982cc36]
-Duration: 104.
+Duration: 105.
 
-Total duration of test: 593.
+Total duration of test: 607.

@@ -48,7 +48,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
     }
 
     private byte[] createAccount(Request request) {
-        if(!Security.verifySignature(Security.getPublicKey(request.getPublicKey()), request.getRequestType().toString().getBytes(), request.getSignature()))
+        if(!Security.verifySignature(request.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
 
         return this.ledger.addAccount(request.getAccount());
