@@ -52,7 +52,7 @@ public class Client {
         TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
         tmf.init(ts);
 
-        String protocol = "TLSv1.2";
+        String protocol = "TLSv1.3";
         SSLContext sslContext = SSLContext.getInstance(protocol);
 
         sslContext.init(null, tmf.getTrustManagers(), null);
