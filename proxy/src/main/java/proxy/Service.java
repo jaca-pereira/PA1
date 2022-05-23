@@ -26,6 +26,11 @@ public class Service implements ServiceAPI {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
+            Request deserialized = Request.deserialize(request);
+
+            if (!Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature()))
+                throw new IllegalArgumentException("Signature not valid!");
+
             objOut.writeObject(Request.deserialize(request));
             objOut.flush();
             byteOut.flush();
@@ -52,6 +57,11 @@ public class Service implements ServiceAPI {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
+            Request deserialized = Request.deserialize(request);
+
+            if (!Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature()))
+                throw new IllegalArgumentException("Signature not valid!");
+
             objOut.writeObject(Request.deserialize(request));
             objOut.flush();
             byteOut.flush();
@@ -75,6 +85,11 @@ public class Service implements ServiceAPI {
     public byte[] getBalance(byte[] request) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
+
+            Request deserialized = Request.deserialize(request);
+
+            if (!Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature()))
+                throw new IllegalArgumentException("Signature not valid!");
 
             objOut.writeObject(Request.deserialize(request));
             objOut.flush();
@@ -101,6 +116,11 @@ public class Service implements ServiceAPI {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
+            Request deserialized = Request.deserialize(request);
+
+            if (!Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature()))
+                throw new IllegalArgumentException("Signature not valid!");
+
             objOut.writeObject(Request.deserialize(request));
             objOut.flush();
             byteOut.flush();
@@ -124,6 +144,11 @@ public class Service implements ServiceAPI {
     public byte[] sendTransaction(byte[] request) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
+
+            Request deserialized = Request.deserialize(request);
+
+            if (!Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature()))
+                throw new IllegalArgumentException("Signature not valid!");
 
             objOut.writeObject(Request.deserialize(request));
             objOut.flush();
@@ -149,6 +174,11 @@ public class Service implements ServiceAPI {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
 
+            Request deserialized = Request.deserialize(request);
+
+            if (!Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature()))
+                throw new IllegalArgumentException("Signature not valid!");
+
             objOut.writeObject(Request.deserialize(request));
             objOut.flush();
             byteOut.flush();
@@ -172,6 +202,11 @@ public class Service implements ServiceAPI {
     public byte[] getGlobalValue(byte[] request) {
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
+
+            Request deserialized = Request.deserialize(request);
+
+            if (!Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature()))
+                throw new IllegalArgumentException("Signature not valid!");
 
             objOut.writeObject(Request.deserialize(request));
             objOut.flush();

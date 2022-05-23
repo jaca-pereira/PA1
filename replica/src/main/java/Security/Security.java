@@ -57,6 +57,5 @@ public class Security {
         } catch (InvalidKeyException e) {
             throw new RuntimeException(e);
         }
-
     }
 }

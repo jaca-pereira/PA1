@@ -2,8 +2,6 @@
 .idea*
 /target
 
-config/
-
 client/target/
 
 *.jar

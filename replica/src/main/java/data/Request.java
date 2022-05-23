@@ -86,6 +86,7 @@ public class Request implements Serializable {
     public PublicKey getPublicKey() {
         return Security.getPublicKey(this.publicKey);
     }
+
     public byte[] getSignature() {
         return signature;
     }
@@ -93,7 +94,6 @@ public class Request implements Serializable {
     public byte[] getAccount() {
         return account;
     }
-
 
     public byte[] getAccountDestiny() {
         return accountDestiny;
@@ -110,7 +110,6 @@ public class Request implements Serializable {
     public List<byte[]> getAccounts() {
         return accounts;
     }
-
 
     public void setPublicKey(byte[] publicKey) {
         this.publicKey = publicKey;

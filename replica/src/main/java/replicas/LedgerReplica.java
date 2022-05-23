@@ -106,9 +106,9 @@ public class LedgerReplica extends DefaultSingleRecoverable {
     public byte[] appExecuteOrdered(byte[] command, MessageContext msgCtx) {
         byte[] reply = null;
         try (ByteArrayInputStream byteIn = new ByteArrayInputStream(command);
-             ObjectInput objIn = new ObjectInputStream(byteIn);
-             ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-             ObjectOutput objOut = new ObjectOutputStream(byteOut)) {
+            ObjectInput objIn = new ObjectInputStream(byteIn);
+            ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+            ObjectOutput objOut = new ObjectOutputStream(byteOut)) {
             Request request = (Request) objIn.readObject();
             switch (request.getRequestType()) {
                 case CREATE_ACCOUNT:
