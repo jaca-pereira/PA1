@@ -12,20 +12,18 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import java.util.logging.Logger;
 
 public class LedgerReplica extends DefaultSingleRecoverable {
 
-    public static final int PORT = 6379;
     private Ledger ledger;
     private Logger logger;
 
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args) throws IOException {
         if (args.length < 1) {
             System.out.println("Usage: LedgerReplica <id>");
             System.exit(-1);
@@ -33,15 +31,20 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         new LedgerReplica(Integer.parseInt(args[0]));
     }
 
-    public LedgerReplica(int id) {
-        String ip = "172.18.0.21";
+    private Jedis initRedis() throws IOException {
+        InputStream input = new FileInputStream("../resources/config.properties");
+        Properties props = new Properties();
+        props.load(input);
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        jedisPoolConfig.setMaxTotal(128);
-        jedisPoolConfig.setMaxIdle(128);
-        jedisPoolConfig.setMinIdle(100);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, ip, PORT);
-        Jedis jedis = jedisPool.getResource();
-        ledger = new Ledger(jedis);
+        jedisPoolConfig.setMaxTotal((Integer) props.get("redis.max_total"));
+        jedisPoolConfig.setMaxIdle((Integer) props.get("redis.max_idle"));
+        jedisPoolConfig.setMinIdle((Integer) props.get("redis.min_idle"));
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, (String) props.get("redis.ip"), (Integer) props.get("redis.port"));
+        return jedisPool.getResource();
+    }
+
+    public LedgerReplica(int id) throws IOException {
+        ledger = new Ledger(this.initRedis());
         logger = Logger.getLogger(LedgerReplica.class.getName());
         BasicConfigurator.configure();
         new ServiceReplica(id, this, this);
@@ -50,7 +53,6 @@ public class LedgerReplica extends DefaultSingleRecoverable {
     private byte[] createAccount(Request request) {
         if(!Security.verifySignature(request.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
-
         return this.ledger.addAccount(request.getAccount());
     }
 
@@ -147,14 +149,14 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         return reply;
     }
 
-    @SuppressWarnings("unchecked")
+
     @Override
     public byte[] appExecuteUnordered(byte[] command, MessageContext msgCtx) {
         byte[] reply = null;
         try (ByteArrayInputStream byteIn = new ByteArrayInputStream(command);
              ObjectInput objIn = new ObjectInputStream(byteIn);
              ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-             ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
+             ObjectOutput objOut = new ObjectOutputStream(byteOut)) {
             Request request = (Request) objIn.readObject();
             switch (request.getRequestType()) {
                 case GET_BALANCE:
@@ -186,25 +188,14 @@ public class LedgerReplica extends DefaultSingleRecoverable {
 
     @Override
     public byte[] getSnapshot() {
-        /*try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-             ObjectOutput objOut = new ObjectOutputStream(byteOut)) {
-            objOut.writeObject(ledger);
-            return byteOut.toByteArray();
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "Error while taking snapshot", e);
-        }*/
+
         return new byte[0];
     }
 
 
-    @SuppressWarnings("unchecked")
+
     @Override
     public void installSnapshot(byte[] state) {
-        /*try (ByteArrayInputStream byteIn = new ByteArrayInputStream(state);
-             ObjectInput objIn = new ObjectInputStream(byteIn)) {
-            ledger = (Ledger) objIn.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            logger.log(Level.SEVERE, "Error while installing snapshot", e);
-        }*/
+
     }
 }

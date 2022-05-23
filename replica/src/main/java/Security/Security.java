@@ -5,7 +5,7 @@ import java.security.spec.X509EncodedKeySpec;
 
 public class Security {
 
-    public static final String SHA_256_WITH_ECDSA = "SHA256withECDSA";
+    private static final String SHA_256_WITH_ECDSA = "SHA256withECDSA";
 
     public static boolean verifySignature(PublicKey publicKey, byte[] request, byte[] signature) {
         try {

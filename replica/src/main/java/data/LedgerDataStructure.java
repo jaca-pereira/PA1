@@ -7,10 +7,13 @@ public class LedgerDataStructure {
     private List<Transaction> ledgerList;
     private List<byte[]> idTransactions;
 
+    private int globalValue;
+
     public LedgerDataStructure() {
         this.ledgerMap = new HashMap<>();
         this.ledgerList = new LinkedList<>();
         this.idTransactions = new LinkedList<>();
+        this.globalValue = 0;
     }
 
     public void addAccount(byte[] account) {
@@ -45,7 +48,8 @@ public class LedgerDataStructure {
                 originAccount.changeBalance(-t.getValue());
             }else
                 throw new IllegalArgumentException("Origin account does not have sufficient balance!");
-        }
+        } else
+            this.globalValue += t.getValue();
         destinationAccount.addTransaction(t);
         destinationAccount.changeBalance(t.getValue());
         this.ledgerList.add(t);
@@ -63,7 +67,12 @@ public class LedgerDataStructure {
         return totalValue;
     }
 
+    public int getGlobalValue() {
+        return this.globalValue;
+    }
+
     public List<Transaction> getLedger() {
         return this.ledgerList;
     }
+
 }
