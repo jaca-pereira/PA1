@@ -10,56 +10,65 @@ public class Ledger {
 
     public static final byte[] LEDGER = new byte[]{0x0};
     private Jedis jedis;
-    private LedgerDataStructure ledger;
 
-    private void serializeToJedis() {
+    private void toJedis(LedgerDataStructure ledger) {
         Gson gson = new Gson();
-        String json = gson.toJson(this.ledger.getLedger());
+        String json = gson.toJson(ledger);
         jedis.set("ledger",json);
     }
 
+    private LedgerDataStructure fromJedis() {
+        String json = jedis.get("ledger");
+        Gson gson = new Gson();
+        return gson.fromJson(json, LedgerDataStructure.class);
+    }
+
     public Ledger(Jedis jedis) {
-        this.ledger = new LedgerDataStructure();
+        LedgerDataStructure ledger = new LedgerDataStructure();
         this.jedis = jedis;
-        this.serializeToJedis();
+        this.toJedis(ledger);
     }
 
     public byte[]  addAccount(byte[] account) {
-        this.ledger.addAccount(account);
-        this.serializeToJedis();
+        LedgerDataStructure ledger= this.fromJedis();
+        ledger.addAccount(account);
+        this.toJedis(ledger);
         return account;
     }
 
     public int getBalance(Transaction t) {
-        Account account = this.ledger.transaction(t);
-        this.serializeToJedis();
+        LedgerDataStructure ledger = fromJedis();
+        Account account = ledger.transaction(t);
+        this.toJedis(ledger);
         return account.getBalance();
     }
 
     public int getGlobalValue() {
-        this.serializeToJedis();
-        return this.ledger.getGlobalValue();
+        return this.fromJedis().getGlobalValue();
     }
 
     public List<Transaction> getExtract(Transaction t) {
-        Account account = this.ledger.transaction(t);
-        this.serializeToJedis();
+        LedgerDataStructure ledger = fromJedis();
+        Account account = ledger.transaction(t);
+        this.toJedis(ledger);
         return account.getTransactionList();
     }
 
     public int getTotalValue(Transaction t) {
-        this.serializeToJedis();
-        return this.ledger.transactionMultipleAccounts(t);
+        LedgerDataStructure ledger = fromJedis();
+        int totalValue = ledger.transactionMultipleAccounts(t);
+        this.toJedis(ledger);
+        return totalValue;
     }
 
     public void sendTransaction(Transaction t) {
-        this.serializeToJedis();
-        this.ledger.transactionBetweenAccounts(t);
+        LedgerDataStructure ledger = fromJedis();
+        ledger.transactionBetweenAccounts(t);
+        this.toJedis(ledger);
     }
 
     public List<Transaction> getLedger() {
-        this.serializeToJedis();
-        return this.ledger.getLedger();
+        return fromJedis().getLedger();
     }
 
 }
