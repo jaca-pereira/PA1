@@ -32,14 +32,11 @@ public class LedgerReplica extends DefaultSingleRecoverable {
     }
 
     private Jedis initRedis() throws IOException {
-        InputStream input = new FileInputStream("../resources/config.properties");
-        Properties props = new Properties();
-        props.load(input);
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        jedisPoolConfig.setMaxTotal((Integer) props.get("redis.max_total"));
-        jedisPoolConfig.setMaxIdle((Integer) props.get("redis.max_idle"));
-        jedisPoolConfig.setMinIdle((Integer) props.get("redis.min_idle"));
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, (String) props.get("redis.ip"), (Integer) props.get("redis.port"));
+        jedisPoolConfig.setMaxTotal(128);
+        jedisPoolConfig.setMaxIdle(128);
+        jedisPoolConfig.setMinIdle(120);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, "172.18.0.21", 6379);
         return jedisPool.getResource();
     }
 

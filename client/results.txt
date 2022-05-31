@@ -1,118 +1,118 @@
 Sequential Clients.
 All durations in ms.
 Creating account jaca.pereira@campus.fct.unl.pt.
-Success: [B@6f19ac19
-Duration: 881.
+Success: [B@3f67593e
+Duration: 853.
 
 Loading 10 money.
 Success: true
-Duration: 129.
+Duration: 124.
 
 Getting account balance.
-Success: 10
-Duration: 55.
+Success: 20
+Duration: 125.
 
 Getting account extract.
-Success: [data.Transaction@1e44b638, data.Transaction@7393222f, data.Transaction@babafc2]
-Duration: 93.
-
-Getting global ledger value.
-Success: 10
-Duration: 140.
-
-Getting ledger.
-Success: [data.Transaction@1046d517, data.Transaction@3b7d3a38, data.Transaction@416c58f5]
-Duration: 139.
-
-Total duration of test: 1437.
-Creating account rafael.palindra@campus.fct.unl.pt.
-Success: [B@27d4a09
-Duration: 318.
-
-Loading 10 money.
-Success: true
-Duration: 119.
-
-Getting account balance.
-Success: 10
-Duration: 65.
-
-Getting account extract.
-Success: [data.Transaction@29a0cdb, data.Transaction@32a68f4f, data.Transaction@73194df]
-Duration: 56.
+Success: [data.Transaction@7922d892, data.Transaction@457c9034, data.Transaction@345f69f3, data.Transaction@50de186c]
+Duration: 91.
 
 Getting global ledger value.
 Success: 20
 Duration: 90.
 
 Getting ledger.
-Success: [data.Transaction@6dee4f1b, data.Transaction@176b3f44, data.Transaction@6ee6f53, data.Transaction@421bba99, data.Transaction@5d12a356, data.Transaction@134d26af]
-Duration: 141.
+Success: [data.Transaction@5a2d131d, data.Transaction@14fc1f0, data.Transaction@4ae9cfc1, data.Transaction@512baff6]
+Duration: 174.
 
-Total duration of test: 789.
+Total duration of test: 1457.
+Creating account rafael.palindra@campus.fct.unl.pt.
+Success: [B@5a1de7fb
+Duration: 394.
+
+Loading 10 money.
+Success: true
+Duration: 124.
+
+Getting account balance.
+Success: 20
+Duration: 159.
+
+Getting account extract.
+Success: [data.Transaction@12f9af83, data.Transaction@19b93fa8, data.Transaction@7e6ef134, data.Transaction@1f010bf0, data.Transaction@40db2a24, data.Transaction@10cf09e8]
+Duration: 187.
+
+Getting global ledger value.
+Success: 40
+Duration: 70.
+
+Getting ledger.
+Success: [data.Transaction@3a12c404, data.Transaction@1941a8ff, data.Transaction@22d7b4f8, data.Transaction@149dd36b, data.Transaction@38831718, data.Transaction@2c1156a7, data.Transaction@33fe57a9, data.Transaction@4982cc36, data.Transaction@691939c9, data.Transaction@4f1bfe23]
+Duration: 110.
+
+Total duration of test: 1044.
 Sending 5 money from jaca.pereira@campus.fct.unl.pt to rafael.palindra@campus.fct.unl.pt
 Success: true
-Duration: 331.
+Duration: 372.
 
 Getting origin account balance.
-Success: 5
-Duration: 145.
+Success: 15
+Duration: 151.
 
 Getting origin account extract.
-Success: [data.Transaction@294e5088, data.Transaction@51972dc7, data.Transaction@3700ec9c, data.Transaction@2002348, data.Transaction@5911e990, data.Transaction@31000e60]
-Duration: 46.
+Success: [data.Transaction@57ea113a, data.Transaction@acdb094, data.Transaction@674bd420, data.Transaction@2b0f373b, data.Transaction@2ceb80a1, data.Transaction@4b45dcb8, data.Transaction@7216fb24]
+Duration: 89.
 
 Getting destination account balance.
-Success: 15
-Duration: 102.
+Success: 25
+Duration: 111.
 
 Getting destination account extract.
-Success: [data.Transaction@48d5f34e, data.Transaction@fc258b1, data.Transaction@6ff65192, data.Transaction@2dd80673, data.Transaction@4af0df05, data.Transaction@57ea113a]
-Duration: 62.
+Success: [data.Transaction@d3957fe, data.Transaction@6622fc65, data.Transaction@299321e2, data.Transaction@23fb172e, data.Transaction@64ba3208, data.Transaction@158a3b2e, data.Transaction@25a6944c, data.Transaction@5e1fa5b1, data.Transaction@6b00f608, data.Transaction@2f17e30d, data.Transaction@3e821657]
+Duration: 136.
 
 Getting total accounts value.
-Success: 20
-Duration: 59.
+Success: 40
+Duration: 139.
 
 Getting global ledger value.
-Success: 20
-Duration: 94.
+Success: 40
+Duration: 75.
 
 Getting ledger.
-Success: [data.Transaction@55562aa9, data.Transaction@655ef322, data.Transaction@7e276594, data.Transaction@3401a114, data.Transaction@5066d65f, data.Transaction@4233e892, data.Transaction@77d2e85, data.Transaction@3ecd267f, data.Transaction@58ffcbd7, data.Transaction@555cf22, data.Transaction@6bb2d00b]
-Duration: 123.
+Success: [data.Transaction@56aaaecd, data.Transaction@522a32b1, data.Transaction@35390ee3, data.Transaction@5e01a982, data.Transaction@5ddea849, data.Transaction@5ee2b6f9, data.Transaction@23d1e5d0, data.Transaction@704f1591, data.Transaction@58fb7731, data.Transaction@13e547a9, data.Transaction@3fb6cf60, data.Transaction@37ddb69a, data.Transaction@349c1daf, data.Transaction@dfddc9a, data.Transaction@4b9df8a, data.Transaction@5e8ac0e1, data.Transaction@aafcffa, data.Transaction@6955cb39]
+Duration: 113.
 
-Total duration of test: 962.
+Total duration of test: 1186.
 Sending 5 money from rafael.palindra@campus.fct.unl.pt to jaca.pereira@campus.fct.unl.pt
 Success: true
-Duration: 355.
+Duration: 375.
 
 Getting origin account balance.
-Success: 10
-Duration: 182.
+Success: 20
+Duration: 179.
 
 Getting origin account extract.
-Success: [data.Transaction@5dd91bca, data.Transaction@40cb698e, data.Transaction@3382f8ae, data.Transaction@60641ec8, data.Transaction@75f65e45, data.Transaction@6eeade6c, data.Transaction@4a891c97, data.Transaction@a5bd950, data.Transaction@4d18aa28]
-Duration: 58.
+Success: [data.Transaction@65b3a85a, data.Transaction@34997338, data.Transaction@57eda880, data.Transaction@2b5825fa, data.Transaction@53d1b9b3, data.Transaction@2cae1042, data.Transaction@163d04ff, data.Transaction@7c209437, data.Transaction@2262b621, data.Transaction@7e928e2f, data.Transaction@f667fe, data.Transaction@788fcafb, data.Transaction@4febb875, data.Transaction@25e2a451, data.Transaction@1698ee84]
+Duration: 87.
 
 Getting destination account balance.
-Success: 10
-Duration: 66.
+Success: 20
+Duration: 92.
 
 Getting destination account extract.
-Success: [data.Transaction@6cfcd46d, data.Transaction@52045dbe, data.Transaction@674658f7, data.Transaction@5c8eee0f, data.Transaction@565b064f, data.Transaction@26425897, data.Transaction@73163d48, data.Transaction@58c34bb3, data.Transaction@56a4479a]
-Duration: 55.
+Success: [data.Transaction@75459c75, data.Transaction@183e8023, data.Transaction@45efc20d, data.Transaction@3e5499cc, data.Transaction@67ab1c47, data.Transaction@b78a709, data.Transaction@30bcf3c1, data.Transaction@2a3c96e3, data.Transaction@15cafec7, data.Transaction@5b444398, data.Transaction@cb191ca, data.Transaction@42f48531, data.Transaction@a776e]
+Duration: 148.
 
 Getting total accounts value.
-Success: 20
-Duration: 97.
+Success: 40
+Duration: 137.
 
 Getting global ledger value.
-Success: 20
-Duration: 59.
+Success: 40
+Duration: 71.
 
 Getting ledger.
-Success: [data.Transaction@435871cb, data.Transaction@609640d5, data.Transaction@79da1ec0, data.Transaction@19fb8826, data.Transaction@192d74fb, data.Transaction@4bef0fe3, data.Transaction@62ea3440, data.Transaction@27953a83, data.Transaction@556d0826, data.Transaction@66ce957f, data.Transaction@55b5f5d2, data.Transaction@5bfa8cc5, data.Transaction@666b83a4, data.Transaction@749c877b, data.Transaction@efde75f, data.Transaction@16ecee1]
-Duration: 112.
+Success: [data.Transaction@47605f2f, data.Transaction@2ece4966, data.Transaction@1dd0e7c4, data.Transaction@7894f09b, data.Transaction@3d484181, data.Transaction@6111ba37, data.Transaction@7be58f16, data.Transaction@242aa8d9, data.Transaction@5b11a194, data.Transaction@37bd68c3, data.Transaction@60f7cc1d, data.Transaction@11eadcba, data.Transaction@4721d212, data.Transaction@1b065145, data.Transaction@45cff11c, data.Transaction@207ea13, data.Transaction@4bff1903, data.Transaction@62dae540, data.Transaction@5827af16, data.Transaction@654d8173, data.Transaction@56c9bbd8, data.Transaction@630cb4a4, data.Transaction@636e8cc, data.Transaction@f79a760, data.Transaction@14f5da2c, data.Transaction@12dae582]
+Duration: 111.
 
-Total duration of test: 984.
+Total duration of test: 1200.
