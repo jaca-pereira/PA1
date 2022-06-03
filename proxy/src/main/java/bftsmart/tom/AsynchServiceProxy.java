@@ -109,7 +109,7 @@ public class AsynchServiceProxy extends ServiceProxy {
 
     /**
      * Purges all information associated to the request.
-     * This should always be invoked once enough replies are received and processed by the ReplyListener callback.
+     * This should always be invoked once enough replies are received and processed by the ReplyListenerImp callback.
      * 
      * @param requestId A unique identification for a previously sent request
      */

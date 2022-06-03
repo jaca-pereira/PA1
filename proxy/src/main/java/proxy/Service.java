@@ -2,30 +2,35 @@ package proxy;
 
 
 import Security.Security;
-import bftsmart.tom.ServiceProxy;
+import bftsmart.communication.client.ReplyListener;
+import bftsmart.tom.AsynchServiceProxy;
+import bftsmart.tom.core.messages.TOMMessageType;
 import data.Request;
 import data.LedgerRequestType;
 import data.Reply;
 
 import java.io.*;
+
 import java.security.KeyPair;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 
 public class Service implements ServiceAPI {
-    ServiceProxy serviceProxy;
-
+    private AsynchServiceProxy asynchServiceProxy;
     private KeyPair keyPair;
 
     public Service(int clientId) {
         this.keyPair = Security.getKeyPair();
-        serviceProxy = new ServiceProxy(clientId);
+        this.asynchServiceProxy = new AsynchServiceProxy(clientId);
     }
 
-    @Override
-    public byte[] createAccount(byte[] request) {
-        try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-             ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
-
+    private BlockingQueue<List<Reply>> sendRequest (byte[] request, TOMMessageType type, BlockingQueue<List<Reply>> replyChain) {
+        try {
+            ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+            ObjectOutput objOut = new ObjectOutputStream(byteOut);
             Request deserialized = Request.deserialize(request);
 
             if (!Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature()))
@@ -34,215 +39,101 @@ public class Service implements ServiceAPI {
             objOut.writeObject(Request.deserialize(request));
             objOut.flush();
             byteOut.flush();
+            ReplyListener replyListener = new ReplyListenerImp(replyChain, this.asynchServiceProxy);
+            this.asynchServiceProxy.invokeAsynchRequest(byteOut.toByteArray(), replyListener, type);
 
-            byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
-            try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
-                 ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                Reply rep = (Reply) objIn.readObject();
-                rep.setPublicKey(this.keyPair.getPublic().getEncoded());
-                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.CREATE_ACCOUNT.toString().getBytes()));
-                return Reply.serialize(rep);
-            }
+            return replyChain;
 
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             System.out.println("Exception: " + e.getMessage());
+            return null;
+        }
+    }
+
+    private byte[] getReply(BlockingQueue<List<Reply>> replyChain, LedgerRequestType type) {
+        try {
+            List<Reply> replicaReplies = replyChain.take();
+            List<byte[]> finalReply = new ArrayList<>(replicaReplies.size());
+            replicaReplies.forEach(rep -> {
+                rep.setPublicKey(this.keyPair.getPublic().getEncoded());
+                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), type.toString().getBytes()));
+                finalReply.add(Reply.serialize(rep));
+            });
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            ObjectOutputStream os = new ObjectOutputStream(out);
+            os.writeObject(finalReply);
+            out.flush();
+            os.flush();
+            return out.toByteArray();
+        } catch (IOException ex) {
+            System.out.println("Exception: " + ex.getMessage());
+        } catch (InterruptedException ex) {
+            System.out.println("Exception: " + ex.getMessage());
         }
         return null;
 
+    }
+    @Override
+    public byte[] createAccount(byte[] request) {
+        BlockingQueue<List<Reply>> replyChain = new LinkedBlockingDeque<>();
+        this.sendRequest(request, TOMMessageType.ORDERED_REQUEST, replyChain);
+        return this.getReply(replyChain, LedgerRequestType.CREATE_ACCOUNT);
     }
 
     @Override
     public byte[] loadMoney(byte[] request) {
-
-        try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-             ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
-
-            Request deserialized = Request.deserialize(request);
-
-            if (!Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature()))
-                throw new IllegalArgumentException("Signature not valid!");
-
-            objOut.writeObject(Request.deserialize(request));
-            objOut.flush();
-            byteOut.flush();
-            byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
-            try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
-                 ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                Reply rep = (Reply) objIn.readObject();
-                rep.setPublicKey(this.keyPair.getPublic().getEncoded());
-                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.LOAD_MONEY.toString().getBytes()));
-                return Reply.serialize(rep);
-
-            }
-
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Exception: " + e.getMessage());
-        }
-        return null;
+        BlockingQueue<List<Reply>> replyChain = new LinkedBlockingDeque<>();
+        this.sendRequest(request, TOMMessageType.UNORDERED_REQUEST, replyChain);
+        return this.getReply(replyChain, LedgerRequestType.LOAD_MONEY);
     }
 
     @Override
     public byte[] getBalance(byte[] request) {
-        try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-             ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
-
-            Request deserialized = Request.deserialize(request);
-
-            if (!Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature()))
-                throw new IllegalArgumentException("Signature not valid!");
-
-            objOut.writeObject(Request.deserialize(request));
-            objOut.flush();
-            byteOut.flush();
-
-            byte[] reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
-            try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
-                 ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                Reply rep = (Reply) objIn.readObject();
-                rep.setPublicKey(this.keyPair.getPublic().getEncoded());
-                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.GET_BALANCE.toString().getBytes()));
-                return Reply.serialize(rep);
-
-            }
-
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Exception: " + e.getMessage());
-        }
-        return null;
+        BlockingQueue<List<Reply>> replyChain = new LinkedBlockingDeque<>();
+        this.sendRequest(request, TOMMessageType.UNORDERED_REQUEST, replyChain);
+        return this.getReply(replyChain, LedgerRequestType.GET_BALANCE);
     }
 
     @Override
     public byte[] getExtract(byte[] request) {
-        try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-             ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
-
-            Request deserialized = Request.deserialize(request);
-
-            if (!Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature()))
-                throw new IllegalArgumentException("Signature not valid!");
-
-            objOut.writeObject(Request.deserialize(request));
-            objOut.flush();
-            byteOut.flush();
-
-            byte[] reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
-            try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
-                 ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                Reply rep = (Reply) objIn.readObject();
-                rep.setPublicKey(this.keyPair.getPublic().getEncoded());
-                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.GET_EXTRACT.toString().getBytes()));
-                return Reply.serialize(rep);
-            }
-
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Exception: " + e.getMessage());
-        }
-        return null;
+        BlockingQueue<List<Reply>> replyChain = new LinkedBlockingDeque<>();
+        this.sendRequest(request, TOMMessageType.UNORDERED_REQUEST, replyChain);
+        return this.getReply(replyChain, LedgerRequestType.GET_EXTRACT);
     }
 
     @Override
     public byte[] sendTransaction(byte[] request) {
-        try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-             ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
-
-            Request deserialized = Request.deserialize(request);
-
-            if (!Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature()))
-                throw new IllegalArgumentException("Signature not valid!");
-
-            objOut.writeObject(Request.deserialize(request));
-            objOut.flush();
-            byteOut.flush();
-
-            byte[] reply = serviceProxy.invokeOrdered(byteOut.toByteArray());
-            try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
-                 ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                Reply rep = (Reply) objIn.readObject();
-                rep.setPublicKey(this.keyPair.getPublic().getEncoded());
-                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.SEND_TRANSACTION.toString().getBytes()));
-                return Reply.serialize(rep);
-            }
-
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Exception: " + e.getMessage());
-        }
-        return null;
+        BlockingQueue<List<Reply>> replyChain = new LinkedBlockingDeque<>();
+        this.sendRequest(request, TOMMessageType.ORDERED_REQUEST, replyChain);
+        return this.getReply(replyChain, LedgerRequestType.SEND_TRANSACTION);
     }
 
     @Override
     public byte[] getTotalValue(byte[] request) {
-        try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-             ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
-
-            Request deserialized = Request.deserialize(request);
-
-            if (!Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature()))
-                throw new IllegalArgumentException("Signature not valid!");
-
-            objOut.writeObject(Request.deserialize(request));
-            objOut.flush();
-            byteOut.flush();
-
-            byte[] reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
-            try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
-                 ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                Reply rep = (Reply) objIn.readObject();
-                rep.setPublicKey(this.keyPair.getPublic().getEncoded());
-                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.GET_TOTAL_VALUE.toString().getBytes()));
-                return Reply.serialize(rep);
-            }
-
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Exception: " + e.getMessage());
-        }
-        return null;
+        BlockingQueue<List<Reply>> replyChain = new LinkedBlockingDeque<>();
+        this.sendRequest(request, TOMMessageType.UNORDERED_REQUEST, replyChain);
+        return this.getReply(replyChain, LedgerRequestType.GET_TOTAL_VALUE);
     }
 
     @Override
     public byte[] getGlobalValue(byte[] request) {
-        try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-             ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
-
-            Request deserialized = Request.deserialize(request);
-
-            if (!Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature()))
-                throw new IllegalArgumentException("Signature not valid!");
-
-            objOut.writeObject(Request.deserialize(request));
-            objOut.flush();
-            byteOut.flush();
-
-            byte[] reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
-            try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
-                 ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                Reply rep = (Reply) objIn.readObject();
-                rep.setPublicKey(this.keyPair.getPublic().getEncoded());
-                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.GET_GLOBAL_VALUE.toString().getBytes()));
-                return Reply.serialize(rep);
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Exception: " + e.getMessage());
-        }
-        return null;
-        }
+        BlockingQueue<List<Reply>> replyChain = new LinkedBlockingDeque<>();
+        this.sendRequest(request, TOMMessageType.UNORDERED_REQUEST, replyChain);
+        return this.getReply(replyChain, LedgerRequestType.GET_GLOBAL_VALUE);
+    }
 
         @Override
     public byte[] getLedger() {
-
         try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
              ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
-
             objOut.writeObject(new Request(LedgerRequestType.GET_LEDGER));
             objOut.flush();
             byteOut.flush();
+            BlockingQueue<List<Reply>> replyChain = new LinkedBlockingDeque<>();
+            this.sendRequest(byteOut.toByteArray(), TOMMessageType.UNORDERED_REQUEST, replyChain);
+            return this.getReply(replyChain, LedgerRequestType.GET_LEDGER);
 
-            byte[] reply = serviceProxy.invokeUnordered(byteOut.toByteArray());
-            try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
-                 ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                return Reply.serialize((Reply) objIn.readObject());
-            }
-
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             System.out.println("Exception: " + e.getMessage());
         }
         return null;

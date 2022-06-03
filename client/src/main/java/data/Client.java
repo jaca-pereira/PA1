@@ -3,24 +3,20 @@ package data;
 import java.io.FileInputStream;
 import java.net.*;
 
-import java.nio.ByteBuffer;
 import java.security.*;
 
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
+import java.util.ArrayList;
 import java.util.List;
 
 
 import Security.Security;
 
-import data.Request;
-import data.Transaction;
+
 import org.glassfish.jersey.client.ClientConfig;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import Security.InsecureHostNameVerifier;
-import data.Reply;
 
 import javax.net.ssl.TrustManagerFactory;
 import javax.ws.rs.ProcessingException;
@@ -32,10 +28,10 @@ import javax.ws.rs.core.Response;
 
 public class Client {
 
-    private URI serverURI;
-    private javax.ws.rs.client.Client client;
+    private final URI serverURI;
+    private final javax.ws.rs.client.Client client;
 
-    private KeyPair keyPair;
+    private final KeyPair keyPair;
     public Client(URI proxyURI) {
         this.serverURI = proxyURI;
         this.client = startClient();
@@ -77,10 +73,10 @@ public class Client {
     }
 
     public KeyPair getKeyPair() {
-        return keyPair;
+        return this.keyPair;
     }
 
-    public String executeCommand(Request request) throws NoSuchAlgorithmException {
+    public String executeCommand(Request request) {
         switch (request.getRequestType()) {
             case CREATE_ACCOUNT:
                 return createAccount(request) + "\n";
@@ -113,7 +109,9 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(null);
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                List<Transaction> ledger = Reply.deserialize(r.readEntity(byte[].class)).getListReply();
+                byte[] serializedReply = ((ArrayList<byte[]>) r.readEntity(ArrayList.class)).get(0);
+                Reply reply = Reply.deserialize(serializedReply);
+                List<Transaction> ledger = reply.getListReply();
                 return "Success: " + ledger;
             } else
                 return "Error, HTTP error status: " + r.getStatus();
@@ -137,10 +135,11 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if(  r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                Reply rep = Reply.deserialize(r.readEntity(byte[].class));
-                if (!Security.verifySignature(rep.getPublicKey(), request.getRequestType().toString().getBytes(), rep.getSignature()))
+                byte[] serializedReply = ((ArrayList<byte[]>) r.readEntity(ArrayList.class)).get(0);
+                Reply reply = Reply.deserialize(serializedReply);
+                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
                     return "Bad signature.";
-                return  "Success: " + rep.getBoolReply();
+                return  "Success: " + reply.getBoolReply();
             } else
                 return "Error, HTTP error status: " + r.getStatus();
 
@@ -160,10 +159,11 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                Reply rep = Reply.deserialize(r.readEntity(byte[].class));
-                if (!Security.verifySignature(rep.getPublicKey(), request.getRequestType().toString().getBytes(), rep.getSignature()))
+                byte[] serializedReply = ((ArrayList<byte[]>) r.readEntity(ArrayList.class)).get(0);
+                Reply reply = Reply.deserialize(serializedReply);
+                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
                     return "Bad signature.";
-                return "Success: " + rep.getIntReply();
+                return "Success: " + reply.getIntReply();
             } else
                 return "Error, HTTP error status: " + r.getStatus();
 
@@ -183,11 +183,11 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                Reply rep = Reply.deserialize(r.readEntity(byte[].class));
-
-                if (!Security.verifySignature(rep.getPublicKey(), request.getRequestType().toString().getBytes(), rep.getSignature()))
+                byte[] serializedReply = ((ArrayList<byte[]>) r.readEntity(ArrayList.class)).get(0);
+                Reply reply = Reply.deserialize(serializedReply);
+                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
                     return "Bad signature.";
-                int value = rep.getIntReply();
+                int value = reply.getIntReply();
                 return "Success: " + value;
             } else
                 return "Error, HTTP error status: " + r.getStatus();
@@ -208,10 +208,11 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                Reply rep = Reply.deserialize(r.readEntity(byte[].class));
-                if (!Security.verifySignature(rep.getPublicKey(), request.getRequestType().toString().getBytes(), rep.getSignature()))
+                byte[] serializedReply = ((ArrayList<byte[]>) r.readEntity(ArrayList.class)).get(0);
+                Reply reply = Reply.deserialize(serializedReply);
+                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
                     return "Bad signature.";
-                return "Success: " + rep.getListReply();
+                return "Success: " + reply.getListReply();
             } else
                 return "Error, HTTP error status: " + r.getStatus();
 
@@ -231,10 +232,11 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if(  r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                Reply rep = Reply.deserialize(r.readEntity(byte[].class));
-                if (!Security.verifySignature(rep.getPublicKey(), request.getRequestType().toString().getBytes(), rep.getSignature()))
+                byte[] serializedReply = ((ArrayList<byte[]>) r.readEntity(ArrayList.class)).get(0);
+                Reply reply = Reply.deserialize(serializedReply);
+                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
                     return "Bad signature.";
-                return "Success: " + rep.getBoolReply();
+                return "Success: " + reply.getBoolReply();
             } else
                 return "Error, HTTP error status: " + r.getStatus();
 
@@ -255,10 +257,11 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                Reply rep = Reply.deserialize(r.readEntity(byte[].class));
-                if (!Security.verifySignature(rep.getPublicKey(), request.getRequestType().toString().getBytes(), rep.getSignature()))
+                byte[] serializedReply = ((ArrayList<byte[]>) r.readEntity(ArrayList.class)).get(0);
+                Reply reply = Reply.deserialize(serializedReply);
+                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
                     return "Bad signature.";
-                return "Success: " + rep.getIntReply();
+                return "Success: " + reply.getIntReply();
             } else
                 return "Error, HTTP error status: " + r.getStatus();
 
@@ -268,7 +271,7 @@ public class Client {
         }
     }
 
-    private String createAccount(Request request) throws NoSuchAlgorithmException {
+    private String createAccount(Request request) {
 
         request.setPublicKey(this.keyPair.getPublic().getEncoded());
 
@@ -281,11 +284,11 @@ public class Client {
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
 
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                Reply rep = Reply.deserialize(r.readEntity(byte[].class));
-
-                if (!Security.verifySignature(rep.getPublicKey(), request.getRequestType().toString().getBytes(), rep.getSignature()))
+                byte[] serializedReply = ((ArrayList<byte[]>) r.readEntity(ArrayList.class)).get(0);
+                Reply reply = Reply.deserialize(serializedReply);
+                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
                     return "Bad signature.";
-                return "Success: " + rep.getByteReply();
+                return "Success: " + reply.getByteReply();
             } else
                 return "Error, HTTP error status: " + r.getStatus();
 
