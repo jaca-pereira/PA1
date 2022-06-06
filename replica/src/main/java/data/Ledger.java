@@ -7,8 +7,7 @@ import com.google.gson.Gson;
 import java.util.*;
 
 public class Ledger {
-
-    public static final byte[] LEDGER = new byte[]{0x0};
+    
     private Jedis jedis;
 
     private void toJedis(LedgerDataStructure ledger) {
@@ -36,34 +35,34 @@ public class Ledger {
         return account;
     }
 
-    public int getBalance(Transaction t) {
+    public int getBalance(byte[] account) {
         LedgerDataStructure ledger = fromJedis();
-        Account account = ledger.transaction(t);
+        int balance = ledger.getBalance(account);
         this.toJedis(ledger);
-        return account.getBalance();
+        return balance;
     }
 
     public int getGlobalValue() {
         return this.fromJedis().getGlobalValue();
     }
 
-    public List<Transaction> getExtract(Transaction t) {
+    public List<Transaction> getExtract(byte[] account) {
         LedgerDataStructure ledger = fromJedis();
-        Account account = ledger.transaction(t);
+        List<Transaction> extract = ledger.getExtract(account);
         this.toJedis(ledger);
-        return account.getTransactionList();
+        return extract;
     }
 
-    public int getTotalValue(Transaction t) {
+    public int getTotalValue(List<byte[]> accounts) {
         LedgerDataStructure ledger = fromJedis();
-        int totalValue = ledger.transactionMultipleAccounts(t);
+        int totalValue = ledger.getTotalValue(accounts);
         this.toJedis(ledger);
         return totalValue;
     }
 
     public void sendTransaction(Transaction t) {
         LedgerDataStructure ledger = fromJedis();
-        ledger.transactionBetweenAccounts(t);
+        ledger.transaction(t);
         this.toJedis(ledger);
     }
 

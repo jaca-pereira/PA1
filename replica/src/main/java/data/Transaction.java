@@ -9,68 +9,29 @@ public class Transaction implements Serializable {
     private static final long serialVersionUID = 1L;
     private long nonce;
     private byte[] id;
-    private LedgerRequestType transactionType;
     private byte[] originAccount;
     private byte[] destinationAccount;
     private int value;
     private byte[] sig;
 
-    private List<byte[]> accounts;
-
-    public Transaction(LedgerRequestType transactionType, byte[] originAccount, byte[] sig) {
+    public Transaction(byte[] originAccount, byte[] destinationAccount, long nonce, int value, byte[] sig) {
         this.originAccount = originAccount;
-        this.transactionType = transactionType;
-        this.nonce = -1;
-        this.destinationAccount=null;
-        this.value = -1;
-        this.accounts = null;
-        this.sig = sig;
-    }
-
-    public Transaction(LedgerRequestType transactionType, byte[] sig) {
-        this.sig = sig;
-        this.nonce = -1;
-        this.accounts = null;
-        this.originAccount = null;
-        this.destinationAccount = null;
-        this.value = -1;
-        this.transactionType = transactionType;
-    }
-
-    public Transaction(LedgerRequestType transactionType, List<byte[]> accounts, byte[] sig) {
-        this.accounts = accounts;
-        this.transactionType = transactionType;
-        this.originAccount = null;
-        this.nonce = -1;
-        this.destinationAccount=null;
-        this.value = -1;
-        this.sig = sig;
-    }
-
-    public Transaction(LedgerRequestType transactionType, byte[] originAccount, byte[] destinationAccount, int value, long nonce, byte[] sig) {
-        this.transactionType = transactionType;
-        this.originAccount = originAccount;
+        this.nonce = nonce;
         this.destinationAccount = destinationAccount;
         this.value = value;
-        this.nonce = nonce;
-        this.id = this.idGenerator();
-        this.accounts = null;
         this.sig = sig;
+        this.id = this.generateId();
     }
 
-    private byte[] idGenerator() {
+    private byte[] generateId() {
         ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
         byte[] nonce = buffer.putLong(this.nonce).array();
-
         ByteBuffer id = ByteBuffer.wrap(new byte[nonce.length + this.originAccount.length]);
         id.put(nonce);
         id.put(this.originAccount);
         return id.array();
     }
 
-    public LedgerRequestType getTransactionType() {
-        return this.transactionType;
-    }
     public byte[] getOriginAccount() {
         return this.originAccount;
     }
@@ -81,10 +42,6 @@ public class Transaction implements Serializable {
 
     public int getValue() {
         return this.value;
-    }
-
-    public List<byte[]> getAccounts() {
-        return this.accounts;
     }
 
     public long getNonce() {

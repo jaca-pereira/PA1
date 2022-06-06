@@ -22,7 +22,7 @@ public class Account {
     }
 
     public int getBalance() {
-        return balance;
+        return this.balance;
     }
 
     public void changeBalance(int amount) {

@@ -19,7 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class LedgerReplica extends DefaultSingleRecoverable {
-
+    public static final byte[] LEDGER = new byte[]{0x0};
     private Ledger ledger;
     private Logger logger;
 
@@ -58,20 +58,20 @@ public class LedgerReplica extends DefaultSingleRecoverable {
             throw new IllegalArgumentException("Signature not valid!");
         if (request.getValue() < 0)
             throw new IllegalArgumentException("Value must be positive!");
-        this.ledger.sendTransaction(new Transaction(request.getRequestType(), Ledger.LEDGER, request.getAccount(), request.getValue(), -1, request.getSignature()));
+        this.ledger.sendTransaction(new Transaction(this.LEDGER, request.getAccount(), -1, request.getValue(), request.getSignature()));
         return true;
     }
 
     private int getBalance(Request request) {
         if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.getBalance(new Transaction(request.getRequestType(), request.getAccount(), request.getSignature()));
+        return this.ledger.getBalance(request.getAccount());
     }
 
     private List<Transaction> getExtract(Request request) {
         if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.getExtract(new Transaction(request.getRequestType(), request.getAccount(), request.getSignature()));
+        return this.ledger.getExtract(request.getAccount());
     }
 
     private boolean sendTransaction(Request request) {
@@ -79,14 +79,14 @@ public class LedgerReplica extends DefaultSingleRecoverable {
             throw new IllegalArgumentException("Signature not valid!");
         if (request.getValue() < 0)
             throw new IllegalArgumentException("Value must be positive!");
-        this.ledger.sendTransaction(new Transaction(request.getRequestType(), request.getAccount(), request.getAccountDestiny(), request.getValue(), request.getNonce(), request.getSignature()));
+        this.ledger.sendTransaction(new Transaction(request.getAccount(), request.getAccountDestiny(), request.getNonce(), request.getValue(), request.getSignature()));
         return true;
     }
 
     private int getTotalValue(Request request) {
         if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.getTotalValue(new Transaction(request.getRequestType(), request.getAccounts(), request.getSignature()));
+        return this.ledger.getTotalValue(request.getAccounts());
     }
 
     private int getGlobalValue(Request request) {
