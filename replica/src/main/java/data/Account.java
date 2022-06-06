@@ -30,8 +30,7 @@ public class Account {
     }
 
 
-
-
-
-
+    public void removeTransactions(List<Transaction> transactionsMinerated) {
+        this.transactionList.removeAll(transactionsMinerated);
+    }
 }

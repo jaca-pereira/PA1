@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.security.PublicKey;
 import java.util.List;
 import java.util.Map;
 
@@ -15,16 +16,17 @@ public class Block {
     private Merkle merkle;
 
     private byte[] signature;
-    private byte[] publicKey;
+    private PublicKey publicKey;
     private byte[] account;
 
-    public Block(byte[] lastBlockHash, long nonce, byte[] signature, byte[] publicKey, byte[] account, List<Transaction> transactions, Map<String, Account> map) {
+    public Block(byte[] lastBlockHash, long nonce, byte[] signature, PublicKey publicKey, byte[] account, List<Transaction> transactionsList, Map<String, Account> transactionsMap) {
         this.lastBlockHash = lastBlockHash;
         this.nonce = nonce;
         this.signature = signature;
         this.publicKey = publicKey;
         this.account = account;
-        this.merkle = new Merkle(transactions, map);
+        this.merkle = new Merkle(transactionsList, transactionsMap);
+
     }
 
     public byte[] getLastBlockHash() {
@@ -47,7 +49,7 @@ public class Block {
         return signature;
     }
 
-    public byte[] getPublicKey() {
+    public PublicKey getPublicKey() {
         return publicKey;
     }
 
@@ -74,14 +76,9 @@ public class Block {
         return null;
     }
 
-    public static byte[] hash(byte[] serializedBlock) {
-        return TOMUtil.computeHash(serializedBlock);
-    }
-
     public static boolean proofOfWork(Block block) {
         try {
             byte[] blockHash = TOMUtil.computeHash(Block.serialize(block));
-            System.out.println();
             int count = 0;
             byte[] number = {blockHash[blockHash.length-1], blockHash[blockHash.length-2]};
             for (int i = 0; i < blockHash.length-1; i++) {
@@ -91,10 +88,9 @@ public class Block {
                     if (count == 2)
                         return true;
                 } else {
-                    count--;
+                    count = 0;
                 }
             }
-            return false;
         } catch (Exception e) {
             e.printStackTrace();
         }
