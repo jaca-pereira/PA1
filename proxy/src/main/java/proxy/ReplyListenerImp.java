@@ -8,7 +8,6 @@ import data.Reply;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,9 +38,9 @@ public class ReplyListenerImp implements bftsmart.communication.client.ReplyList
     }
 
     @Override
-    public void replyReceived(RequestContext context, TOMMessage reply) {
-        if(reply.getContent().length > 0) {
-            try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply.getContent());
+    public void replyReceived(RequestContext context, TOMMessage msg) {
+        if(msg.getContent().length > 0) {
+            try (ByteArrayInputStream byteIn = new ByteArrayInputStream(msg.getContent());
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
                 replies.add((Reply) objIn.readObject());
             } catch (Exception e) {
@@ -50,7 +49,7 @@ public class ReplyListenerImp implements bftsmart.communication.client.ReplyList
         }
 
         if (this.isValid()) {
-            replyChain.add(new ArrayList<>(replies));
+            replyChain.add(new LinkedList<>(replies));
             asynchServiceProxy.cleanAsynchRequest(context.getOperationId());
         }
     }
@@ -58,6 +57,7 @@ public class ReplyListenerImp implements bftsmart.communication.client.ReplyList
     private boolean isValid() {
         double quorum = (Math.ceil((double) (asynchServiceProxy.getViewManager().getCurrentViewN() + //4
                 asynchServiceProxy.getViewManager().getCurrentViewF() + 1) / 2.0));
-        return repliesCounter.incrementAndGet() >= quorum;
+        repliesCounter.incrementAndGet();
+        return repliesCounter.get() >=quorum;
     }
 }

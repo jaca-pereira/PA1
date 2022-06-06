@@ -6,8 +6,8 @@ public class LedgerDataStructure {
     private Map<String, Account> ledgerMap;
     private List<Transaction> ledgerList;
     private List<byte[]> idTransactions;
-
     private int globalValue;
+    private List<Block> minedBlocks;
 
     public LedgerDataStructure() {
         this.ledgerMap = new HashMap<>();

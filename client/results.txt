@@ -1,0 +1,118 @@
+Sequential Clients.
+All durations in ms.
+Creating account jaca.pereira@campus.fct.unl.pt.
+Success: [B@43b9fd5
+Duration: 810.
+
+Loading 10 money.
+Success: true
+Duration: 112.
+
+Getting account balance.
+Success: 10
+Duration: 95.
+
+Getting account extract.
+Success: [data.Transaction@71e9ebae, data.Transaction@73d983ea, data.Transaction@36a5cabc]
+Duration: 95.
+
+Getting global ledger value.
+Success: 10
+Duration: 74.
+
+Getting ledger.
+Error, HTTP error status: 415
+Duration: 126.
+
+Total duration of test: 1312.
+Creating account rafael.palindra@campus.fct.unl.pt.
+Success: [B@4ed5eb72
+Duration: 364.
+
+Loading 10 money.
+Success: true
+Duration: 155.
+
+Getting account balance.
+Success: 10
+Duration: 126.
+
+Getting account extract.
+Success: [data.Transaction@7f132176, data.Transaction@6bca7e0d, data.Transaction@2631f68c]
+Duration: 127.
+
+Getting global ledger value.
+Success: 20
+Duration: 89.
+
+Getting ledger.
+Error, HTTP error status: 415
+Duration: 102.
+
+Total duration of test: 963.
+Sending 5 money from jaca.pereira@campus.fct.unl.pt to rafael.palindra@campus.fct.unl.pt
+Success: true
+Duration: 353.
+
+Getting origin account balance.
+Success: 5
+Duration: 149.
+
+Getting origin account extract.
+Success: [data.Transaction@acdb094, data.Transaction@674bd420, data.Transaction@2b0f373b, data.Transaction@2ceb80a1, data.Transaction@4b45dcb8, data.Transaction@7216fb24]
+Duration: 106.
+
+Getting destination account balance.
+Success: 15
+Duration: 77.
+
+Getting destination account extract.
+Success: [data.Transaction@d3957fe, data.Transaction@6622fc65, data.Transaction@299321e2, data.Transaction@23fb172e, data.Transaction@64ba3208, data.Transaction@158a3b2e]
+Duration: 134.
+
+Getting total accounts value.
+Success: 20
+Duration: 97.
+
+Getting global ledger value.
+Success: 20
+Duration: 90.
+
+Getting ledger.
+Error, HTTP error status: 415
+Duration: 105.
+
+Total duration of test: 1111.
+Sending 5 money from rafael.palindra@campus.fct.unl.pt to jaca.pereira@campus.fct.unl.pt
+Success: true
+Duration: 379.
+
+Getting origin account balance.
+Success: 10
+Duration: 156.
+
+Getting origin account extract.
+Success: [data.Transaction@4d18aa28, data.Transaction@75390459, data.Transaction@7756c3cd, data.Transaction@2313052e, data.Transaction@2bd2b28e, data.Transaction@16746061, data.Transaction@57fd91c9, data.Transaction@6cfcd46d, data.Transaction@52045dbe]
+Duration: 105.
+
+Getting destination account balance.
+Success: 10
+Duration: 102.
+
+Getting destination account extract.
+Success: [data.Transaction@56a4479a, data.Transaction@62163b39, data.Transaction@20a8a64e, data.Transaction@62f4ff3b, data.Transaction@1698fc68, data.Transaction@4504d271, data.Transaction@207b8649, data.Transaction@65b3a85a, data.Transaction@34997338]
+Duration: 147.
+
+Getting total accounts value.
+Success: 20
+Duration: 80.
+
+Getting global ledger value.
+Success: 20
+Duration: 79.
+
+Getting ledger.
+Error, HTTP error status: 415
+Duration: 91.
+
+Total duration of test: 1139.

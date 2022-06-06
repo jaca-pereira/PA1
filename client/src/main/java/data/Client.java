@@ -93,24 +93,26 @@ public class Client {
             case SEND_TRANSACTION:
                 return sendTransaction(request) + "\n";
             case GET_LEDGER:
-                return getLedger() + "\n";
+                return getLedger(new Request(LedgerRequestType.GET_LEDGER)) + "\n";
             default:
                 return "Command unknown!" + "\n";
         }
     }
 
 
-    private String getLedger() {
+    private String getLedger(Request request) {
 
+        request.setPublicKey(this.keyPair.getPublic().getEncoded());
+        request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
         javax.ws.rs.client.Client client = startClient();
         WebTarget target = client.target( serverURI ).path("ledger");
         try {
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
-                    .post(null);
+                    .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                byte[] serializedReply = ((ArrayList<byte[]>) r.readEntity(ArrayList.class)).get(0);
-                Reply reply = Reply.deserialize(serializedReply);
+                ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
+                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
                 List<Transaction> ledger = reply.getListReply();
                 return "Success: " + ledger;
             } else
@@ -135,9 +137,9 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if(  r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                byte[] serializedReply = ((ArrayList<byte[]>) r.readEntity(ArrayList.class)).get(0);
-                Reply reply = Reply.deserialize(serializedReply);
-                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
+                ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
+                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
+                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), reply.getSignature()))
                     return "Bad signature.";
                 return  "Success: " + reply.getBoolReply();
             } else
@@ -159,9 +161,9 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                byte[] serializedReply = ((ArrayList<byte[]>) r.readEntity(ArrayList.class)).get(0);
-                Reply reply = Reply.deserialize(serializedReply);
-                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
+                ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
+                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
+                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), reply.getSignature()))
                     return "Bad signature.";
                 return "Success: " + reply.getIntReply();
             } else
@@ -183,9 +185,9 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                byte[] serializedReply = ((ArrayList<byte[]>) r.readEntity(ArrayList.class)).get(0);
-                Reply reply = Reply.deserialize(serializedReply);
-                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
+                ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
+                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
+                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), reply.getSignature()))
                     return "Bad signature.";
                 int value = reply.getIntReply();
                 return "Success: " + value;
@@ -208,9 +210,9 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                byte[] serializedReply = ((ArrayList<byte[]>) r.readEntity(ArrayList.class)).get(0);
-                Reply reply = Reply.deserialize(serializedReply);
-                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
+                ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
+                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
+                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), reply.getSignature()))
                     return "Bad signature.";
                 return "Success: " + reply.getListReply();
             } else
@@ -232,9 +234,9 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if(  r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                byte[] serializedReply = ((ArrayList<byte[]>) r.readEntity(ArrayList.class)).get(0);
-                Reply reply = Reply.deserialize(serializedReply);
-                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
+                ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
+                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
+                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), reply.getSignature()))
                     return "Bad signature.";
                 return "Success: " + reply.getBoolReply();
             } else
@@ -257,9 +259,9 @@ public class Client {
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                byte[] serializedReply = ((ArrayList<byte[]>) r.readEntity(ArrayList.class)).get(0);
-                Reply reply = Reply.deserialize(serializedReply);
-                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
+                ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
+                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
+                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), reply.getSignature()))
                     return "Bad signature.";
                 return "Success: " + reply.getIntReply();
             } else
@@ -284,9 +286,9 @@ public class Client {
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
 
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                byte[] serializedReply = ((ArrayList<byte[]>) r.readEntity(ArrayList.class)).get(0);
-                Reply reply = Reply.deserialize(serializedReply);
-                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
+                ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
+                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
+                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), reply.getSignature()))
                     return "Bad signature.";
                 return "Success: " + reply.getByteReply();
             } else
