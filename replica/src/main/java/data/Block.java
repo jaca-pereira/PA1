@@ -78,4 +78,26 @@ public class Block {
         return TOMUtil.computeHash(serializedBlock);
     }
 
+    public static boolean proofOfWork(Block block) {
+        try {
+            byte[] blockHash = TOMUtil.computeHash(Block.serialize(block));
+            System.out.println();
+            int count = 0;
+            byte[] number = {blockHash[blockHash.length-1], blockHash[blockHash.length-2]};
+            for (int i = 0; i < blockHash.length-1; i++) {
+                byte b = blockHash[i];
+                if (b == number[count]) {
+                    count++;
+                    if (count == 2)
+                        return true;
+                } else {
+                    count--;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
