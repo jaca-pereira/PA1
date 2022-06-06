@@ -6,42 +6,37 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class Block {
     private byte[] lastBlockHash;
     private long nonce;
-    private List<Transaction> merkelTree;
-    private Map<String, Account> merkelMap;
+    private Merkle merkle;
 
     private byte[] signature;
-    private byte[] publickKey;
+    private byte[] publicKey;
     private byte[] account;
 
-    public Block(byte[] lastBlockHash, long nonce, byte[] signature, byte[] publickKey, byte[] account) {
+    public Block(byte[] lastBlockHash, long nonce, byte[] signature, byte[] publicKey, byte[] account, List<Transaction> transactions, Map<String, Account> map) {
         this.lastBlockHash = lastBlockHash;
         this.nonce = nonce;
-        this.merkelTree = new LinkedList<>();
-        this.merkelMap = new HashMap<>();
         this.signature = signature;
-        this.publickKey = publickKey;
+        this.publicKey = publicKey;
         this.account = account;
-    }
-
-    public void addTransaction(Transaction transaction) {
-        this.merkelTree.add(transaction);
-
+        this.merkle = new Merkle(transactions, map);
     }
 
     public byte[] getLastBlockHash() {
         return this.lastBlockHash;
     }
 
-    public List<Transaction> getMerkelTree() {
-        return this.merkelTree;
+    public List<Transaction> getExtract(String id) {
+        return this.merkle.getExtract(id);
+    }
+
+    public Merkle getMerkle() {
+        return this.merkle;
     }
 
     public long getNonce() {
@@ -52,8 +47,8 @@ public class Block {
         return signature;
     }
 
-    public byte[] getPublickKey() {
-        return publickKey;
+    public byte[] getPublicKey() {
+        return publicKey;
     }
 
     public static byte[] serialize(Block obj) {
