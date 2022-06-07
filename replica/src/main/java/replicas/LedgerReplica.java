@@ -13,7 +13,6 @@ import redis.clients.jedis.JedisPoolConfig;
 
 import java.io.*;
 import java.util.List;
-import java.util.Properties;
 import java.util.logging.Level;
 
 import java.util.logging.Logger;
@@ -101,16 +100,10 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         return null;
     }
 
-    private List<Transaction> getTransactionsToMinerate(Request request) {
+    private Block getBlockToMine(Request request) {
         if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.getTransactionsToMinerate();
-    }
-
-    private byte[] getLastMinedBlock(Request request) {
-        if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
-            throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.getLastMinedBlock();
+        return this.ledger.getBlockToMine();
     }
 
     private int mineBlock(Request request) {
@@ -154,11 +147,8 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                 case GET_LEDGER:
                     //TODO
                     break;
-                case GET_TRANSACTIONS_TO_MINERATE:
-                    objOut.writeObject(new Reply(this.getTransactionsToMinerate(request)));
-                    break;
-                case GET_LAST_MINED_BLOCK:
-                    objOut.writeObject(new Reply(this.getLastMinedBlock(request)));
+                case GET_BLOCK_TO_MINE:
+                    objOut.writeObject(new Reply(this.getBlockToMine(request)));
                     break;
                 case MINE_BLOCK:
                     objOut.writeObject(new Reply(this.mineBlock(request)));
@@ -201,8 +191,8 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                 case GET_LEDGER:
                     objOut.writeObject(new Reply(this.getLedger()));
                     break;
-                case GET_TRANSACTIONS_TO_MINERATE:
-                    objOut.writeObject(new Reply(this.getTransactionsToMinerate(request)));
+                case GET_BLOCK_TO_MINE:
+                    objOut.writeObject(new Reply(this.getBlockToMine(request)));
                     break;
                 default:
                     throw new UnsupportedOperationException("Operation does not exist!");

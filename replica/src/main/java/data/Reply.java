@@ -18,6 +18,8 @@ public class Reply implements Serializable {
     private int intReply;
     private List<Transaction> listReply;
 
+    private Block blockReply;
+
     public Reply(boolean boolReply) {
         this.boolReply = boolReply;
         this.publicKey = null;
@@ -39,6 +41,15 @@ public class Reply implements Serializable {
         this.publicKey = null;
         this.signature = null;
         this.listReply = listReply;
+    }
+    public Reply(Block blockReply) {
+        this.publicKey = null;
+        this.signature = null;
+        this.blockReply = blockReply;
+    }
+
+    public Block getBlockReply() {
+        return this.blockReply;
     }
 
     public boolean getBoolReply() {

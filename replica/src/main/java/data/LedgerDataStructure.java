@@ -93,7 +93,7 @@ public class LedgerDataStructure {
     }
 
 
-    public Block getBlockToMine(int nonce) {
+    public Block getBlockToMine() {
         if (notMineratedTransactionsList.size() < MINIMUM_TRANSACTIONS) {
             return null;
         }

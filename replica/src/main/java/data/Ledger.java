@@ -63,18 +63,15 @@ public class Ledger {
         return null;
     }
 
-    public List<Transaction> getTransactionsToMinerate() {
-        return this.fromJedis().getTransactionsToMinerate();
-    }
 
-    public byte[] getLastMinedBlock() {
-        return this.fromJedis().getLastMinedBlock();
-    }
-
-    public boolean addMineratedBlock(Block block) {
+    public int addMineratedBlock(Block block) {
         LedgerDataStructure ledger = this.fromJedis();
-        boolean didMineration = ledger.addMineratedBlock(block);
+        int didMineration = ledger.addMineratedBlock(block);
         this.toJedis(ledger);
         return didMineration;
+    }
+
+    public Block getBlockToMine() {
+        return this.fromJedis().getBlockToMine();
     }
 }
