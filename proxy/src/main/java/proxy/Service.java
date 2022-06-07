@@ -112,6 +112,6 @@ public class Service implements ServiceAPI {
 
     @Override
     public byte[] getLastMinedBlock(byte[] request) {
-        return this.sendRequest(request, TOMMessageType.ORDERED_REQUEST, LedgerRequestType.GET_LAST_MINED_BLOCK);
+        return this.sendRequest(request, TOMMessageType.UNORDERED_REQUEST, LedgerRequestType.GET_LAST_MINED_BLOCK);
     }
 }

@@ -2,6 +2,7 @@ package data;
 
 
 import Security.Security;
+import javassist.bytecode.analysis.ControlFlow;
 
 import java.io.*;
 import java.security.PublicKey;
@@ -18,6 +19,7 @@ public class Request implements Serializable {
     private  int value;
     private long nonce;
     private List<byte[]> accounts;
+    private Block block;
 
     public Request(LedgerRequestType requestType, byte[] account, byte[] accountDestiny, int value, long nonce) {
         this.requestType = requestType;
@@ -32,6 +34,12 @@ public class Request implements Serializable {
     public Request(LedgerRequestType requestType, byte[] account) {
         this.requestType = requestType;
         this.account = account;
+        this.publicKey = null;
+        this.signature = null;
+    }
+    public Request(LedgerRequestType requestType, Block block) {
+        this.requestType = requestType;
+        this.block = block;
         this.publicKey = null;
         this.signature = null;
     }
@@ -86,31 +94,30 @@ public class Request implements Serializable {
     public PublicKey getPublicKey() {
         return Security.getPublicKey(this.publicKey);
     }
+
     public byte[] getSignature() {
-        return signature;
+        return this.signature;
     }
 
     public byte[] getAccount() {
-        return account;
+        return this.account;
     }
 
-
     public byte[] getAccountDestiny() {
-        return accountDestiny;
+        return this.accountDestiny;
     }
 
     public int getValue() {
-        return value;
+        return this.value;
     }
 
     public long getNonce() {
-        return nonce;
+        return this.nonce;
     }
 
     public List<byte[]> getAccounts() {
-        return accounts;
+        return this.accounts;
     }
-
 
     public void setPublicKey(byte[] publicKey) {
         this.publicKey = publicKey;
@@ -118,5 +125,9 @@ public class Request implements Serializable {
 
     public void setSignature(byte[] signature) {
         this.signature = signature;
+    }
+
+    public Block getBlock() {
+        return this.block;
     }
 }

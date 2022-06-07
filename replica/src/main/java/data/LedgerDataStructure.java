@@ -72,11 +72,12 @@ public class LedgerDataStructure {
         return acc.getBalance();
     }
 
-    public List<Transaction> getExtract(byte[] account) {
-        Account acc = notMineratedTransactionsMap.get(new String(account));
-        if (acc == null)
-            throw new IllegalArgumentException("Account does not exist!");
-        return acc.getTransactionList();
+    public List<Transaction> getExtract(String id) {
+        List<Transaction> extract = new LinkedList<>();
+        for(Block block: this.mineratedBlocks)
+            extract.addAll(block.getExtract(id));
+        extract.addAll(this.notMineratedTransactionsMap.get(id).getTransactionList());
+        return extract;
     }
 
     public int getTotalValue(List<byte[]> accounts) {
@@ -121,15 +122,5 @@ public class LedgerDataStructure {
             return true;
         } else return false;
 
-    }
-
-
-    public List<Transaction> getExtract(String id) {
-        List<Transaction> extract = new LinkedList<>();
-        for(Block block: this.mineratedBlocks)
-            extract.addAll(block.getExtract(id));
-
-        extract.addAll(this.notMineratedTransactionsMap.get(id).getTransactionList());
-        return extract;
     }
 }
