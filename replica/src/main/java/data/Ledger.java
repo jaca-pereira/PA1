@@ -67,6 +67,10 @@ public class Ledger {
         return this.fromJedis().getTransactionsToMinerate();
     }
 
+    public byte[] getLastMinedBlock() {
+        return this.fromJedis().getLastMinedBlock();
+    }
+
     public boolean addMineratedBlock(Block block) {
         LedgerDataStructure ledger = this.fromJedis();
         boolean didMineration = ledger.addMineratedBlock(block);

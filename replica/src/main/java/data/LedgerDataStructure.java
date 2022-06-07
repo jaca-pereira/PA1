@@ -1,6 +1,7 @@
 package data;
 
 import Security.Security;
+import bftsmart.tom.util.TOMUtil;
 
 import java.util.*;
 
@@ -103,7 +104,9 @@ public class LedgerDataStructure {
         return this.notMineratedTransactionsList.subList(firstTransactionToMinerate, lastTransactionToMinerate);
     }
 
-
+    public byte[] getLastMinedBlock() {
+        return TOMUtil.computeHash(Block.serialize(this.mineratedBlocks.get(this.mineratedBlocks.size()-1)));
+    }
 
     public boolean addMineratedBlock(Block block) {
     //verificar se bloco foi bem minerado

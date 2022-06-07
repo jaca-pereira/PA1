@@ -107,11 +107,19 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         return this.ledger.getTransactionsToMinerate();
     }
 
+    private byte[] getLastMinedBlock(Request request) {
+        if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
+            throw new IllegalArgumentException("Signature not valid!");
+        return this.ledger.getLastMinedBlock();
+    }
+
     private boolean mineBlock(Request request) {
         if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
         return this.ledger.addMineratedBlock(request.getBlock());
     }
+
+
 
     @Override
     public byte[] appExecuteOrdered(byte[] command, MessageContext msgCtx) {
@@ -149,6 +157,9 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                 case GET_TRANSACTIONS_TO_MINERATE:
                     objOut.writeObject(new Reply(this.getTransactionsToMinerate(request)));
                     break;
+                case GET_LAST_MINED_BLOCK:
+                    objOut.writeObject(new Reply(this.getLastMinedBlock(request)));
+                    break;
                 case MINE_BLOCK:
                     objOut.writeObject(new Reply(this.mineBlock(request)));
                     break;
@@ -163,6 +174,8 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         }
         return reply;
     }
+
+
 
     @Override
     public byte[] appExecuteUnordered(byte[] command, MessageContext msgCtx) {
