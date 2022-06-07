@@ -57,7 +57,7 @@ public interface ServiceAPI {
     @POST
     @Path("/not/mined/transactions")
     @Produces(MediaType.APPLICATION_JSON)
-    byte[] getTransactionsToMine(byte[] data);
+    byte[] getBlockToMine(byte[] data);
 
     @POST
     @Path("/mine")

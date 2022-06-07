@@ -17,6 +17,7 @@ public class Block {
 
     private byte[] signature;
     private PublicKey publicKey;
+
     private byte[] account;
 
     public Block(byte[] lastBlockHash, List<Transaction> transactionsList, Map<String, Account> transactionsMap) {
@@ -44,6 +45,9 @@ public class Block {
         this.account = account;
     }
 
+    public byte[] getAccount() {
+        return account;
+    }
     public byte[] getLastBlockHash() {
         return this.lastBlockHash;
     }

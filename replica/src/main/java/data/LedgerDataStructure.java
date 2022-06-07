@@ -9,6 +9,7 @@ public class LedgerDataStructure {
 
 
     public static final int MINIMUM_TRANSACTIONS = 10;
+    public static final int REWARD = 10;
     private Map<String, Account> notMineratedTransactionsMap;
     private List<Transaction> notMineratedTransactionsList;
     private List<byte[]> transactionsId;
@@ -106,7 +107,7 @@ public class LedgerDataStructure {
         return new Block(this.mineratedBlocks.get(this.mineratedBlocks.size()-1).thisBlockHash(), transactions, map);
     }
 
-    public boolean addMineratedBlock(Block block) {
+    public int addMineratedBlock(Block block) {
     //verificar se bloco foi bem minerado
         if(!Security.verifySignature(block.getPublicKey(), block.getMerkle().getTransactionsHash(), block.getSignature()))
             throw new IllegalArgumentException("Block Signature not valid!");
@@ -116,8 +117,10 @@ public class LedgerDataStructure {
         if(this.notMineratedTransactionsList.removeAll(transactionsMinerated)) {
             this.mineratedBlocks.add(block);
             this.notMineratedTransactionsMap.forEach((accountId, account) -> account.removeTransactions(transactionsMinerated));
-            return true;
-        } else return false;
+            Account miner = this.notMineratedTransactionsMap.get(block.getAccount());
+            miner.changeBalance(REWARD);
+            return miner.getBalance();
+        } else return 0;
 
     }
 }

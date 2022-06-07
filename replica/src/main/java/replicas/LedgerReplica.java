@@ -113,7 +113,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         return this.ledger.getLastMinedBlock();
     }
 
-    private boolean mineBlock(Request request) {
+    private int mineBlock(Request request) {
         if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
         return this.ledger.addMineratedBlock(request.getBlock());

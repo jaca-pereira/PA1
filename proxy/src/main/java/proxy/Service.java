@@ -101,7 +101,7 @@ public class Service implements ServiceAPI {
     }
 
     @Override
-    public byte[] getTransactionsToMine(byte[] request) {
+    public byte[] getBlockToMine(byte[] request) {
         return this.sendRequest(request, TOMMessageType.UNORDERED_REQUEST, LedgerRequestType.GET_TRANSACTIONS_TO_MINERATE);
     }
 
