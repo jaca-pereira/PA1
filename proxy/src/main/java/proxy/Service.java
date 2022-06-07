@@ -99,4 +99,19 @@ public class Service implements ServiceAPI {
     public byte[] getLedger(byte[] request) {
         return this.sendRequest(request, TOMMessageType.UNORDERED_REQUEST, LedgerRequestType.GET_LEDGER);
     }
+
+    @Override
+    public byte[] getTransactionsToMine(byte[] request) {
+        return this.sendRequest(request, TOMMessageType.UNORDERED_REQUEST, LedgerRequestType.GET_TRANSACTIONS_TO_MINERATE);
+    }
+
+    @Override
+    public byte[] mineBlock(byte[] request) {
+        return this.sendRequest(request, TOMMessageType.ORDERED_REQUEST, LedgerRequestType.MINE_BLOCK);
+    }
+
+    @Override
+    public byte[] getLastMinedBlock(byte[] request) {
+        return this.sendRequest(request, TOMMessageType.ORDERED_REQUEST, LedgerRequestType.GET_LAST_MINED_BLOCK);
+    }
 }

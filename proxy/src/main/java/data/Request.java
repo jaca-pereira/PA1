@@ -55,6 +55,10 @@ public class Request implements Serializable {
         this.requestType = requestType;
     }
 
+    public Request(){
+
+    }
+
     public static byte[] serialize(Request obj) {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();

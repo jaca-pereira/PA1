@@ -57,7 +57,6 @@ public class Reply implements Serializable {
         return this.listReply;
     }
 
-
     public PublicKey getPublicKey() {
         return Security.getPublicKey(this.publicKey);
     }

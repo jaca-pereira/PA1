@@ -119,4 +119,14 @@ public class LedgerDataStructure {
         } else return false;
 
     }
+
+
+    public List<Transaction> getExtract(String id) {
+        List<Transaction> extract = new LinkedList<>();
+        for(Block block: this.mineratedBlocks)
+            extract.addAll(block.getExtract(id));
+
+        extract.addAll(this.notMineratedTransactionsMap.get(id).getTransactionList());
+        return extract;
+    }
 }

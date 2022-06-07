@@ -16,6 +16,7 @@ public interface ServiceAPI {
     @POST
     @Path("/account/load")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     byte[] loadMoney(byte[] data);
 
     @POST
@@ -52,4 +53,21 @@ public interface ServiceAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     byte[] getLedger(byte[] data);
+
+    @POST
+    @Path("/not/mined/transactions")
+    @Produces(MediaType.APPLICATION_JSON)
+    byte[] getTransactionsToMine(byte[] data);
+
+    @POST
+    @Path("/mine")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    byte[] mineBlock(byte[] data);
+
+    @POST
+    @Path("/last/mined")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    byte[] getLastMinedBlock(byte[] data);
 }
