@@ -92,21 +92,18 @@ public class LedgerDataStructure {
     }
 
 
-    public List<Transaction> getTransactionsToMinerate() {
+    public Block getBlockToMine(int nonce) {
         if (notMineratedTransactionsList.size() < MINIMUM_TRANSACTIONS) {
             return null;
         }
-        int firstTransactionToMinerate = this.alreadyBeingMinerated;
-        int lastTransactionToMinerate = this.alreadyBeingMinerated + MINIMUM_TRANSACTIONS;
-        if (lastTransactionToMinerate > this.notMineratedTransactionsList.size()) {
-            lastTransactionToMinerate = this.notMineratedTransactionsList.size();
-            this.alreadyBeingMinerated = 0;
-        } else this.alreadyBeingMinerated += MINIMUM_TRANSACTIONS;
-        return this.notMineratedTransactionsList.subList(firstTransactionToMinerate, lastTransactionToMinerate);
-    }
+        List<Transaction> transactions = this.notMineratedTransactionsList.subList(0,9);
+        Map<String, Account> map = new HashMap<>();
 
-    public byte[] getLastMinedBlock() {
-        return TOMUtil.computeHash(Block.serialize(this.mineratedBlocks.get(this.mineratedBlocks.size()-1)));
+        for (Transaction transaction : transactions) {
+            String account = new String(transaction.getOriginAccount());
+            map.put(account, this.notMineratedTransactionsMap.get(account));
+        }
+        return new Block(this.mineratedBlocks.get(this.mineratedBlocks.size()-1).thisBlockHash(), transactions, map);
     }
 
     public boolean addMineratedBlock(Block block) {

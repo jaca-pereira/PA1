@@ -19,14 +19,29 @@ public class Block {
     private PublicKey publicKey;
     private byte[] account;
 
-    public Block(byte[] lastBlockHash, long nonce, byte[] signature, PublicKey publicKey, byte[] account, List<Transaction> transactionsList, Map<String, Account> transactionsMap) {
+    public Block(byte[] lastBlockHash, List<Transaction> transactionsList, Map<String, Account> transactionsMap) {
         this.lastBlockHash = lastBlockHash;
-        this.nonce = nonce;
-        this.signature = signature;
-        this.publicKey = publicKey;
-        this.account = account;
+        this.nonce = -1;
+        this.signature = null;
+        this.publicKey = null;
+        this.account = null;
         this.merkle = new Merkle(transactionsList, transactionsMap);
+    }
 
+    public void setNonce(long nonce) {
+        this.nonce = nonce;
+    }
+
+    public void setSignature(byte[] signature) {
+        this.signature = signature;
+    }
+
+    public void setPublicKey(PublicKey publicKey) {
+        this.publicKey = publicKey;
+    }
+
+    public void setAccount(byte[] account) {
+        this.account = account;
     }
 
     public byte[] getLastBlockHash() {
@@ -74,6 +89,10 @@ public class Block {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public byte[] thisBlockHash() {
+        return TOMUtil.computeHash(Block.serialize(this));
     }
 
     public static boolean proofOfWork(Block block) {
