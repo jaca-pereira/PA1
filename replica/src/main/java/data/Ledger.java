@@ -36,10 +36,7 @@ public class Ledger {
     }
 
     public int getBalance(byte[] account) {
-        LedgerDataStructure ledger = fromJedis();
-        int balance = ledger.getBalance(account);
-        this.toJedis(ledger);
-        return balance;
+       return this.fromJedis().getBalance(account);
     }
 
     public int getGlobalValue() {
@@ -47,27 +44,33 @@ public class Ledger {
     }
 
     public List<Transaction> getExtract(byte[] account) {
-        LedgerDataStructure ledger = fromJedis();
-        List<Transaction> extract = ledger.getExtract(account);
-        this.toJedis(ledger);
-        return extract;
+        //TODO
+        return null;
     }
 
     public int getTotalValue(List<byte[]> accounts) {
-        LedgerDataStructure ledger = fromJedis();
-        int totalValue = ledger.getTotalValue(accounts);
-        this.toJedis(ledger);
-        return totalValue;
+       return this.fromJedis().getTotalValue(accounts);
     }
 
     public void sendTransaction(Transaction t) {
-        LedgerDataStructure ledger = fromJedis();
+        LedgerDataStructure ledger = this.fromJedis();
         ledger.transaction(t);
         this.toJedis(ledger);
     }
 
     public List<Transaction> getLedger() {
-        return fromJedis().getLedger();
+        //TODO
+        return null;
     }
 
+    public List<Transaction> getTransactionsToMinerate() {
+        return this.fromJedis().getTransactionsToMinerate();
+    }
+
+    public boolean addMineratedBlock(Block block) {
+        LedgerDataStructure ledger = this.fromJedis();
+        boolean didMineration = ledger.addMineratedBlock(block);
+        this.toJedis(ledger);
+        return didMineration;
+    }
 }

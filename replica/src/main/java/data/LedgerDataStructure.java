@@ -59,11 +59,6 @@ public class LedgerDataStructure {
         return this.globalValue;
     }
 
-    //tem que se alterar
-    public List<Transaction> getLedger() {
-        return this.notMineratedTransactionsList;
-    }
-
     public List<Block> getMineratedBlocks() {
         return mineratedBlocks;
     }
@@ -99,28 +94,29 @@ public class LedgerDataStructure {
         if (notMineratedTransactionsList.size() < MINIMUM_TRANSACTIONS) {
             return null;
         }
-        List<Transaction> transactionsToMinerate = new LinkedList();
-        for (int i = 0; i < MINIMUM_TRANSACTIONS; i++) {
-            Random r = new Random();
-            int low = 0;
-            int high = this.notMineratedTransactionsList.size();
-            int result = r.nextInt(high-low) + low;
-            transactionsToMinerate.add(this.notMineratedTransactionsList.get(result));
-        }
-        return transactionsToMinerate;
+        int firstTransactionToMinerate = this.alreadyBeingMinerated;
+        int lastTransactionToMinerate = this.alreadyBeingMinerated + MINIMUM_TRANSACTIONS;
+        if (lastTransactionToMinerate > this.notMineratedTransactionsList.size()) {
+            lastTransactionToMinerate = this.notMineratedTransactionsList.size();
+            this.alreadyBeingMinerated = 0;
+        } else this.alreadyBeingMinerated += MINIMUM_TRANSACTIONS;
+        return this.notMineratedTransactionsList.subList(firstTransactionToMinerate, lastTransactionToMinerate);
     }
 
 
 
-    public void addMineratedBlock(Block block) {
+    public boolean addMineratedBlock(Block block) {
     //verificar se bloco foi bem minerado
         if(!Security.verifySignature(block.getPublicKey(), block.getMerkle().getTransactionsHash(), block.getSignature()))
             throw new IllegalArgumentException("Block Signature not valid!");
         if (!Block.proofOfWork(block))
             throw new IllegalArgumentException("Block does not have proof of work!");
-        this.mineratedBlocks.add(block);
         List<Transaction> transactionsMinerated = block.getMerkle().getMerkelTree();
-        this.notMineratedTransactionsList.removeAll(transactionsMinerated);
-        this.notMineratedTransactionsMap.forEach((accountId, account) -> account.removeTransactions(transactionsMinerated));
+        if(this.notMineratedTransactionsList.removeAll(transactionsMinerated)) {
+            this.mineratedBlocks.add(block);
+            this.notMineratedTransactionsMap.forEach((accountId, account) -> account.removeTransactions(transactionsMinerated));
+            return true;
+        } else return false;
+
     }
 }

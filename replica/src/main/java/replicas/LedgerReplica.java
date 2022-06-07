@@ -71,7 +71,8 @@ public class LedgerReplica extends DefaultSingleRecoverable {
     private List<Transaction> getExtract(Request request) {
         if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
             throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.getExtract(request.getAccount());
+        //TODO
+        return null;
     }
 
     private boolean sendTransaction(Request request) {
@@ -96,10 +97,21 @@ public class LedgerReplica extends DefaultSingleRecoverable {
     }
 
     private List<Transaction> getLedger() {
-        return this.ledger.getLedger();
+        //TODO
+        return null;
     }
 
-    // bft
+    private List<Transaction> getTransactionsToMinerate(Request request) {
+        if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
+            throw new IllegalArgumentException("Signature not valid!");
+        return this.ledger.getTransactionsToMinerate();
+    }
+
+    private boolean mineBlock(Request request) {
+        if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
+            throw new IllegalArgumentException("Signature not valid!");
+        return this.ledger.addMineratedBlock(request.getBlock());
+    }
 
     @Override
     public byte[] appExecuteOrdered(byte[] command, MessageContext msgCtx) {
@@ -132,7 +144,13 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                     objOut.writeObject(new Reply(this.getGlobalValue(request)));
                     break;
                 case GET_LEDGER:
-                    objOut.writeObject(new Reply(this.getLedger()));
+                    //TODO
+                    break;
+                case GET_TRANSACTIONS_TO_MINERATE:
+                    objOut.writeObject(new Reply(this.getTransactionsToMinerate(request)));
+                    break;
+                case MINE_BLOCK:
+                    objOut.writeObject(new Reply(this.mineBlock(request)));
                     break;
                 default:
                     throw new UnsupportedOperationException("Operation does not exist!");
@@ -145,7 +163,6 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         }
         return reply;
     }
-
 
     @Override
     public byte[] appExecuteUnordered(byte[] command, MessageContext msgCtx) {
@@ -170,6 +187,9 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                     break;
                 case GET_LEDGER:
                     objOut.writeObject(new Reply(this.getLedger()));
+                    break;
+                case GET_TRANSACTIONS_TO_MINERATE:
+                    objOut.writeObject(new Reply(this.getTransactionsToMinerate(request)));
                     break;
                 default:
                     throw new UnsupportedOperationException("Operation does not exist!");
