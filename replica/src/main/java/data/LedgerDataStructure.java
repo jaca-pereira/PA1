@@ -8,7 +8,7 @@ import java.util.*;
 public class LedgerDataStructure {
 
 
-    public static final int MINIMUM_TRANSACTIONS = 10;
+    public static final int MINIMUM_TRANSACTIONS = 12;
     public static final int REWARD = 10;
     private Map<String, Account> notMineratedTransactionsMap;
     private List<Transaction> notMineratedTransactionsList;
@@ -108,7 +108,6 @@ public class LedgerDataStructure {
     }
 
     public int addMineratedBlock(Block block) {
-    //verificar se bloco foi bem minerado
         if(!Security.verifySignature(block.getPublicKey(), block.getMerkle().getTransactionsHash(), block.getSignature()))
             throw new IllegalArgumentException("Block Signature not valid!");
         if (!Block.proofOfWork(block))
