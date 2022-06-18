@@ -1,0 +1,49 @@
+scenario:
+  - name: Get Balance
+    weight: weightRead
+    flow:
+    - log: "Getting Balance"
+      - post:
+          url: "/balance"
+scenario:
+  - name: Get Extract
+    weight: weightRead
+    flow:
+    - log: "Getting Extract"
+      - post:
+          url: "/extract"
+scenario:
+  - name: Send Transaction
+    weight: weightWrite
+    flow:
+    - log: "Sending Transaction"
+      - post:
+          url: "/transaction"
+scenario:
+  - name: Get Total Value
+    weight: weightRead
+    flow:
+    - log: "Getting total value"
+      - post:
+          url: "/total_value"
+scenario:
+  - name: Get Global Value
+    weight: weightRead
+    flow:
+    - log: "Getting global value"
+      - post:
+          url: "/global_value"
+scenario:
+  - name: Get Ledger
+    weight: weightRead
+    flow:
+    - log: "Getting legder"
+      - post:
+          url: "/ledger"
+scenario:
+  - name: Mine Block
+    weight: weightWrite
+    flow:
+    - log: "Mining a block"
+      - post:
+          url: "/mine"

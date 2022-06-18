@@ -1,20 +1,11 @@
 config:
   target: "https://staging.example.com"
-  payload:
-      path: "users.csv"
-      fields:
-        - "privateKey"
-        - "publicKey"
   phases:
-    - duration: 5
-      arrivalCount: 5 
+    - duration: 15
+      arrivalCount: 1 
 scenario:
   - name: Create account
     flow:
     - log: "Creating accounts"
       - post:
           url: "/account"
-          json:
-              privateKey: "{{ privateKey }}"
-              publicKey: "{{ publicKey }}" 
-
