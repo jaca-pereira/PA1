@@ -1,3 +1,13 @@
 config:
-    target: "https://"
-    
+  target: "https://staging.example.com"
+  payload:
+      path: "users.csv"
+      fields:
+        - "privateKey"
+        - "publicKey"
+        - "duration"
+        - "arrivalCount"
+        - "weight" 
+  phases:
+    - duration: duration
+      arrivalCount: arrival
