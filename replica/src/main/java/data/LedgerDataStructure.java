@@ -93,9 +93,9 @@ public class LedgerDataStructure {
     }
 
 
-    public Block getBlockToMine() {
+    public Block getBlockToMine() throws Exception {
         if (notMineratedTransactionsList.size() < MINIMUM_TRANSACTIONS) {
-            return null;
+            throw new Exception("Not enough transactions no mine");
         }
         List<Transaction> transactions = this.notMineratedTransactionsList.subList(0,9);
         Map<String, Account> map = new HashMap<>();

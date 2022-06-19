@@ -18,8 +18,6 @@ public class Reply implements Serializable {
     private int intReply;
     private List<Transaction> listReply;
 
-    private Exception exception;
-
     private Block blockReply;
 
     public Reply(boolean boolReply) {
