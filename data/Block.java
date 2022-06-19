@@ -95,7 +95,7 @@ public class Block {
         return null;
     }
 
-    public byte[] getBlockHash() {
+    public byte[] thisBlockHash() {
         return TOMUtil.computeHash(Block.serialize(this));
     }
 

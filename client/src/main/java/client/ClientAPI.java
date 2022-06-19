@@ -8,11 +8,6 @@ import javax.ws.rs.core.MediaType;
 public interface ClientAPI {
 
     @POST
-    @Path("/account")
-    @Consumes(MediaType.APPLICATION_JSON)
-    void createAccount(byte[] privateKey, byte[] publicKey);
-
-    @POST
     @Path("/balance")
     void getBalance();
 
@@ -22,7 +17,7 @@ public interface ClientAPI {
 
     @POST
     @Path("/transaction")
-    byte[] sendTransaction();
+    void sendTransaction();
 
     @POST
     @Path("/total_value")

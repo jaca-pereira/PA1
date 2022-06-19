@@ -55,18 +55,18 @@ public interface ServiceAPI {
     byte[] getLedger(byte[] data);
 
     @POST
-    @Path("/not/mined/transactions")
+    @Path("/mine/get")
     @Produces(MediaType.APPLICATION_JSON)
     byte[] getBlockToMine(byte[] data);
 
     @POST
-    @Path("/mine")
+    @Path("/mine/add")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     byte[] mineBlock(byte[] data);
 
     @POST
-    @Path("/last/mined")
+    @Path("/mine/last")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     byte[] getLastMinedBlock(byte[] data);

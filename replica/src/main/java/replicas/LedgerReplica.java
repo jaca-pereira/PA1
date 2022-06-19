@@ -12,7 +12,6 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 import java.io.*;
-import java.util.List;
 import java.util.logging.Level;
 
 import java.util.logging.Logger;
@@ -97,8 +96,11 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                 case GET_BLOCK_TO_MINE:
                     objOut.writeObject(new Reply(this.ledger.getBlockToMine()));
                     break;
+                case GET_LAST_MINED_BLOCK:
+                    objOut.writeObject(new Reply(this.ledger.getLastMinedBlockHash()));
+                    break;
                 case MINE_BLOCK:
-                    objOut.writeObject(new Reply(this.ledger.addMineratedBlock(request.getBlock())));
+                    objOut.writeObject(new Reply(this.ledger.addMinedBlock(request.getBlock())));
                     break;
                 default:
                     throw new UnsupportedOperationException("Operation does not exist!");
@@ -142,6 +144,9 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                     break;
                 case GET_BLOCK_TO_MINE:
                     objOut.writeObject(new Reply(this.ledger.getBlockToMine()));
+                    break;
+                case GET_LAST_MINED_BLOCK:
+                    objOut.writeObject(new Reply(this.ledger.getLastMinedBlockHash()));
                     break;
                 default:
                     throw new UnsupportedOperationException("Operation does not exist!");
