@@ -15,7 +15,6 @@ public class Client implements ClientAPI {
     public Client(URI proxyURI) {
         List<KeyPair> keyPairs = this.loadKeys().getKeys();
         this.establishConnections(proxyURI, keyPairs);
-        this.busyClients = new ArrayList<>(keyPairs.size());
     }
 
     private void establishConnections(URI proxyURI, List<KeyPair> keys) {
@@ -96,7 +95,7 @@ public class Client implements ClientAPI {
     }
 
     private Block proofOfWork(byte[] lastMinedBlockHash, Block blockToMine) {
-
+    return null;
     }
 
 }

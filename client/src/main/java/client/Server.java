@@ -10,6 +10,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import java.net.InetAddress;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -26,7 +27,7 @@ public class Server {
 
     public static final int PORT = 8080;
 
-    public static void main(String[] args) throws UnknownHostException, NoSuchAlgorithmException, KeyManagementException {
+    public static void main(String[] args) throws UnknownHostException, NoSuchAlgorithmException, URISyntaxException {
 
         if (args.length < 1) {
             System.out.println("Usage: <clientIDs>");
@@ -41,7 +42,7 @@ public class Server {
 
         String serverURI = String.format("https://%s:%s/", ip, PORT);
 
-        Client service = new Client();
+        Client service = new Client(new URI(serverURI));
 
         ResourceConfig config = new ResourceConfig();
         config.register(service);
