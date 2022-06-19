@@ -19,7 +19,8 @@ public class Client implements ClientAPI {
     }
 
     private KeyPair chooseRandomKey() {
-        return null;
+   return null
+           ;
     }
 
 

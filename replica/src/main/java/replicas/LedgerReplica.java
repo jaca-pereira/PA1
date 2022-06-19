@@ -107,9 +107,12 @@ public class LedgerReplica extends DefaultSingleRecoverable {
     }
 
     private int mineBlock(Request request) {
-        if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
-            throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.addMineratedBlock(request.getBlock());
+        try {
+            Reply reply=  new Reply(this.ledger.addMineratedBlock(request.getBlock())));
+            objOut.writeObject(reply);
+        } catch (Exception exception){
+            objOut.writeObject(new Reply(new String(exception.toString())));
+        }
     }
 
 
@@ -122,6 +125,8 @@ public class LedgerReplica extends DefaultSingleRecoverable {
             ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
             ObjectOutput objOut = new ObjectOutputStream(byteOut)) {
             Request request = (Request) objIn.readObject();
+            if(!Security.verifySignature(request.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
+                throw new IllegalArgumentException("Signature not valid!");
             switch (request.getRequestType()) {
                 case CREATE_ACCOUNT:
                     objOut.writeObject(new Reply(this.createAccount(request)));

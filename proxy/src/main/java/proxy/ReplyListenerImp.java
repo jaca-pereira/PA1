@@ -39,6 +39,7 @@ public class ReplyListenerImp implements bftsmart.communication.client.ReplyList
 
     @Override
     public void replyReceived(RequestContext context, TOMMessage msg) {
+        //REPLICAS TÊM DE ASSINAR RESPOSTAS
         if(msg.getContent().length > 0) {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(msg.getContent());
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
