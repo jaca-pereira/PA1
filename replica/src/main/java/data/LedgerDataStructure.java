@@ -73,11 +73,14 @@ public class LedgerDataStructure {
         return acc.getBalance();
     }
 
-    public List<Transaction> getExtract(String id) {
+    public List<Transaction> getExtract(String account) {
+        Account acc = notMineratedTransactionsMap.get(new String(account));
+        if (acc == null)
+            throw new IllegalArgumentException("Account does not exist!");
         List<Transaction> extract = new LinkedList<>();
         for(Block block: this.mineratedBlocks)
-            extract.addAll(block.getExtract(id));
-        extract.addAll(this.notMineratedTransactionsMap.get(id).getTransactionList());
+            extract.addAll(block.getExtract(account));
+        extract.addAll(acc.getTransactionList());
         return extract;
     }
 
@@ -95,7 +98,7 @@ public class LedgerDataStructure {
 
     public Block getBlockToMine() throws Exception {
         if (notMineratedTransactionsList.size() < MINIMUM_TRANSACTIONS) {
-            throw new Exception("Not enough transactions no mine");
+            throw new Exception("Not enough transactions no mine!");
         }
         List<Transaction> transactions = this.notMineratedTransactionsList.subList(0,9);
         Map<String, Account> map = new HashMap<>();
@@ -107,7 +110,7 @@ public class LedgerDataStructure {
         return new Block(this.mineratedBlocks.get(this.mineratedBlocks.size()-1).thisBlockHash(), transactions, map);
     }
 
-    public int addMineratedBlock(Block block) {
+    public int addMineratedBlock(Block block) throws Exception {
         if(!Security.verifySignature(block.getPublicKey(), block.getMerkle().getTransactionsHash(), block.getSignature()))
             throw new IllegalArgumentException("Block Signature not valid!");
         if (!Block.proofOfWork(block))
@@ -119,7 +122,7 @@ public class LedgerDataStructure {
             Account miner = this.notMineratedTransactionsMap.get(block.getAccount());
             miner.changeBalance(REWARD);
             return miner.getBalance();
-        } else return 0;
+        } else throw new Exception("Block already mined!");
 
     }
 }

@@ -64,14 +64,14 @@ public class Ledger {
     }
 
 
-    public int addMineratedBlock(Block block) {
+    public int addMineratedBlock(Block block) throws Exception {
         LedgerDataStructure ledger = this.fromJedis();
         int didMineration = ledger.addMineratedBlock(block);
         this.toJedis(ledger);
         return didMineration;
     }
 
-    public Block getBlockToMine() {
+    public Block getBlockToMine() throws Exception {
         return this.fromJedis().getBlockToMine();
     }
 }

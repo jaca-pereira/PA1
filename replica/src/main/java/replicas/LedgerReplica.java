@@ -45,77 +45,19 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         BasicConfigurator.configure();
         new ServiceReplica(id, this, this);
     }
-
-    private byte[] createAccount(Request request) {
-        if(!Security.verifySignature(request.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature()))
-            throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.addAccount(request.getAccount());
-    }
-
     private boolean loadMoney(Request request) {
-        if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
-            throw new IllegalArgumentException("Signature not valid!");
         if (request.getValue() < 0)
             throw new IllegalArgumentException("Value must be positive!");
         this.ledger.sendTransaction(new Transaction(this.LEDGER, request.getAccount(), -1, request.getValue(), request.getSignature()));
         return true;
     }
 
-    private int getBalance(Request request) {
-        if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
-            throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.getBalance(request.getAccount());
-    }
-
-    private List<Transaction> getExtract(Request request) {
-        if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
-            throw new IllegalArgumentException("Signature not valid!");
-        //TODO
-        return null;
-    }
-
     private boolean sendTransaction(Request request) {
-        if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
-            throw new IllegalArgumentException("Signature not valid!");
         if (request.getValue() < 0)
             throw new IllegalArgumentException("Value must be positive!");
         this.ledger.sendTransaction(new Transaction(request.getAccount(), request.getAccountDestiny(), request.getNonce(), request.getValue(), request.getSignature()));
         return true;
     }
-
-    private int getTotalValue(Request request) {
-        if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
-            throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.getTotalValue(request.getAccounts());
-    }
-
-    private int getGlobalValue(Request request) {
-        if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
-            throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.getGlobalValue();
-    }
-
-    private List<Transaction> getLedger() {
-        //TODO
-        return null;
-    }
-
-    private Block getBlockToMine(Request request) {
-        if(!Security.verifySignature(request.getPublicKey(),request.getRequestType().toString().getBytes(), request.getSignature()))
-            throw new IllegalArgumentException("Signature not valid!");
-        return this.ledger.getBlockToMine();
-    }
-
-    private int mineBlock(Request request) {
-        try {
-            Reply reply=  new Reply(this.ledger.addMineratedBlock(request.getBlock())));
-            objOut.writeObject(reply);
-        } catch (Exception exception){
-            objOut.writeObject(new Reply(new String(exception.toString())));
-        }
-    }
-
-
 
     @Override
     public byte[] appExecuteOrdered(byte[] command, MessageContext msgCtx) {
@@ -129,7 +71,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                 throw new IllegalArgumentException("Signature not valid!");
             switch (request.getRequestType()) {
                 case CREATE_ACCOUNT:
-                    objOut.writeObject(new Reply(this.createAccount(request)));
+                    objOut.writeObject(new Reply(this.ledger.addAccount(request.getAccount())));
                     break;
                 case LOAD_MONEY:
                     objOut.writeObject(new Reply(this.loadMoney(request)));
@@ -138,25 +80,25 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                     objOut.writeObject(new Reply(this.sendTransaction(request)));
                     break;
                 case GET_BALANCE:
-                    objOut.writeObject(new Reply(this.getBalance(request)));
+                    objOut.writeObject(new Reply(this.ledger.getBalance(request.getAccount())));
                     break;
                 case GET_EXTRACT:
-                    objOut.writeObject(new Reply(this.getExtract(request)));
+                    objOut.writeObject(new Reply(this.ledger.getExtract(request.getAccount())));
                     break;
                 case GET_TOTAL_VALUE:
-                    objOut.writeObject(new Reply(this.getTotalValue(request)));
+                    objOut.writeObject(new Reply(this.ledger.getTotalValue(request.getAccounts())));
                     break;
                 case GET_GLOBAL_VALUE:
-                    objOut.writeObject(new Reply(this.getGlobalValue(request)));
+                    objOut.writeObject(new Reply(this.ledger.getGlobalValue()));
                     break;
                 case GET_LEDGER:
-                    //TODO
+                    objOut.writeObject(new Reply(this.ledger.getLedger()));
                     break;
                 case GET_BLOCK_TO_MINE:
-                    objOut.writeObject(new Reply(this.getBlockToMine(request)));
+                    objOut.writeObject(new Reply(this.ledger.getBlockToMine()));
                     break;
                 case MINE_BLOCK:
-                    objOut.writeObject(new Reply(this.mineBlock(request)));
+                    objOut.writeObject(new Reply(this.ledger.addMineratedBlock(request.getBlock())));
                     break;
                 default:
                     throw new UnsupportedOperationException("Operation does not exist!");
@@ -166,6 +108,8 @@ public class LedgerReplica extends DefaultSingleRecoverable {
             reply = byteOut.toByteArray();
         } catch (IOException | ClassNotFoundException e) {
             logger.log(Level.SEVERE, "Ocurred during operation execution", e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return reply;
     }
@@ -182,22 +126,22 @@ public class LedgerReplica extends DefaultSingleRecoverable {
             Request request = (Request) objIn.readObject();
             switch (request.getRequestType()) {
                 case GET_BALANCE:
-                    objOut.writeObject(new Reply(this.getBalance(request)));
+                    objOut.writeObject(new Reply(this.ledger.getBalance(request.getAccount())));
                     break;
                 case GET_EXTRACT:
-                    objOut.writeObject(new Reply(this.getExtract(request)));
+                    objOut.writeObject(new Reply(this.ledger.getExtract(request.getAccount())));
                     break;
                 case GET_TOTAL_VALUE:
-                    objOut.writeObject(new Reply(this.getTotalValue(request)));
+                    objOut.writeObject(new Reply(this.ledger.getTotalValue(request.getAccounts())));
                     break;
                 case GET_GLOBAL_VALUE:
-                    objOut.writeObject(new Reply(this.getGlobalValue(request)));
+                    objOut.writeObject(new Reply(this.ledger.getGlobalValue()));
                     break;
                 case GET_LEDGER:
-                    objOut.writeObject(new Reply(this.getLedger()));
+                    objOut.writeObject(new Reply(this.ledger.getLedger()));
                     break;
                 case GET_BLOCK_TO_MINE:
-                    objOut.writeObject(new Reply(this.getBlockToMine(request)));
+                    objOut.writeObject(new Reply(this.ledger.getBlockToMine()));
                     break;
                 default:
                     throw new UnsupportedOperationException("Operation does not exist!");
@@ -207,6 +151,8 @@ public class LedgerReplica extends DefaultSingleRecoverable {
             reply = byteOut.toByteArray();
         } catch (IOException | ClassNotFoundException e) {
             logger.log(Level.SEVERE, "Ocurred during operation execution", e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return reply;
     }

@@ -44,7 +44,6 @@ public class Client {
         try (FileInputStream fis = new FileInputStream("security/clientcacerts.jks")) {
             ts.load(fis, "password".toCharArray());
         }
-
         TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
         tmf.init(ts);
 
