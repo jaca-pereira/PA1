@@ -18,7 +18,9 @@ import javax.net.ssl.SSLContext;
 import Security.InsecureHostNameVerifier;
 
 import javax.net.ssl.TrustManagerFactory;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.ProcessingException;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -74,31 +76,39 @@ public class Client {
         return this.keyPair;
     }
 
-    public String executeCommand(Request request) {
+    public void executeCommand(Request request) {
         switch (request.getRequestType()) {
             case CREATE_ACCOUNT:
-                return createAccount(request) + "\n";
+                createAccount(request);
+                break;
             case GET_BALANCE:
-                return getBalance(request) + "\n";
+                getBalance(request);
+                break;
             case LOAD_MONEY:
-                return loadMoney(request) + "\n";
+                loadMoney(request);
+                break;
             case GET_EXTRACT:
-                return getExtract(request) + "\n";
+                getExtract(request);
+                break;
             case GET_TOTAL_VALUE:
-                return getTotalValue(request) + "\n";
+                getTotalValue(request);
+                break;
             case GET_GLOBAL_VALUE:
-                return getGlobalValue(request) + "\n";
+                getGlobalValue(request);
+                break;
             case SEND_TRANSACTION:
-                return sendTransaction(request) + "\n";
+                sendTransaction(request);
+                break;
             case GET_LEDGER:
-                return getLedger(new Request(LedgerRequestType.GET_LEDGER)) + "\n";
+                getLedger(new Request(LedgerRequestType.GET_LEDGER));
+                break;
             default:
-                return "Command unknown!" + "\n";
+                break;
         }
     }
 
 
-    private String getLedger(Request request) {
+    private void getLedger(Request request) {
 
         request.setPublicKey(this.keyPair.getPublic().getEncoded());
         request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
@@ -112,17 +122,16 @@ public class Client {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
                 List<Transaction> ledger = reply.getListReply();
-                return "Success: " + ledger;
             } else
-                return "Error, HTTP error status: " + r.getStatus();
+                throw new WebApplicationException(r.getStatus());
         } catch ( ProcessingException pe ) {
             pe.printStackTrace();
-            return "Timeout occurred.";
+            throw new InternalServerErrorException();
         }
 
     }
 
-    private String sendTransaction(Request request) {
+    private void sendTransaction(Request request) {
 
         request.setPublicKey(this.keyPair.getPublic().getEncoded());
         request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
@@ -138,18 +147,17 @@ public class Client {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
                 if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), reply.getSignature()))
-                    return "Bad signature.";
-                return  "Success: " + reply.getBoolReply();
+                    throw new InternalServerErrorException();
             } else
-                return "Error, HTTP error status: " + r.getStatus();
+                throw new WebApplicationException(r.getStatus());
 
         } catch ( ProcessingException pe ) {
             pe.printStackTrace();
-            return "Timeout occurred.";
+            throw new InternalServerErrorException();
         }
     }
 
-    private String getGlobalValue(Request request) {
+    private void getGlobalValue(Request request) {
         request.setPublicKey(this.keyPair.getPublic().getEncoded());
         request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
         WebTarget target = client.target( serverURI ).path("value");
@@ -162,18 +170,17 @@ public class Client {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
                 if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), reply.getSignature()))
-                    return "Bad signature.";
-                return "Success: " + reply.getIntReply();
+                    throw new InternalServerErrorException();
             } else
-                return "Error, HTTP error status: " + r.getStatus();
+                throw new WebApplicationException(r.getStatus());
 
         } catch ( ProcessingException pe ) {
             pe.printStackTrace(); //
-            return "Timeout occurred.";
+            throw new InternalServerErrorException();
         }
     }
 
-    private String getTotalValue(Request request) {
+    private void getTotalValue(Request request) {
         request.setPublicKey(this.keyPair.getPublic().getEncoded());
         request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
         WebTarget target = client.target( serverURI ).path("accounts/value");
@@ -186,19 +193,18 @@ public class Client {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
                 if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), reply.getSignature()))
-                    return "Bad signature.";
+                    throw new InternalServerErrorException();
                 int value = reply.getIntReply();
-                return "Success: " + value;
             } else
-                return "Error, HTTP error status: " + r.getStatus();
+                throw new WebApplicationException(r.getStatus());
 
         } catch (ProcessingException pe ) {
             pe.printStackTrace(); //
-            return "Timeout occurred.";
+            throw new InternalServerErrorException();
         }
     }
 
-    private String getExtract(Request request) {
+    private void getExtract(Request request) {
         request.setPublicKey(this.keyPair.getPublic().getEncoded());
         request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
         WebTarget target = client.target( serverURI ).path("account/extract");
@@ -211,18 +217,17 @@ public class Client {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
                 if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), reply.getSignature()))
-                    return "Bad signature.";
-                return "Success: " + reply.getListReply();
+                    throw new InternalServerErrorException();
             } else
-                return "Error, HTTP error status: " + r.getStatus();
+                throw new WebApplicationException(r.getStatus());
 
         } catch (ProcessingException pe ) {
             pe.printStackTrace();
-            return "Timeout occurred.";
+            throw new InternalServerErrorException();
         }
     }
 
-    private String loadMoney(Request request) {
+    private void loadMoney(Request request) {
         request.setPublicKey(this.keyPair.getPublic().getEncoded());
         request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
         WebTarget target = client.target( serverURI ).path("account/load");
@@ -235,18 +240,17 @@ public class Client {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
                 if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), reply.getSignature()))
-                    return "Bad signature.";
-                return "Success: " + reply.getBoolReply();
+                    throw new InternalServerErrorException();
             } else
-                return "Error, HTTP error status: " + r.getStatus();
+                throw new WebApplicationException(r.getStatus());
 
         } catch (ProcessingException pe) {
             pe.printStackTrace();
-            return "Timeout occurred.";
+            throw new InternalServerErrorException();
         }
     }
 
-    private String getBalance(Request request) {
+    private void getBalance(Request request) {
 
         request.setPublicKey(this.keyPair.getPublic().getEncoded());
         request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
@@ -260,18 +264,17 @@ public class Client {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
                 if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), reply.getSignature()))
-                    return "Bad signature.";
-                return "Success: " + reply.getIntReply();
+                    throw new InternalServerErrorException();
             } else
-                return "Error, HTTP error status: " + r.getStatus();
+                throw new WebApplicationException(r.getStatus());
 
         } catch (ProcessingException pe ) {
             pe.printStackTrace();
-            return "Timeout occurred.";
+            throw new InternalServerErrorException();
         }
     }
 
-    private String createAccount(Request request) {
+    private void createAccount(Request request) {
 
         request.setPublicKey(this.keyPair.getPublic().getEncoded());
 
@@ -287,14 +290,13 @@ public class Client {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
                 if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), reply.getSignature()))
-                    return "Bad signature.";
-                return "Success: " + reply.getByteReply();
+                    throw new InternalServerErrorException();
             } else
-                return "Error, HTTP error status: " + r.getStatus();
+                throw new WebApplicationException(r.getStatus());
 
         } catch (ProcessingException pe) { //Error in communication with server
             pe.printStackTrace();
-            return "Timeout occurred.";
+            throw new InternalServerErrorException();
         }
 
     }
