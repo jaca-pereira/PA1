@@ -8,6 +8,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -27,7 +28,7 @@ public class Server {
 
     public static final int PORT = 8080;
 
-    public static void main(String[] args) throws UnknownHostException, NoSuchAlgorithmException, URISyntaxException {
+    public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 
         if (args.length < 1) {
             System.out.println("Usage: <clientIDs>");
@@ -42,7 +43,7 @@ public class Server {
 
         String serverURI = String.format("https://%s:%s/", ip, PORT);
 
-        Client service = new Client(new URI(serverURI));
+        Client service = new Client();
 
         ResourceConfig config = new ResourceConfig();
         config.register(service);

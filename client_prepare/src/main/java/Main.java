@@ -9,13 +9,18 @@ import java.util.List;
 
 public class Main {
     public static void main (String[] args) throws IOException {
-        Writer writer;
-        try {
-            writer = new Writer("keys.txt");
-        } catch (IOException exception) {
-            writer = null;
+        if (args.length<1) {
+            System.out.println("Usage: <n_users>");
+            System.exit(1);
         }
-        int nrUsers = 0;
+        Writer writer = null;
+        try {
+            writer = new Writer("keys.config");
+        } catch (IOException exception) {
+            System.out.println("Error opening file.");
+            System.exit(1);
+        }
+        int nrUsers = Integer.valueOf(args[0]);
         List<KeyPair> keys = new ArrayList<>(nrUsers);
         for (int i = 0; i <nrUsers; i++) {
             KeyPair keyPair = Crypto.getKeyPair();

@@ -3,6 +3,7 @@ package data;
 import java.io.FileInputStream;
 import java.net.*;
 
+import java.nio.ByteBuffer;
 import java.security.*;
 
 import java.util.List;
@@ -35,15 +36,34 @@ public class Client {
     private final KeyPair keyPair;
 
     private final byte[] account;
-    public Client(URI proxyURI, KeyPair keyPair) {
+    public Client(URI proxyURI, KeyPair keyPair) throws NoSuchAlgorithmException {
         this.serverURI = proxyURI;
         this.keyPair = keyPair;
-        this.account = this.idMaker(keyPair);
-        this.client = startClient();
+        this.account = this.idMaker();
+        this.client = this.startClient();
+        this.createAccount();
     }
 
-    private byte[] idMaker(KeyPair keyPair) {
-        return null;
+    private byte[] idMaker() throws NoSuchAlgorithmException {
+        SecureRandom generator = new SecureRandom();
+        byte[] srn = generator.generateSeed(32);
+
+        byte[] timer = String.valueOf(System.currentTimeMillis()).getBytes();
+
+        byte[] email = "joao_palindra@campus.fct.unl.pt".getBytes();
+        ByteBuffer buffersha256 = ByteBuffer.wrap(new byte[email.length + srn.length + timer.length]);
+        buffersha256.put(email);
+        buffersha256.put(srn);
+        buffersha256.put(timer);
+
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] sha256 = digest.digest(buffersha256.array());
+
+        ByteBuffer buffer = ByteBuffer.wrap(new byte[sha256.length + this.keyPair.getPublic().getEncoded().length]);
+        buffer.put(sha256);
+        buffer.put(this.keyPair.getPublic().getEncoded());
+
+        return buffer.array();
     }
 
     private SSLContext getContext() throws Exception {
@@ -201,30 +221,8 @@ public class Client {
         }
     }
 
-    public void loadMoney() {
-        Request request = new Request(LedgerRequestType.LOAD_MONEY, this.account);
-        request.setPublicKey(this.keyPair.getPublic().getEncoded());
-        request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
-        WebTarget target = client.target( serverURI ).path("account/load");
-        try {
-            Response r = target.request()
-                    .accept(MediaType.APPLICATION_JSON)
-                    .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
-            if(  r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
-                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
-                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), reply.getSignature()))
-                    throw new InternalServerErrorException();
-            } else
-                throw new WebApplicationException(r.getStatus());
-        } catch (ProcessingException pe) {
-            pe.printStackTrace();
-            throw new InternalServerErrorException();
-        }
-    }
-
     public void getBalance() {
-        Request request = new Request(LedgerRequestType.GET_LEDGER, this.account);
+        Request request = new Request(LedgerRequestType.GET_BALANCE, this.account);
         request.setPublicKey(this.keyPair.getPublic().getEncoded());
         request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
         WebTarget target = client.target( serverURI ).path("account/balance");
@@ -284,29 +282,6 @@ public class Client {
                 if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), reply.getSignature()))
                     throw new InternalServerErrorException();
                 return reply.getBlockReply();
-            } else
-                throw new WebApplicationException(r.getStatus());
-        } catch (ProcessingException pe) {
-            pe.printStackTrace();
-            throw new InternalServerErrorException();
-        }
-    }
-
-    public byte[] getLastMinedBlock() {
-        Request request = new Request(LedgerRequestType.GET_LAST_MINED_BLOCK);
-        request.setPublicKey(this.keyPair.getPublic().getEncoded());
-        request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
-        WebTarget target = client.target( serverURI ).path("/mine/last");
-        try {
-            Response r = target.request()
-                    .accept(MediaType.APPLICATION_JSON)
-                    .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
-            if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
-                ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
-                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
-                if (!Security.verifySignature(reply.getPublicKey(), request.getRequestType().toString().getBytes(), reply.getSignature()))
-                    throw new InternalServerErrorException();
-                return reply.getByteReply();
             } else
                 throw new WebApplicationException(r.getStatus());
         } catch (ProcessingException pe) {

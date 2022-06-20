@@ -32,6 +32,6 @@ public interface ClientAPI {
 
     @POST
     @Path("/mine")
-    void mineBlock();
+    void mineBlock() throws Exception;
 
 }

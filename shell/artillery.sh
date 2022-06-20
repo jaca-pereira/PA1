@@ -1,3 +1,11 @@
 #!/bin/bash
-docker build -t artillery
-docker run --network net --ip "172.18.0.40" --name "artillery" -p 8080 artillery 
+
+cd ../artillery
+
+docker run --rm -it -v ${PWD}:/scripts \
+  artilleryio/artillery:latest \
+  run /scripts/create_accounts.yaml \
+  run /scripts/workload_bftsmart.yaml \
+  run /scripts/workload_mining.yaml
+  
+cd ../shell

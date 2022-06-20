@@ -7,7 +7,6 @@ public class Keys {
 
     private List<KeyPair> keys;
 
-
     public Keys(List<KeyPair> keys) {
         this.keys = keys;
     }
