@@ -44,8 +44,7 @@ public class Ledger {
     }
 
     public List<Transaction> getExtract(byte[] account) {
-        //TODO
-        return null;
+        return this.fromJedis().getExtract(account);
     }
 
     public int getTotalValue(List<byte[]> accounts) {
@@ -58,9 +57,8 @@ public class Ledger {
         this.toJedis(ledger);
     }
 
-    public List<Transaction> getLedger() {
-        //TODO
-        return null;
+    public LedgerDataStructure getLedger() {
+        return this.fromJedis();
     }
 
 
@@ -75,7 +73,4 @@ public class Ledger {
         return this.fromJedis().getBlockToMine();
     }
 
-    public byte[] getLastMinedBlockHash() {
-        return this.fromJedis().getLastMinedBlockHash();
-    }
 }

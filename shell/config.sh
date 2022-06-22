@@ -16,7 +16,7 @@ echo "system.initial.view = $(seq -s ',' 20 $(( $N - 1 + 20 )) )" >> system.conf
 echo "system.servers.num = $N" >> system.config
 echo "system.servers.f = $F" >> system.config
 for i in `seq 20 $(( $N - 1 + 20 ))`; do
-    echo "$i 172.18.0.$(($i + 20)) 11000 11001" >> hosts.config
+    echo "$i 172.19.0.$(($i + 20)) 11000 11001" >> hosts.config
 done
 echo "7001 127.0.0.1 11100" >> hosts.config
 
@@ -31,9 +31,9 @@ cp system.config ../client/config
 
 cd ../security
 
-keytool -genkey -alias serverkey -keyalg RSA -keypass password -keystore serverkeystore.jks -storepass password
+keytool -genkey -alias server -keyalg RSA -keypass password -keystore serverkeystore.jks -storepass password -dname "CN=FCT, OU=DI, L=ALMADA"
 
-keytool -export -alias serverkey -file serverkey.cer -keystore serverkeystore.jks -storepass password
+keytool -export -alias server -file serverkey.cer -keystore serverkeystore.jks -storepass password
 
 keytool -import -v -trustcacerts -alias clientTrust -keypass password -file serverkey.cer -keystore clientcacerts.jks -storepass password
 

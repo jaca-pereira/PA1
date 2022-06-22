@@ -1,0 +1,25 @@
+config:
+  payload: 
+    - 
+      path: "config.csv"
+      fields: 
+        - "duration"
+        - "arrivalCount"
+    -
+      path: "users.csv"
+      fields: 
+        - "user"
+    -
+      path: "proxies.csv"
+      fields: 
+        - "proxy"
+  target: "https://172.19.10.0:8080"
+  phases:
+    - duration: 10
+      arrivalCount: 4 
+scenarios:
+    - flow:
+        - post:
+            url: "/create_account"
+            json:
+              email: "{{user}}"

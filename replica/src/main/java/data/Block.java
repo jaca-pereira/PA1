@@ -52,8 +52,8 @@ public class Block {
         return this.lastBlockHash;
     }
 
-    public List<Transaction> getExtract(String id) {
-        return this.merkle.getExtract(id);
+    public List<Transaction> getExtract(byte[] account) {
+        return this.merkle.getExtract(new String(account));
     }
 
     public Merkle getMerkle() {

@@ -17,6 +17,11 @@ public class Client implements ClientAPI {
     }
 
     @Override
+    public void create_account(String email) {
+        client.createAccount(email);
+    }
+
+    @Override
     public void getBalance(String account) {
         client.getBalance(account);
     }
@@ -60,7 +65,7 @@ public class Client implements ClientAPI {
             nrMiningAttempts++;
             if (nrMiningAttempts==5) {
                 nrMiningAttempts = 0;
-                hasAlreadyBeenMined = new String(client.getBlockToMine(account).getLastBlockHash()).equals(new String(blockToMine.thisBlockHash()));
+                hasAlreadyBeenMined = new String(client.getBlockToMine(account).getLastBlockHash()).equals(new String(blockToMine.getBlockHash()));
             }
         } while (!this.proofOfWork(blockToMine, difficulty) && !hasAlreadyBeenMined);
 

@@ -38,7 +38,8 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         jedisPoolConfig.setMaxTotal(128);
         jedisPoolConfig.setMaxIdle(128);
         jedisPoolConfig.setMinIdle(120);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, "172.18.0.3" + id, PORT);
+        id = id -20;
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, "172.19.30." + id, PORT); //id-20 para que o replica id não se misture com o proxy id
         return jedisPool.getResource();
     }
 

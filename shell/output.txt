@@ -1,0 +1,56 @@
+41c03d55d3f0
+858134e0808a
+d29d6f07a3a7
+916fe0487125
+bebec0b17843
+85ada9fbba57
+5a177c91d383
+68ea1cecfa0f
+7d142e074f20
+423597e01dbb
+b077baa8c53b
+e3a11801f953
+369359b2a7fd
+b6a41bbbc349
+b141d1bb2520
+f9dc1d691d4a
+Untagged: proxy:latest
+Deleted: sha256:9e948a0f817d190986cff07627e85482b23b24036088d29d93762e9d83af20ef
+Deleted: sha256:212bbeead054ebde54c21d4ea7b959e415e3134e8e17b12fbe46b34220f4a5d7
+Deleted: sha256:45ff727aea9bff75b19579b13320e12d82810411e6b448297e6eda6f9a49b821
+Deleted: sha256:5d8704a48d7d652df16a588684581b85c448a2d04ab69056d746849cd81e372a
+Untagged: redis:latest
+Untagged: redis@sha256:cfda0458239615720cc16d6edf6bae7905c31265f218d2033c43cdb40cd59792
+Deleted: sha256:604d80444252dd46a4b4d35bb0226fc16e1022efcd18bf5980650f72d1cf29e5
+Deleted: sha256:bc330da8be57d76b01e80af7aa3f5db5d774613b7828aae520c6eba50f93e7af
+Deleted: sha256:439cb60111de84f858b6c3cb4afc905dac56651622b6e59021129814fb3375be
+Deleted: sha256:724990d77d686ea03c4fff2e23c91c68ff19eff8b543603070cacfb29eed7d57
+Deleted: sha256:b639a96d6536ed2591ea3544d3cefb03326758843bd77cdd5eb932f45f150215
+Deleted: sha256:67fd121971c518ec46d206137151141b8e86afb2a7424a3b65017f36ae3a931b
+Deleted: sha256:ad6562704f3759fb50f0d3de5f80a38f65a85e709b77fd24491253990f30b6be
+Untagged: replica:latest
+Deleted: sha256:f16240e6c1f8cd63570ce5d7a3e0cad0e07da8bb0a76990cf95976dd606eebfb
+Deleted: sha256:f9c2e1bd46a475e8f7468bba55cb2f8d2b0c8522c21bc297669cc72972bdff96
+Untagged: client:latest
+Deleted: sha256:3cf30a2f6ac49b71dbf6f04e9bea4991c8c729e628d4656fa5444f5b599250b3
+Deleted: sha256:684fb7bd03b6b0fa97ddbb2014253dd61ae14b3e2db9edd2063f819a7ad89b82
+Deleted: sha256:41b2fb5ce941630fdcfca1decfad9008d45b11fb2a957850a7b44068562ac135
+Deleted: sha256:9984f69243c5be144efda69f96a969ad8f5f72c1e74cca4b4c1983a9bd2e4295
+Untagged: artilleryio/artillery:latest
+Untagged: artilleryio/artillery@sha256:974845f38a1fc08628edf2ad2a419735ea711c8cf5ae1b04c674b192087d4136
+Deleted: sha256:01477bf2586dd4e318b1d024779d1187cf83bdf18c656411a27874ea6924a7da
+Deleted: sha256:6fa0314b9583064b55c2fde78b8469c678b9eec26667af493a620dec47122826
+Deleted: sha256:931a87eb14abb1ba9c2a6a729b9997ad43779789f87713df64787938b3b0f2be
+Deleted: sha256:cc067dc1f9bec8e21fb8594f8b88b9caee5cfcee1fd5cbac53759ae4740881e1
+Deleted: sha256:cc2c79cf8dc914ccabb6d947307903aada662574c19f91b9834d4e44a02e177e
+Deleted: sha256:6524c3e6d3229a1af5452a0960bb46964498da02a234c5a22fd9bc1f801ec9e0
+Deleted: sha256:cf2a1160b5f35a5495f19a50dba85de010bbe81b8c4aa9407ef663af84ead4cc
+Deleted: sha256:eb1f737ca242c0a94a6013f744a622c35cacfe0060486b36e820826bcaf1f9b6
+net
+keytool error: java.lang.Exception: Key pair not generated, alias <serverkey> already exists
+keytool error: java.lang.Exception: Certificate not imported, alias <clientTrust> already exists
+java.lang.Exception: Certificate not imported, alias <clientTrust> already exists
+	at java.base/sun.security.tools.keytool.Main.addTrustedCert(Main.java:3087)
+	at java.base/sun.security.tools.keytool.Main.doCommands(Main.java:1206)
+	at java.base/sun.security.tools.keytool.Main.run(Main.java:412)
+	at java.base/sun.security.tools.keytool.Main.main(Main.java:405)

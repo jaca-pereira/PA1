@@ -96,7 +96,7 @@ public class Client {
                     throw new WebApplicationException("Bizantine error!");
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy()))
                     throw new WebApplicationException("Bizantine error!");
-                List<Transaction> ledger = reply.getListReply();
+                LedgerDataStructure ledger = reply.getLedgerReply();
             } else
                 throw new WebApplicationException(r.getStatus());
         } catch (ProcessingException | IOException |

@@ -9,6 +9,9 @@ import java.util.List;
 public class Reply implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+
+    private LedgerDataStructure ledgerReply;
     //Security stuff
     private byte[] publicKeyProxy;
     private byte[] signatureProxy;
@@ -64,6 +67,15 @@ public class Reply implements Serializable {
         this.publicKeyReplica = null;
         this.signatureReplica = null;
         this.blockReply = blockReply;
+        this.requestType = requestType;
+    }
+
+    public Reply(LedgerDataStructure ledgerReply, LedgerRequestType requestType) {
+        this.publicKeyProxy = null;
+        this.signatureProxy = null;
+        this.publicKeyReplica = null;
+        this.signatureReplica = null;
+        this.ledgerReply = ledgerReply;
         this.requestType = requestType;
     }
 
@@ -146,4 +158,9 @@ public class Reply implements Serializable {
     public void setSignatureReplica(byte[] signatureReplica) {
         this.signatureReplica = signatureReplica;
     }
+
+    public LedgerDataStructure getLedgerReply() {
+        return ledgerReply;
+    }
+
 }

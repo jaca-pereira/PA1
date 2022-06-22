@@ -8,3 +8,5 @@ docker image rmi client
 docker image rmi artilleryio/artillery
 
 docker network remove net
+
+
