@@ -15,15 +15,14 @@ limitations under the License.
 */
 package bftsmart.statemanagement.durability;
 
+import bftsmart.statemanagement.ApplicationState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-
-import bftsmart.statemanagement.ApplicationState;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class StateSender implements Runnable {
 

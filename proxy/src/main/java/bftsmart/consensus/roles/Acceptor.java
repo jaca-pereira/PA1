@@ -15,18 +15,6 @@ limitations under the License.
 */
 package bftsmart.consensus.roles;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.security.PrivateKey;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import bftsmart.communication.ServerCommunicationSystem;
 import bftsmart.consensus.Consensus;
 import bftsmart.consensus.Epoch;
@@ -37,6 +25,17 @@ import bftsmart.tom.core.ExecutionManager;
 import bftsmart.tom.core.TOMLayer;
 import bftsmart.tom.core.messages.TOMMessage;
 import bftsmart.tom.util.TOMUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.security.PrivateKey;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * This class represents the acceptor role in the consensus protocol. This class

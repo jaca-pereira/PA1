@@ -11,7 +11,6 @@ public enum LedgerRequestType {
     GET_BALANCE,
     GET_BLOCK_TO_MINE,
     MINE_BLOCK,
-    GET_LAST_MINED_BLOCK;
 }
 
 

@@ -7,7 +7,7 @@ import java.util.*;
 public class LedgerDataStructure {
 
 
-    public static final int MINIMUM_TRANSACTIONS = 12;
+    public static final int MINIMUM_TRANSACTIONS = 16;
     public static final int REWARD = 10;
     private Map<String, Account> notMinedTransactionsMap;
     private List<Transaction> notMinedTransactionsList;

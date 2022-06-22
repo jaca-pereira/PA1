@@ -9,9 +9,8 @@ public enum LedgerRequestType {
     GET_LEDGER,
     LOAD_MONEY,
     GET_BALANCE,
-    GET_TRANSACTIONS_TO_MINERATE,
+    GET_BLOCK_TO_MINE,
     MINE_BLOCK,
-    GET_LAST_MINED_BLOCK;
 }
 
 

@@ -36,7 +36,7 @@ public class Request implements Serializable {
         this.publicKey = null;
         this.signature = null;
     }
-    public Request(LedgerRequestType requestType, Block block) {
+    public Request(LedgerRequestType requestType, byte[] account, Block block) {
         this.requestType = requestType;
         this.block = block;
         this.publicKey = null;

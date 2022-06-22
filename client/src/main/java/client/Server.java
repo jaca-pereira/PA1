@@ -1,19 +1,12 @@
 package client;
 
 
-import Security.InsecureHostNameVerifier;
+
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
-
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.UnknownHostException;
-import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
 import java.util.logging.Logger;
@@ -31,24 +24,22 @@ public class Server {
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 
         if (args.length < 1) {
-            System.out.println("Usage: <clientIDs>");
+            System.out.println("Usage: <proxy_URI>");
             System.exit(-1);
         }
 
 
-        int id = Integer.valueOf(args[0]);
-
         String ip = InetAddress.getLocalHost().getHostAddress();
 
 
-        String serverURI = String.format("https://%s:%s/", ip, PORT);
-
-        Client service = new Client();
+        URI serverURI = URI.create(String.format("http://%s:%s/", ip, PORT));
+        URI proxyURI = URI.create(args[0]);
+        Client client = new Client(proxyURI);
 
         ResourceConfig config = new ResourceConfig();
-        config.register(service);
-        HttpsURLConnection.setDefaultHostnameVerifier(new InsecureHostNameVerifier());
-        JdkHttpServerFactory.createHttpServer( URI.create(serverURI), config, SSLContext.getDefault());
+        config.register(client);
+
+        JdkHttpServerFactory.createHttpServer( serverURI, config);
 
         Log.info(String.format("%s Server ready @ %s\n",  InetAddress.getLocalHost().getCanonicalHostName(), serverURI));
     }

@@ -16,26 +16,18 @@ limitations under the License.
 package bftsmart.tom.core;
 
 import bftsmart.consensus.Consensus;
-import bftsmart.consensus.Epoch;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.TreeMap;
-import java.util.concurrent.locks.ReentrantLock;
-
 import bftsmart.consensus.Decision;
-import bftsmart.consensus.messages.MessageFactory;
+import bftsmart.consensus.Epoch;
 import bftsmart.consensus.messages.ConsensusMessage;
+import bftsmart.consensus.messages.MessageFactory;
 import bftsmart.consensus.roles.Acceptor;
 import bftsmart.consensus.roles.Proposer;
 import bftsmart.reconfiguration.ServerViewController;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 /**

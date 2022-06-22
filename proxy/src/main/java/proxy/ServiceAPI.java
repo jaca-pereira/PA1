@@ -65,9 +65,4 @@ public interface ServiceAPI {
     @Produces(MediaType.APPLICATION_JSON)
     byte[] mineBlock(byte[] data);
 
-    @POST
-    @Path("/mine/last")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    byte[] getLastMinedBlock(byte[] data);
 }

@@ -16,9 +16,9 @@ N=$((3*$F+1))
 
 for i in `seq 0 $(( $N - 1 ))`; do
 	
-	docker run -d --network net --name "redis_$i)" --ip "172.18.0.$(( $i + 30 ))" redis 
+	docker run -d --network net --name "redis_$i" --ip "172.18.0.$(( $i + 30 ))" redis 
 
-	docker run -d --network net --name "replica_$i" --ip "172.18.0.$(( $i + 20 ))" replica java -cp replica.jar replicas.LedgerReplica $i
+	docker run -d --network net --name "replica_$i" --ip "172.18.0.$(( $i + 20 ))" replica java -cp replica.jar replicas.LedgerReplica $(( $i + 20 ))
 
 done
 

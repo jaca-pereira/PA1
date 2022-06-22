@@ -15,17 +15,16 @@ limitations under the License.
 */
 package bftsmart.clientsmanagement;
 
+import bftsmart.tom.core.messages.TOMMessage;
+import bftsmart.tom.util.TOMUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
 import java.util.Iterator;
 import java.util.concurrent.locks.ReentrantLock;
-
-import bftsmart.tom.core.messages.TOMMessage;
-import bftsmart.tom.util.TOMUtil;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ClientData {
     

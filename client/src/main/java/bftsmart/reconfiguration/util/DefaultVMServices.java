@@ -16,7 +16,7 @@ public class DefaultVMServices extends VMServices {
     public static void main(String[] args) throws InterruptedException {
 
         if(args.length == 1){
-            System.out.println("####Tpp Client[Disjoint]####");
+            System.out.println("####Tpp Service[Disjoint]####");
 
             int smartId = Integer.parseInt(args[0]);
             
@@ -24,7 +24,7 @@ public class DefaultVMServices extends VMServices {
             
                 
         }else if(args.length == 3){
-            System.out.println("####Tpp Client[Join]####");
+            System.out.println("####Tpp Service[Join]####");
 
             int smartId = Integer.parseInt(args[0]);
             String ipAddress = args[1];

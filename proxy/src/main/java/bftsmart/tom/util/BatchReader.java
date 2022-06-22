@@ -15,14 +15,14 @@ limitations under the License.
 */
 package bftsmart.tom.util;
 
+import bftsmart.reconfiguration.ServerViewController;
+import bftsmart.tom.core.messages.TOMMessage;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.nio.ByteBuffer;
 import java.util.Random;
-
-import bftsmart.reconfiguration.ServerViewController;
-import bftsmart.tom.core.messages.TOMMessage;
-import org.slf4j.LoggerFactory;
 
 /**
  * Batch format: N_MESSAGES(int) + N_MESSAGES*[MSGSIZE(int),MSG(byte)] +

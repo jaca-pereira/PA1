@@ -15,9 +15,6 @@ limitations under the License.
 */
 package bftsmart.communication;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import bftsmart.consensus.messages.ConsensusMessage;
 import bftsmart.consensus.roles.Acceptor;
 import bftsmart.statemanagement.SMMessage;
@@ -26,6 +23,8 @@ import bftsmart.tom.core.messages.ForwardedMessage;
 import bftsmart.tom.core.messages.TOMMessage;
 import bftsmart.tom.leaderchange.LCMessage;
 import bftsmart.tom.util.TOMUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *

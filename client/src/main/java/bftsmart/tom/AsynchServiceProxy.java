@@ -7,12 +7,12 @@ import bftsmart.tom.core.messages.TOMMessageType;
 import bftsmart.tom.util.Extractor;
 import bftsmart.tom.util.KeyLoader;
 import bftsmart.tom.util.TOMUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class is an extension of 'ServiceProxy' that can waits for replies
@@ -109,7 +109,7 @@ public class AsynchServiceProxy extends ServiceProxy {
 
     /**
      * Purges all information associated to the request.
-     * This should always be invoked once enough replies are received and processed by the ReplyListenerImp callback.
+     * This should always be invoked once enough replies are received and processed by the ReplyListener callback.
      * 
      * @param requestId A unique identification for a previously sent request
      */

@@ -16,12 +16,11 @@ limitations under the License.
 package bftsmart.reconfiguration.util;
 
 import bftsmart.tom.util.KeyLoader;
-import java.util.StringTokenizer;
-
-import java.util.regex.Pattern;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 
 public class TOMConfiguration extends Configuration {
     

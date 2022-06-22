@@ -15,16 +15,16 @@ limitations under the License.
 */
 package bftsmart.consensus;
 
+import bftsmart.reconfiguration.ServerViewController;
+import bftsmart.tom.core.ExecutionManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
-
-import bftsmart.tom.core.ExecutionManager;
-import bftsmart.reconfiguration.ServerViewController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**

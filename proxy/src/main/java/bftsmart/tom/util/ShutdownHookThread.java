@@ -19,10 +19,11 @@ import bftsmart.consensus.Consensus;
 import bftsmart.consensus.Epoch;
 import bftsmart.consensus.TimestampValuePair;
 import bftsmart.tom.core.TOMLayer;
+import org.slf4j.LoggerFactory;
+
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import org.slf4j.LoggerFactory;
 
 /**
  * Print information about the replica when it is shutdown.

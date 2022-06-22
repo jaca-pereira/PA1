@@ -1,5 +1,5 @@
 config:
-  target: "https://staging.example.com"
+  target: "http://172.18.0.0:8080"
   phases:
     - duration: 15
       arrivalCount: 1 

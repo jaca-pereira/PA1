@@ -10,9 +10,11 @@ import data.Request;
 import data.LedgerRequestType;
 import data.Reply;
 
+import javax.ws.rs.InternalServerErrorException;
 import java.io.*;
 
-import java.security.KeyPair;
+import java.security.*;
+import java.security.cert.CertificateException;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -22,9 +24,15 @@ public class Service implements ServiceAPI {
     private AsynchServiceProxy asynchServiceProxy;
     private KeyPair keyPair;
 
-    public Service(int clientId) {
-        this.keyPair = Security.getKeyPair();
-        this.asynchServiceProxy = new AsynchServiceProxy(clientId, "config");
+    public Service(int proxyId) {
+        String alias = "server";
+        try {
+            this.keyPair = Security.getKeyPair(alias);
+        } catch (UnrecoverableKeyException | NoSuchAlgorithmException | IOException | KeyStoreException |
+                 CertificateException e) {
+            throw new InternalServerErrorException("Proxy key not created!");
+        }
+        this.asynchServiceProxy = new AsynchServiceProxy(proxyId, "config");
     }
 
     private byte[] sendRequest (byte[] request, TOMMessageType type, LedgerRequestType requestType) {
@@ -46,8 +54,8 @@ public class Service implements ServiceAPI {
             List<Reply> replicaReplies = replyChain.take();
             ProxyReply proxyReply = new ProxyReply();
             replicaReplies.forEach(rep -> {
-                rep.setPublicKey(this.keyPair.getPublic().getEncoded());
-                rep.setSignature(Security.signRequest(this.keyPair.getPrivate(), requestType.toString().getBytes()));
+                rep.setPublicKeyProxy(this.keyPair.getPublic().getEncoded());
+                rep.setSignatureProxy(Security.signRequest(this.keyPair.getPrivate(), requestType.toString().getBytes()));
                 proxyReply.addReply(rep);
             });
             return ProxyReply.serialize(proxyReply);
@@ -102,7 +110,7 @@ public class Service implements ServiceAPI {
 
     @Override
     public byte[] getBlockToMine(byte[] request) {
-        return this.sendRequest(request, TOMMessageType.UNORDERED_REQUEST, LedgerRequestType.GET_TRANSACTIONS_TO_MINERATE);
+        return this.sendRequest(request, TOMMessageType.UNORDERED_REQUEST, LedgerRequestType.GET_BLOCK_TO_MINE);
     }
 
     @Override
@@ -110,8 +118,4 @@ public class Service implements ServiceAPI {
         return this.sendRequest(request, TOMMessageType.ORDERED_REQUEST, LedgerRequestType.MINE_BLOCK);
     }
 
-    @Override
-    public byte[] getLastMinedBlock(byte[] request) {
-        return this.sendRequest(request, TOMMessageType.UNORDERED_REQUEST, LedgerRequestType.GET_LAST_MINED_BLOCK);
-    }
 }

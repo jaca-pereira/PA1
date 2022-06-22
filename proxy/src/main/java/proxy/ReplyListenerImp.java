@@ -1,5 +1,6 @@
 package proxy;
 
+import Security.Security;
 import bftsmart.tom.AsynchServiceProxy;
 import bftsmart.tom.RequestContext;
 import bftsmart.tom.core.messages.TOMMessage;
@@ -39,11 +40,16 @@ public class ReplyListenerImp implements bftsmart.communication.client.ReplyList
 
     @Override
     public void replyReceived(RequestContext context, TOMMessage msg) {
-        //REPLICAS TÊM DE ASSINAR RESPOSTAS
         if(msg.getContent().length > 0) {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(msg.getContent());
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
-                replies.add((Reply) objIn.readObject());
+                Reply reply = (Reply) objIn.readObject();
+                if (!Security.verifySignature(reply.getPublicKeyReplica(), reply.getRequestType().toString().getBytes(), reply.getSignatureReplica())) {
+                    replyChain.add(new LinkedList<>());
+                    asynchServiceProxy.cleanAsynchRequest(context.getOperationId());
+                    replies.clear();
+                } else
+                    replies.add(reply);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -52,6 +58,7 @@ public class ReplyListenerImp implements bftsmart.communication.client.ReplyList
         if (this.isValid()) {
             replyChain.add(new LinkedList<>(replies));
             asynchServiceProxy.cleanAsynchRequest(context.getOperationId());
+            replies.clear();
         }
     }
 

@@ -7,6 +7,8 @@ package bftsmart.tom.core;
 import bftsmart.communication.ServerCommunicationSystem;
 import bftsmart.tom.core.messages.TOMMessage;
 import io.netty.channel.Channel;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -17,7 +19,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**

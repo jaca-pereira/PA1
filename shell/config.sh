@@ -8,17 +8,17 @@ fi
 F=$1
 N=$((3*$F+1))
 
-cd configs/
+cd ../configs/
 cp hosts.template hosts.config
 cp system.template system.config
 
-echo "system.initial.view = $(seq -s ',' 0 $(( $N - 1 )) )" >> system.config
-echo "system.servers.num = $(( $N ))" >> system.config
+echo "system.initial.view = $(seq -s ',' 20 $(( $N - 1 + 20 )) )" >> system.config
+echo "system.servers.num = $N" >> system.config
 echo "system.servers.f = $F" >> system.config
-for i in `seq 0 $(( $N - 1 ))`; do
-    echo "$i 172.18.0.$($i + 20) 11000 11001" >> hosts.config
+for i in `seq 20 $(( $N - 1 + 20 ))`; do
+    echo "$i 172.18.0.$(($i + 20)) 11000 11001" >> hosts.config
 done
-echo "7001 127.0.0.1 11100"
+echo "7001 127.0.0.1 11100" >> hosts.config
 
 
 cp hosts.config ../replica/config
@@ -28,6 +28,15 @@ cp system.config ../proxy/config
 cp hosts.config ../client/config
 cp system.config ../client/config
 
-cd ..
+
+cd ../security
+
+keytool -genkey -alias serverkey -keyalg RSA -keypass password -keystore serverkeystore.jks -storepass password
+
+keytool -export -alias serverkey -file serverkey.cer -keystore serverkeystore.jks -storepass password
+
+keytool -import -v -trustcacerts -alias clientTrust -keypass password -file serverkey.cer -keystore clientcacerts.jks -storepass password
+
+cd ../shell
 
 

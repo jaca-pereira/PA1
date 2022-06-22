@@ -10,42 +10,61 @@ public class Reply implements Serializable {
 
     private static final long serialVersionUID = 1L;
     //Security stuff
-    private byte[] publicKey;
-    private byte[] signature;
+    private byte[] publicKeyProxy;
+    private byte[] signatureProxy;
+
+    private byte[] publicKeyReplica;
+    private byte[] signatureReplica;
     //Response stuff
     private boolean boolReply;
     private byte[] byteReply;
     private int intReply;
     private List<Transaction> listReply;
 
+    private LedgerRequestType requestType;
+
     private Block blockReply;
 
-    public Reply(boolean boolReply) {
+    public Reply(boolean boolReply, LedgerRequestType requestType) {
         this.boolReply = boolReply;
-        this.publicKey = null;
-        this.signature = null;
+        this.publicKeyProxy = null;
+        this.signatureProxy = null;
+        this.publicKeyReplica = null;
+        this.signatureReplica = null;
+        this.requestType = requestType;
     }
-    public Reply(byte[] byteReply) {
-        this.publicKey = null;
-        this.signature = null;
+    public Reply(byte[] byteReply, LedgerRequestType requestType) {
+        this.publicKeyProxy = null;
+        this.signatureProxy = null;
+        this.publicKeyReplica = null;
+        this.signatureReplica = null;
         this.byteReply = byteReply;
+        this.requestType = requestType;
     }
 
-    public Reply(int intReply) {
-        this.publicKey = null;
-        this.signature = null;
+    public Reply(int intReply, LedgerRequestType requestType) {
+        this.publicKeyProxy = null;
+        this.signatureProxy = null;
+        this.publicKeyReplica = null;
+        this.signatureReplica = null;
         this.intReply = intReply;
+        this.requestType = requestType;
     }
 
-    public Reply(List<Transaction> listReply) {
-        this.publicKey = null;
-        this.signature = null;
+    public Reply(List<Transaction> listReply, LedgerRequestType requestType) {
+        this.publicKeyProxy = null;
+        this.signatureProxy = null;
+        this.publicKeyReplica = null;
+        this.signatureReplica = null;
         this.listReply = listReply;
     }
-    public Reply(Block blockReply) {
-        this.publicKey = null;
-        this.signature = null;
+    public Reply(Block blockReply, LedgerRequestType requestType) {
+        this.publicKeyProxy = null;
+        this.signatureProxy = null;
+        this.publicKeyReplica = null;
+        this.signatureReplica = null;
         this.blockReply = blockReply;
+        this.requestType = requestType;
     }
 
     public Block getBlockReply() {
@@ -69,20 +88,20 @@ public class Reply implements Serializable {
     }
 
 
-    public PublicKey getPublicKey() {
-        return Security.getPublicKey(this.publicKey);
+    public PublicKey getPublicKeyProxy() {
+        return Security.getPublicKey(this.publicKeyProxy);
     }
 
-    public byte[] getSignature() {
-        return signature;
+    public byte[] getSignatureProxy() {
+        return signatureProxy;
     }
 
-    public void setPublicKey(byte[] publicKey) {
-        this.publicKey = publicKey;
+    public void setPublicKeyProxy(byte[] publicKeyProxy) {
+        this.publicKeyProxy = publicKeyProxy;
     }
 
-    public void setSignature(byte[] signature) {
-        this.signature = signature;
+    public void setSignatureProxy(byte[] signatureProxy) {
+        this.signatureProxy = signatureProxy;
     }
 
     public static byte[] serialize(Reply obj) {
@@ -108,4 +127,23 @@ public class Reply implements Serializable {
         return null;
     }
 
+    public LedgerRequestType getRequestType() {
+        return this.requestType;
+    }
+
+    public PublicKey getPublicKeyReplica() {
+        return Security.getPublicKey(this.publicKeyReplica);
+    }
+
+    public byte[] getSignatureReplica() {
+        return this.signatureReplica;
+    }
+
+    public void setPublicKeyReplica(byte[] publicKeyReplica) {
+        this.publicKeyReplica = publicKeyReplica;
+    }
+
+    public void setSignatureReplica(byte[] signatureReplica) {
+        this.signatureReplica = signatureReplica;
+    }
 }

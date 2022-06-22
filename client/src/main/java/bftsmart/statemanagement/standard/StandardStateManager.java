@@ -15,31 +15,23 @@
  */
 package bftsmart.statemanagement.standard;
 
-import bftsmart.statemanagement.StateManager;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Queue;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.Random;
-
-import bftsmart.tom.core.ExecutionManager;
+import bftsmart.consensus.Consensus;
+import bftsmart.consensus.Epoch;
 import bftsmart.consensus.messages.ConsensusMessage;
 import bftsmart.consensus.messages.MessageFactory;
 import bftsmart.reconfiguration.views.View;
 import bftsmart.statemanagement.ApplicationState;
 import bftsmart.statemanagement.SMMessage;
+import bftsmart.statemanagement.StateManager;
 import bftsmart.tom.core.DeliveryThread;
 import bftsmart.tom.core.TOMLayer;
-import bftsmart.tom.util.TOMUtil;
-import bftsmart.consensus.Consensus;
-import bftsmart.consensus.Epoch;
 import bftsmart.tom.leaderchange.CertifiedDecision;
-
+import bftsmart.tom.util.TOMUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  *
