@@ -83,7 +83,7 @@ public class Client {
     }
 
 
-    public LedgerDataStructure getLedger(String account_alias) {
+    public LedgerDataStructure getLedger() {
         try {
             Request request = new Request(LedgerRequestType.GET_LEDGER);
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
@@ -108,7 +108,7 @@ public class Client {
         }
     }
 
-    public void sendTransaction(String originAccount, String destinationAccount) {
+    public void sendTransaction() {
         try {
             SecureRandom nonce = new SecureRandom();
             byte[] originAccountBytes = this.accounts.get(originAccount);
@@ -136,7 +136,7 @@ public class Client {
         }
     }
 
-    public int getGlobalValue(String account) {
+    public int getGlobalValue() {
         try {
             Request request = new Request(LedgerRequestType.GET_GLOBAL_VALUE);
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
@@ -162,7 +162,7 @@ public class Client {
         }
     }
 
-    public int getTotalValue(String account, List<String> accounts) {
+    public int getTotalValue() {
         try {
             List<byte[]> accountsBytes = new ArrayList<>(accounts.size());
             for (String acc: accounts) {
@@ -191,7 +191,7 @@ public class Client {
         }
     }
 
-    public List<Transaction> getExtract(String account) {
+    public List<Transaction> getExtract() {
         try {
             byte[] accountBytes = this.accounts.get(account);
             Request request = new Request(LedgerRequestType.GET_EXTRACT, accountBytes);
@@ -217,7 +217,7 @@ public class Client {
         }
     }
 
-    public int getBalance(String account) {
+    public int getBalance() {
         try {
             byte[] accountBytes = this.accounts.get(account);
             Request request = new Request(LedgerRequestType.GET_BALANCE, accountBytes);
@@ -277,14 +277,11 @@ public class Client {
     public Block getBlockToMine() {
         try {
             Request request = new Request(LedgerRequestType.GET_BLOCK_TO_MINE);
-            KeyPair keyPair = Security.getKeyPair(account);
             System.out.println("TEM KEY PAIR");
             request.setPublicKey(keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
-=======
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
->>>>>>> Stashed changes
             WebTarget target = this.client.target(proxyURI).path("/mine/get");
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
@@ -305,19 +302,12 @@ public class Client {
             } else {
                 System.out.println("ERRO DE RESPOSTA " );
                 throw new WebApplicationException(r.getStatus());
-<<<<<<< Updated upstream
+
             }
-        } catch ( ProcessingException | UnrecoverableKeyException | NoSuchAlgorithmException | IOException e) {
-            System.out.println("PROBLEMAS COM A CHAVE");
-            throw new InternalServerErrorException();
-        } catch (CertificateException | KeyStoreException e) {
-            System.out.println("NAO HA CONTA");
-            throw new WebApplicationException("Account not created!", Response.Status.NOT_FOUND);
-=======
-        } catch ( ProcessingException e) {
-            throw new InternalServerErrorException();
->>>>>>> Stashed changes
+        } catch ( ProcessingException e){
+
         }
+        return null;
     }
 
     public void mineBlock(String account, Block block) {

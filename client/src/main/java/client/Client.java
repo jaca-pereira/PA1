@@ -1,36 +1,24 @@
 package client;
 
 
-import Security.Security;
+
 import bftsmart.tom.util.TOMUtil;
-import com.google.gson.Gson;
+
 import data.*;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 import java.net.URI;
-<<<<<<< Updated upstream
 import java.security.KeyPair;
-=======
 import java.security.NoSuchAlgorithmException;
->>>>>>> Stashed changes
 import java.security.SecureRandom;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 
 public class Client implements ClientAPI {
     private data.Client client;
-<<<<<<< Updated upstream
     private KeyPair keyPair;
 
-    public Client(URI proxyURI) {
-       this.client = new data.Client(proxyURI);
-=======
     public Client(URI proxyURI) throws NoSuchAlgorithmException {
-       client = new data.Client(proxyURI);
->>>>>>> Stashed changes
+       this.client = new data.Client(proxyURI);
     }
 
     @Override
