@@ -34,16 +34,14 @@ public class Client {
     private final URI proxyURI;
     private final javax.ws.rs.client.Client client;
 
-    private Map<String, byte[]> accounts;
+    private Map<Integer, byte[]> accounts;
     private KeyPair keyPair;
-    private int currentUser;
 
     public Client(URI proxyURI) throws NoSuchAlgorithmException {
         this.proxyURI = proxyURI;
         this.client = this.startClient();
         this.accounts = new HashMap<>();
-        this.keyPair = getKeyPair();
-        this.currentUser = -1;
+        this.keyPair = Security.getKeyPair();
     }
 
     private byte[] idMaker(String email) throws NoSuchAlgorithmException, UnrecoverableKeyException, CertificateException, IOException, KeyStoreException {
@@ -59,12 +57,17 @@ public class Client {
 
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] sha256 = digest.digest(buffersha256.array());
-        byte[] publicKey = Security.getKeyPair(email).getPublic().getEncoded();
+        byte[] publicKey = this.keyPair.getPublic().getEncoded();
         ByteBuffer buffer = ByteBuffer.wrap(new byte[sha256.length + publicKey.length]);
         buffer.put(sha256);
         buffer.put(publicKey);
 
         return buffer.array();
+    }
+
+    private byte[] getCurrentUser() {
+        Random random = new Random();
+        return accounts.get(random.nextInt(accounts.size()));
     }
 
     private javax.ws.rs.client.Client startClient() {
@@ -335,9 +338,6 @@ public class Client {
         }
     }
 
-    private static KeyPair getKeyPair() throws NoSuchAlgorithmException {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("EC");
-        return keyPairGenerator.generateKeyPair();
-    }
+
 }
 
