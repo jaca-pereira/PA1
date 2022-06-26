@@ -22,8 +22,8 @@ public class Ledger {
         return gson.fromJson(json, LedgerDataStructure.class);
     }
 
-    public Ledger(Jedis jedis, int difficulty) {
-        LedgerDataStructure ledger = new LedgerDataStructure(difficulty);
+    public Ledger(Jedis jedis) {
+        LedgerDataStructure ledger = new LedgerDataStructure();
         this.jedis = jedis;
         this.toJedis(ledger);
     }

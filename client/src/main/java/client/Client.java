@@ -5,9 +5,9 @@ package client;
 import bftsmart.tom.util.TOMUtil;
 
 import data.*;
+import javassist.bytecode.ByteArray;
 
 import java.net.URI;
-import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
@@ -15,7 +15,6 @@ import java.security.SecureRandom;
 
 public class Client implements ClientAPI {
     private data.Client client;
-    private KeyPair keyPair;
 
     public Client(URI proxyURI) throws NoSuchAlgorithmException {
        this.client = new data.Client(proxyURI);
@@ -23,10 +22,8 @@ public class Client implements ClientAPI {
 
     @Override
     public boolean create_account(String email) {
-        String s = email.substring(10, 16);
         System.out.println(email);
-        System.out.println(s);
-        client.createAccount(s);
+        client.createAccount(email);
         return true;
     }
 
@@ -78,29 +75,11 @@ public class Client implements ClientAPI {
             System.out.println("MINANDO");
             nonce = secureRandom.nextLong();
             blockToMine.setNonce(nonce);
-        } while (!this.proofOfWork(blockToMine, blockToMine.getDifficulty()));
+        } while (!Block.proofOfWork(blockToMine));
         System.out.println("MINOU");
+        blockToMine.setHash(TOMUtil.computeHash(Block.serialize(blockToMine)));
         client.mineBlock(blockToMine);
         return true;
-    }
-
-    private boolean proofOfWork(Block blockToMine, int difficulty) {
-        try {
-            byte[] blockHash = TOMUtil.computeHash(Block.serialize(blockToMine));
-            int count = 0;
-            for (byte b: blockHash) {
-                if (b == 0) {
-                    count++;
-                    if (count == difficulty)
-                        return true;
-                } else {
-                    return false;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
 }

@@ -28,11 +28,11 @@ public class LedgerReplica extends DefaultSingleRecoverable {
     private int rewardCounter;
 
     public static void main(String[] args) throws IOException {
-        if (args.length < 2) {
-            System.out.println("Usage: LedgerReplica <id> <difficulty>");
+        if (args.length < 1) {
+            System.out.println("Usage: LedgerReplica <id>");
             System.exit(-1);
         }
-        new LedgerReplica(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+        new LedgerReplica(Integer.parseInt(args[0]));
     }
 
     private Jedis initRedis(int id) throws IOException {
@@ -44,8 +44,8 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         return jedisPool.getResource();
     }
 
-    public LedgerReplica(int id, int difficuly) throws IOException {
-        ledger = new Ledger(this.initRedis(id), difficuly);
+    public LedgerReplica(int id) throws IOException {
+        ledger = new Ledger(this.initRedis(id));
         logger = Logger.getLogger(LedgerReplica.class.getName());
         BasicConfigurator.configure();
         serviceReplica = new ServiceReplica(id, this, this);
@@ -67,62 +67,66 @@ public class LedgerReplica extends DefaultSingleRecoverable {
             ObjectInput objIn = new ObjectInputStream(byteIn);
             ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
             ObjectOutput objOut = new ObjectOutputStream(byteOut)) {
-            Request request = (Request) objIn.readObject();
-            Reply rep;
-            if(Security.verifySignature(request.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature())) {
-                switch (request.getRequestType()) {
-                    case CREATE_ACCOUNT:
-                        rep = new Reply(this.ledger.addAccount(request.getAccount()), LedgerRequestType.CREATE_ACCOUNT);
-                        break;
-                    case SEND_TRANSACTION:
-                        rep = new Reply(this.sendTransaction(request), LedgerRequestType.SEND_TRANSACTION);
-                        break;
-                    case GET_BALANCE:
-                        rep = new Reply(this.ledger.getBalance(request.getAccount()), LedgerRequestType.GET_BALANCE);
-                        break;
-                    case GET_EXTRACT:
-                        rep = new Reply(this.ledger.getExtract(request.getAccount(), request.getBegin()), LedgerRequestType.GET_EXTRACT);
-                        break;
-                    case GET_TOTAL_VALUE:
-                        rep = new Reply(this.ledger.getTotalValue(request.getAccounts()), LedgerRequestType.GET_TOTAL_VALUE);
-                        break;
-                    case GET_GLOBAL_VALUE:
-                        rep = new Reply(this.ledger.getGlobalValue(), LedgerRequestType.GET_GLOBAL_VALUE);
-                        break;
-                    case GET_LEDGER:
-                        rep = new Reply(this.ledger.getLedger(), LedgerRequestType.GET_LEDGER);
-                        break;
-                    case GET_BLOCK_TO_MINE:
-                        rep = new Reply(this.ledger.getBlockToMine(), LedgerRequestType.GET_BLOCK_TO_MINE);
-                        break;
-                    case MINE_BLOCK:
-                        this.ledger.addMinedBlock(request.getBlock());
-                        System.out.println("MINOU");
-                        Request rewardRequest = new Request(LedgerRequestType.LOAD_MONEY, this.LEDGER, request.getAccount(), this.reward, -1);
-                        rewardRequest.setPublicKey(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
-                        rewardRequest.setSignature(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), LedgerRequestType.LOAD_MONEY.toString().getBytes()));
-                        this.sendTransaction(rewardRequest);
-                        System.out.println("ENVIOU TRANSACTION");
-                        if(++rewardCounter == FIRST_X_BLOCKS)
-                            this.reward = 10;
-                        rep = new Reply(reward, LedgerRequestType.MINE_BLOCK);
-                        break;
-                    default:
-                        rep = new Reply("Operation not supported");
+                Request request = (Request) objIn.readObject();
+                Reply rep;
+                if(Security.verifySignature(request.getPublicKey(), request.getRequestType().toString().getBytes(), request.getSignature())) {
+                    switch (request.getRequestType()) {
+                        case CREATE_ACCOUNT:
+                            rep = new Reply(this.ledger.addAccount(request.getAccount()), LedgerRequestType.CREATE_ACCOUNT);
+                            break;
+                        case SEND_TRANSACTION:
+                            rep = new Reply(this.sendTransaction(request), LedgerRequestType.SEND_TRANSACTION);
+                            break;
+                        case GET_BALANCE:
+                            rep = new Reply(this.ledger.getBalance(request.getAccount()), LedgerRequestType.GET_BALANCE);
+                            break;
+                        case GET_EXTRACT:
+                            rep = new Reply(this.ledger.getExtract(request.getAccount(), request.getBegin()), LedgerRequestType.GET_EXTRACT);
+                            break;
+                        case GET_TOTAL_VALUE:
+                            rep = new Reply(this.ledger.getTotalValue(request.getAccounts()), LedgerRequestType.GET_TOTAL_VALUE);
+                            break;
+                        case GET_GLOBAL_VALUE:
+                            rep = new Reply(this.ledger.getGlobalValue(), LedgerRequestType.GET_GLOBAL_VALUE);
+                            break;
+                        case GET_LEDGER:
+                            rep = new Reply(this.ledger.getLedger(), LedgerRequestType.GET_LEDGER);
+                            break;
+                        case GET_BLOCK_TO_MINE:
+                            rep = new Reply(this.ledger.getBlockToMine(), LedgerRequestType.GET_BLOCK_TO_MINE);
+                            break;
+                        case MINE_BLOCK:
+                            this.ledger.addMinedBlock(request.getBlock());
+                            System.out.println("MINOU");
+                            Request rewardRequest = new Request(LedgerRequestType.LOAD_MONEY, this.LEDGER, request.getAccount(), this.reward, -1);
+                            rewardRequest.setPublicKey(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
+                            rewardRequest.setSignature(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), LedgerRequestType.LOAD_MONEY.toString().getBytes()));
+                            this.sendTransaction(rewardRequest);
+                            System.out.println("ENVIOU TRANSACTION");
+                            if(++rewardCounter == FIRST_X_BLOCKS)
+                                this.reward = 10;
+                            rep = new Reply(reward, LedgerRequestType.MINE_BLOCK);
+                            break;
+                        default:
+                            rep = new Reply("Operation not supported");
+                    }
+                } else {
+                    System.out.println("MAL ASSINADO");
+                    rep = new Reply("Bad signature");
                 }
-            } else {
-                System.out.println("MAL ASSINADO");
-                rep = new Reply("Bad signature");
-            }
-            rep.setPublicKeyReplica(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
-            rep.setSignatureReplica(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), request.getRequestType().toString().getBytes()));
-            objOut.writeObject(rep);
-            objOut.flush();
-            byteOut.flush();
-            reply = byteOut.toByteArray();
+                rep.setPublicKeyReplica(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
+                rep.setSignatureReplica(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), request.getRequestType().toString().getBytes()));
+                System.out.println(rep.getPublicKeyReplica());
+                System.out.println(rep.getSignatureReplica());
+                objOut.writeObject(rep);
+                objOut.flush();
+                byteOut.flush();
+                reply = byteOut.toByteArray();
         } catch (Exception e) {
+            e.printStackTrace();
             reply = Reply.serialize(new Reply(e.getMessage()));
         }
+        System.out.println("VAI ENVIAR RESPOSTA");
         return reply;
     }
 
@@ -161,17 +165,22 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                         rep = new Reply("Operation not supported");
                 }
             } else {
+                System.out.println("MAL ASSINADO");
                 rep = new Reply("Bad signature");
             }
             rep.setPublicKeyReplica(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
             rep.setSignatureReplica(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), request.getRequestType().toString().getBytes()));
+            System.out.println(rep.getPublicKeyReplica());
+            System.out.println(rep.getSignatureReplica());
             objOut.writeObject(rep);
             objOut.flush();
             byteOut.flush();
             reply = byteOut.toByteArray();
         } catch (Exception e) {
+            e.printStackTrace();
             reply = Reply.serialize(new Reply(e.getMessage()));
         }
+        System.out.println("VAI ENVIAR RESPOSTA");
         return reply;
     }
 

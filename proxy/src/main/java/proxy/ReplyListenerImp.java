@@ -9,6 +9,7 @@ import data.Reply;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
+import java.security.PublicKey;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,18 +48,20 @@ public class ReplyListenerImp implements bftsmart.communication.client.ReplyList
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(msg.getContent());
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
                 Reply reply = (Reply) objIn.readObject();
-                if (!Security.verifySignature(reply.getPublicKeyReplica(), reply.getRequestType().toString().getBytes(), reply.getSignatureReplica())) {
+                byte[] signature = reply.getSignatureReplica();
+                PublicKey publicKey = reply.getPublicKeyReplica();
+                if (signature == null || publicKey == null || !Security.verifySignature(publicKey, reply.getRequestType().toString().getBytes(), signature) || reply.getError()!=null) {
                     replyChain.add(new LinkedList<>());
                     System.out.println("REPLICAS ASSINARAM MAL");
                     asynchServiceProxy.cleanAsynchRequest(context.getOperationId());
                     replies.clear();
-                } else
+                } else {
                     replies.add(reply);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
         if (this.isValid()) {
             replyChain.add(new LinkedList<>(replies));
             System.out.println("RESPOSTA READY");

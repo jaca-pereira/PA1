@@ -27,7 +27,7 @@ public class Service implements ServiceAPI {
     private ServiceProxy serviceProxy;
     private KeyPair keyPair;
 
-    public Service(int proxyId, String alias, boolean asynch) {
+    public Service(int proxyId, boolean asynch) {
         try {
             this.keyPair = Security.getKeyPair();
         } catch (NoSuchAlgorithmException e) {

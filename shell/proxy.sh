@@ -18,7 +18,7 @@ docker build -t proxy .
 
 for i in `seq 0 $(( $N - 1 ))`; do
 		
-	docker run --network net --ip "172.19.10.$i" --name "proxy_$i" -p 8080 -d proxy java -Djavax.net.ssl.keyStore=security/serverkeystore.jks -Djavax.net.ssl.keyStorePassword=password -cp server.jar proxy.Server $(( $i + 10 )) server $A
+	docker run --network net --ip "172.19.10.$i" --name "proxy_$i" -p 8080 -d proxy java -Djavax.net.ssl.keyStore=security/serverkeystore.jks -Djavax.net.ssl.keyStorePassword=password -cp server.jar proxy.Server $(( $i + 10 )) $A
 	
 done
 

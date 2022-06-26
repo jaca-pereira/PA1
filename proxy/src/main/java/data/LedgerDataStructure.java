@@ -8,7 +8,6 @@ public class LedgerDataStructure {
 
 
     public static final int MAXIMUM_MINIMUM_TRANSACTIONS = 16;
-    private final int difficulty;
 
     private List<Transaction> notMinedTransactionsList;
     private List<byte[]> transactionsId;
@@ -20,21 +19,20 @@ public class LedgerDataStructure {
     private int minimumTransactions;
 
 
-    public LedgerDataStructure(int difficulty) {
+    public LedgerDataStructure() {
         this.notMinedTransactionsList = new ArrayList<>(MAXIMUM_MINIMUM_TRANSACTIONS);
         this.transactionsId = new LinkedList<>();
         this.globalValue = 0;
         this.minedBlocks = new LinkedList<>();
         this.blocksToMine = new LinkedList<>();
         this.accounts = new HashMap<>();
-        this.genesisBlock();
         this.minimumTransactions = 1;
-        this.difficulty = difficulty;
+        this.genesisBlock();
 
     }
 
     private void genesisBlock() {
-        Block genesis = new Block(new byte[]{0x0}, new LinkedList<>(), new HashMap<>(), this.difficulty);
+        Block genesis = new Block(new byte[]{0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, new LinkedList<>(), new HashMap<>()); //needs 8 bytes for Big Integer conversion
         this.blocksToMine.add(genesis);
     }
 
@@ -105,7 +103,7 @@ public class LedgerDataStructure {
 
             merkleTree.add(transaction);
         }
-        blocksToMine.add(new Block(last.getBlockHash(), merkleTree, merkleMap, difficulty));
+        blocksToMine.add(new Block(last.getHash(), merkleTree, merkleMap));
         notMinedTransactionsList = new ArrayList<>(MAXIMUM_MINIMUM_TRANSACTIONS);
         if(this.minimumTransactions != MAXIMUM_MINIMUM_TRANSACTIONS)
             this.minimumTransactions *= 2;
@@ -126,10 +124,10 @@ public class LedgerDataStructure {
     }
 
     public List<Transaction> getExtract(byte[] account, int begin) {
-        if (!accounts.containsKey(new String(account)))
+        if (accounts.get(new String(account))==null)
             throw new IllegalArgumentException("Account does not exist!");
         List<Transaction> extract = new LinkedList<>();
-        for(Block block: this.minedBlocks)
+        for(Block block: this.minedBlocks.subList(begin, this.minedBlocks.size()))
             extract.addAll(block.getExtract(account));
         return extract;
     }
@@ -147,20 +145,25 @@ public class LedgerDataStructure {
 
 
     public Block getBlockToMine() throws Exception {
-        if (blocksToMine.size()==0)
+        if (blocksToMine.size()==0) {
+            System.out.println("NÃO HA BLOCOS PARA MINAR");
             throw new Exception("No blocks to mine");
+        }
+        System.out.println("HA BLOCOS PARA MINAR");
         return blocksToMine.get(0);
     }
 
     public void addMinedBlock(Block block) throws Exception {
-        if(accounts.containsKey(new String(block.getAccount())))
+        if (accounts.get(new String(block.getAccount()))==null) {
+            System.out.println("CONTA NAO EXISTE");
             throw new IllegalArgumentException("Account does not exist");
-        if(!Security.verifySignature(block.getPublicKey(), block.getMerkle().getTransactionsHash(), block.getSignature()))
-            throw new IllegalArgumentException("Block Signature not valid!");
-        if (!Block.proofOfWork(block))
+        } else if (!Block.proofOfWork(block)) {
+            System.out.println("NÃO PROVA O WORK");
             throw new IllegalArgumentException("Block does not have proof of work!");
-        if(!new String(blocksToMine.get(0).getBlockHash()).equals(new String(block.getBlockHash())))
+        } else if(!new String(blocksToMine.get(0).getHash()).equals(new String(block.getHash()))) {
+            System.out.println("JA FOI MINADO");
             throw new Exception("Block already mined!");
+        }
         blocksToMine.remove(0);
         minedBlocks.add(block);
     }

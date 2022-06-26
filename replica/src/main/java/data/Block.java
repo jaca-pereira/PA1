@@ -2,17 +2,14 @@ package data;
 
 import bftsmart.tom.util.TOMUtil;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.math.BigInteger;
 import java.security.PublicKey;
-import java.util.HashMap;
-import java.util.LinkedList;
+
 import java.util.List;
 import java.util.Map;
 
-public class Block {
+public class Block implements Serializable {
     private byte[] lastBlockHash;
     private long nonce;
     private Merkle merkle;
@@ -22,17 +19,20 @@ public class Block {
 
     private byte[] account;
 
-    private int difficulty;
+    private static final long serialVersionUID = 1L;
 
-    public Block(byte[] lastBlockHash, List<Transaction> transactionsList, Map<String, Account> transactionsMap, int difficulty) {
+    private byte[] hash;
+
+    public Block(byte[] lastBlockHash, List<Transaction> transactionsList, Map<String, Account> transactionsMap) {
         this.lastBlockHash = lastBlockHash;
         this.nonce = -1;
         this.signature = null;
         this.publicKey = null;
         this.account = null;
         this.merkle = new Merkle(transactionsList, transactionsMap);
-        this.difficulty = difficulty;
+        this.hash = null;
     }
+
 
     public void setNonce(long nonce) {
         this.nonce = nonce;
@@ -77,6 +77,7 @@ public class Block {
         return publicKey;
     }
 
+
     public static byte[] serialize(Block obj) {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -100,32 +101,24 @@ public class Block {
         return null;
     }
 
-    public byte[] getBlockHash() {
-        return TOMUtil.computeHash(Block.serialize(this));
+    public byte[] getHash() {
+        return this.hash;
+    }
+
+    public void setHash(byte[] hash) {
+        this.hash = hash;
     }
 
     public static boolean proofOfWork(Block block) {
         try {
-            byte[] blockHash = TOMUtil.computeHash(Block.serialize(block));
-            int count = 0;
-            byte[] number = {blockHash[blockHash.length-1], blockHash[blockHash.length-2]};
-            for (int i = 0; i < blockHash.length-1; i++) {
-                byte b = blockHash[i];
-                if (b == number[count]) {
-                    count++;
-                    if (count == 2)
-                        return true;
-                } else {
-                    count = 0;
-                }
-            }
+            BigInteger hashInt = new BigInteger(block.getLastBlockHash());
+            long nonceHash = block.getNonce() + hashInt.longValue();
+            if(nonceHash < Long.MAX_VALUE)
+                return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    public int getDifficulty() {
-        return this.difficulty;
-    }
 }

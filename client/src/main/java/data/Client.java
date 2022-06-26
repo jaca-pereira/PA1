@@ -1,12 +1,11 @@
 package data;
 
-import java.io.IOException;
+
 import java.net.*;
 
 import java.nio.ByteBuffer;
 import java.security.*;
 
-import java.security.cert.CertificateException;
 import java.util.*;
 
 
@@ -36,15 +35,17 @@ public class Client {
 
     private Map<Integer, byte[]> accounts;
     private KeyPair keyPair;
+    private int currentUser;
 
     public Client(URI proxyURI) throws NoSuchAlgorithmException {
         this.proxyURI = proxyURI;
         this.client = this.startClient();
         this.accounts = new HashMap<>();
         this.keyPair = Security.getKeyPair();
+        this.currentUser = -1;
     }
 
-    private byte[] idMaker(String email) throws NoSuchAlgorithmException, UnrecoverableKeyException, CertificateException, IOException, KeyStoreException {
+    private byte[] idMaker(String email) throws NoSuchAlgorithmException {
         SecureRandom generator = new SecureRandom();
         byte[] srn = generator.generateSeed(32);
 
@@ -66,8 +67,10 @@ public class Client {
     }
 
     private byte[] getCurrentUser() {
-        Random random = new Random();
-        return accounts.get(random.nextInt(accounts.size()));
+        currentUser++;
+        if (currentUser >= accounts.size())
+            currentUser = 0;
+        return accounts.get(currentUser);
     }
 
     private javax.ws.rs.client.Client startClient() {
@@ -114,9 +117,12 @@ public class Client {
     public void sendTransaction() {
         try {
             SecureRandom nonce = new SecureRandom();
-            byte[] originAccountBytes = this.accounts.get(originAccount);
-            byte[] destinationAccountBytes = this.accounts.get(destinationAccount);
-            Request request = new Request(LedgerRequestType.SEND_TRANSACTION, originAccountBytes, destinationAccountBytes, DEFAULT_AMOUNT_TRANSACTIONS,nonce.nextLong());
+            byte[] originAccountBytes = this.getCurrentUser();
+            byte[] destinationAccountBytes;
+            do {
+                destinationAccountBytes = this.getCurrentUser();
+            } while (new String (originAccountBytes).equals(new String(destinationAccountBytes)));
+            Request request = new Request(LedgerRequestType.SEND_TRANSACTION, originAccountBytes, destinationAccountBytes, 0,nonce.nextLong());
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
             WebTarget target = this.client.target(proxyURI).path("transaction");
@@ -168,9 +174,9 @@ public class Client {
     public int getTotalValue() {
         try {
             List<byte[]> accountsBytes = new ArrayList<>(accounts.size());
-            for (String acc: accounts) {
-                accountsBytes.add( this.accounts.get(acc));
-            }
+            for (int i = 0; i < 3; i++)
+                accountsBytes.add(this.getCurrentUser());
+
             Request request = new Request(LedgerRequestType.GET_TOTAL_VALUE,accountsBytes);
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
@@ -196,7 +202,7 @@ public class Client {
 
     public List<Transaction> getExtract() {
         try {
-            byte[] accountBytes = this.accounts.get(account);
+            byte[] accountBytes = this.getCurrentUser();
             Request request = new Request(LedgerRequestType.GET_EXTRACT, accountBytes);
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
@@ -222,7 +228,7 @@ public class Client {
 
     public int getBalance() {
         try {
-            byte[] accountBytes = this.accounts.get(account);
+            byte[] accountBytes = this.getCurrentUser();
             Request request = new Request(LedgerRequestType.GET_BALANCE, accountBytes);
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
@@ -264,14 +270,14 @@ public class Client {
                 }
                 if (reply.getError()!=null)
                     throw new WebApplicationException(reply.getError());
-                accounts.put(email, account);
+                accounts.put(accounts.size(), account);
             } else {
                 throw new WebApplicationException(r.getStatus());
             }
-        } catch ( ProcessingException | UnrecoverableKeyException | NoSuchAlgorithmException | IOException e) {
+        } catch ( ProcessingException e) {
             throw new WebApplicationException();
-        } catch(CertificateException | KeyStoreException e) {
-            throw new WebApplicationException("Account keystore not created!");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
 
     }
@@ -280,7 +286,6 @@ public class Client {
     public Block getBlockToMine() {
         try {
             Request request = new Request(LedgerRequestType.GET_BLOCK_TO_MINE);
-            System.out.println("TEM KEY PAIR");
             request.setPublicKey(keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
@@ -301,7 +306,10 @@ public class Client {
                     throw new WebApplicationException(reply.getError());
                 }
                 System.out.println("RESPONDEU O BLOCO");
-                return reply.getBlockReply();
+                Block block = reply.getBlockReply();
+                block.setAccount(this.getCurrentUser());
+
+                return block;
             } else {
                 System.out.println("ERRO DE RESPOSTA " );
                 throw new WebApplicationException(r.getStatus());
@@ -313,9 +321,9 @@ public class Client {
         return null;
     }
 
-    public void mineBlock(String account, Block block) {
+    public void mineBlock(Block block) {
         try {
-            byte[] accountBytes = this.accounts.get(account);
+            byte[] accountBytes = block.getAccount();
             Request request = new Request(LedgerRequestType.MINE_BLOCK, accountBytes, block);
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));

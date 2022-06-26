@@ -2,11 +2,9 @@ package client;
 
 
 
-import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
-import org.glassfish.jersey.server.ResourceConfig;
+import test.Tests;
+
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.URI;
 import java.security.NoSuchAlgorithmException;
 
 import java.util.logging.Logger;
@@ -23,25 +21,31 @@ public class Server {
 
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 
-        if (args.length < 1) {
+        /*if (args.length < 1) {
             System.out.println("Usage: <proxy_URI>");
             System.exit(-1);
         }
+        */
 
 
-        String ip = InetAddress.getLocalHost().getHostAddress();
+        //String ip = InetAddress.getLocalHost().getHostAddress();
 
 
-        URI serverURI = URI.create(String.format("http://%s:%s/", ip, PORT));
-        URI proxyURI = URI.create(args[0]);
-        Client client = new Client(proxyURI);
+        //URI serverURI = URI.create(String.format("http://%s:%s/", ip, PORT));
+        //URI proxyURI = URI.create(args[0]);
+        //Client client = new Client(proxyURI);
+        Tests tests = new Tests();
+        tests.testGeneral();
+        tests.mineBlock();
 
-        ResourceConfig config = new ResourceConfig();
-        config.register(client);
+        while(true);
+        //ResourceConfig config = new ResourceConfig();
+        //config.register(tests);
 
-        JdkHttpServerFactory.createHttpServer( serverURI, config);
+        //JdkHttpServerFactory.createHttpServer( serverURI, config);
 
-        Log.info(String.format("%s Server ready @ %s\n",  InetAddress.getLocalHost().getCanonicalHostName(), serverURI));
+        //Log.info(String.format("%s Server ready @ %s\n",  InetAddress.getLocalHost().getCanonicalHostName(), serverURI))
+
     }
 
 }

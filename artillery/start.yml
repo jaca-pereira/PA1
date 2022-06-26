@@ -5,18 +5,19 @@ config:
         - "user"
   target: "http://172.19.0.2:8080"
   phases:
-    - duration: 60
+    - duration: 120
       arrivalCount: 1
 scenarios:    
   - name: Create Account
     flow:
-      - loop:
-        - post:
-            url: "/create_account"
-            json:
-              email: "{{ user }}"
-        count: 4
+      - post:
+          url: "/create_account"
+          json: "manel"
+      - post:
+          url: "/create_account"
+          json: "joão"
+      - post:
+          url: "/create_account"
+          json: "toze"
       - post:
           url: "/mine"
-          json:
-            account: "{{ user }}" 

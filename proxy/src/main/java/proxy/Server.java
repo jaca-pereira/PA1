@@ -28,21 +28,20 @@ public class Server {
 
     public static void main(String [] args) throws UnknownHostException, NoSuchAlgorithmException, KeyManagementException {
 
-        if (args.length < 3) {
-            System.out.println("Usage: <proxyID> <serverAlias> <asynch_or_not>");
+        if (args.length < 2) {
+            System.out.println("Usage: <proxyID> <asynch_or_not>");
             System.exit(-1);
         }
 
 
         int id = Integer.parseInt(args[0]);
-        String alias = args[1];
-        boolean asynch = Boolean.parseBoolean(args[2]);
+        boolean asynch = Boolean.parseBoolean(args[1]);
         String ip = InetAddress.getLocalHost().getHostAddress();
 
 
         String serverURI = String.format("https://%s:%s/", ip, PORT);
 
-        Service service = new Service(id, alias,asynch);
+        Service service = new Service(id,asynch);
 
         ResourceConfig config = new ResourceConfig();
         config.register(service);
