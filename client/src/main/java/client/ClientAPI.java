@@ -18,42 +18,42 @@ public interface ClientAPI {
     @Path("/balance")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    boolean getBalance(String account);
+    boolean getBalance();
 
     @POST
     @Path("/extract")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    boolean getExtract(String account);
+    boolean getExtract();
 
     @POST
     @Path("/transaction")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    boolean sendTransaction(List<String> accounts);
+    boolean sendTransaction();
 
     @POST
     @Path("/total_value")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    boolean getTotalValue(List<String> accounts);
+    boolean getTotalValue();
 
     @POST
     @Path("/global_value")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    boolean getGlobalValue(String account);
+    boolean getGlobalValue();
 
     @POST
     @Path("/ledger")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    boolean getLedger(String account);
+    boolean getLedger();
 
     @POST
     @Path("/mine")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    boolean mineBlock(String account);
+    boolean mineBlock();
 
 }

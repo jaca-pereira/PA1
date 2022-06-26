@@ -43,15 +43,6 @@ public class Security {
     }
 
 
-    public static KeyPair getKeyPair(String alias) throws IOException, KeyStoreException, CertificateException, NoSuchAlgorithmException, UnrecoverableKeyException {
-        KeyStore keyStore = KeyStore.getInstance("JKS");
-        FileInputStream fis = new FileInputStream("security/" + alias +"_keystore.jks");
-        keyStore.load(fis, PASSWORD.toCharArray());
-        KeyPair keyPair = new KeyPair(keyStore.getCertificate(alias).getPublicKey(), (PrivateKey) keyStore.getKey(alias, PASSWORD.toCharArray()));
-        return keyPair;
-    }
-
-
     public static byte[] signRequest(PrivateKey clientPrivateKey, byte[] request) {
         try {
             Signature signature = Signature.getInstance(SHA_256_WITH_ECDSA);
@@ -82,5 +73,10 @@ public class Security {
         sslContext.init(null, tmf.getTrustManagers(), null);
 
         return sslContext;
+    }
+
+    public static KeyPair getKeyPair() throws NoSuchAlgorithmException {
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("EC");
+        return keyPairGenerator.generateKeyPair();
     }
 }

@@ -1,6 +1,7 @@
 package client;
 
 
+import Security.Security;
 import bftsmart.tom.util.TOMUtil;
 import com.google.gson.Gson;
 import data.*;
@@ -8,14 +9,19 @@ import data.*;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.net.URI;
+import java.security.KeyPair;
 import java.security.SecureRandom;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class Client implements ClientAPI {
     private data.Client client;
+    private KeyPair keyPair;
+
     public Client(URI proxyURI) {
-       client = new data.Client(proxyURI);
+       this.client = new data.Client(proxyURI);
     }
 
     @Override
@@ -28,70 +34,56 @@ public class Client implements ClientAPI {
     }
 
     @Override
-    public boolean getBalance(String account) {
-        client.getBalance(account);
+    public boolean getBalance() {
+        client.getBalance();
         return true;
     }
 
     @Override
-    public boolean getExtract(String account) {
-        client.getExtract(account);
+    public boolean getExtract() {
+        client.getExtract();
         return true;
     }
 
 
     @Override
-    public boolean sendTransaction(List<String> accounts) {
-        if (accounts.size() < 2)
-            throw new WebApplicationException("Indicate origin and destination accounts!", Response.Status.BAD_REQUEST);
-        client.sendTransaction(accounts.get(0), accounts.get(1));
+    public boolean sendTransaction() {
+        client.sendTransaction();
         return true;
     }
 
     @Override
-    public boolean getTotalValue(List<String> accounts) {
-        client.getTotalValue(accounts.get(0), accounts);
+    public boolean getTotalValue() {
+        client.getTotalValue();
         return true;
     }
 
     @Override
-    public boolean getGlobalValue(String account) {
-        client.getGlobalValue(account);
+    public boolean getGlobalValue() {
+        client.getGlobalValue();
         return true;
     }
 
     @Override
-    public boolean getLedger(String account) {
-        client.getLedger(account);
+    public boolean getLedger() {
+        client.getLedger();
         return true;
     }
 
     @Override
-    public boolean  mineBlock(String account) {
+    public boolean  mineBlock() {
         System.out.println("ENTROU NO MINING");
-        Block blockToMine = client.getBlockToMine(account);
+        Block blockToMine = client.getBlockToMine();
         System.out.println("JA TEM BLOCO PARA MINAR");
-        boolean hasAlreadyBeenMined = false;
-        int nrMiningAttempts = 0;
         SecureRandom secureRandom = new SecureRandom();
         long nonce;
         do {
             System.out.println("MINANDO");
             nonce = secureRandom.nextLong();
             blockToMine.setNonce(nonce);
-            nrMiningAttempts++;
-            if (nrMiningAttempts==5) {
-                nrMiningAttempts = 0;
-                hasAlreadyBeenMined = new String(client.getBlockToMine(account).getLastBlockHash()).equals(new String(blockToMine.getBlockHash()));
-            }
-        } while (!this.proofOfWork(blockToMine, blockToMine.getDifficulty()) && !hasAlreadyBeenMined);
-        if (!hasAlreadyBeenMined) {
-            System.out.println("MINOU");
-            client.mineBlock(account, blockToMine);
-        }else {
-            System.out.println("ja estava minado");
-            throw new WebApplicationException("BLock Already Mined");
-        }
+        } while (!this.proofOfWork(blockToMine, blockToMine.getDifficulty()));
+        System.out.println("MINOU");
+        client.mineBlock(blockToMine);
         return true;
     }
 
