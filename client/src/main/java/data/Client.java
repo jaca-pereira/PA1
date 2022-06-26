@@ -36,12 +36,14 @@ public class Client {
 
     private Map<String, byte[]> accounts;
     private KeyPair keyPair;
+    private int currentUser;
 
     public Client(URI proxyURI) throws NoSuchAlgorithmException {
         this.proxyURI = proxyURI;
         this.client = this.startClient();
         this.accounts = new HashMap<>();
         this.keyPair = getKeyPair();
+        this.currentUser = -1;
     }
 
     private byte[] idMaker(String email) throws NoSuchAlgorithmException, UnrecoverableKeyException, CertificateException, IOException, KeyStoreException {
@@ -272,10 +274,9 @@ public class Client {
     }
 
 
-    public Block getBlockToMine(String account) {
+    public Block getBlockToMine() {
         try {
             Request request = new Request(LedgerRequestType.GET_BLOCK_TO_MINE);
-<<<<<<< Updated upstream
             KeyPair keyPair = Security.getKeyPair(account);
             System.out.println("TEM KEY PAIR");
             request.setPublicKey(keyPair.getPublic().getEncoded());
