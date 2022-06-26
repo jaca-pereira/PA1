@@ -35,11 +35,13 @@ public class Client {
     private final javax.ws.rs.client.Client client;
 
     private Map<String, byte[]> accounts;
+    private KeyPair keyPair;
 
-    public Client(URI proxyURI) {
+    public Client(URI proxyURI) throws NoSuchAlgorithmException {
         this.proxyURI = proxyURI;
         this.client = this.startClient();
         this.accounts = new HashMap<>();
+        this.keyPair = getKeyPair();
     }
 
     private byte[] idMaker(String email) throws NoSuchAlgorithmException, UnrecoverableKeyException, CertificateException, IOException, KeyStoreException {
@@ -82,9 +84,8 @@ public class Client {
     public LedgerDataStructure getLedger(String account_alias) {
         try {
             Request request = new Request(LedgerRequestType.GET_LEDGER);
-            KeyPair keyPair = Security.getKeyPair(account_alias);
-            request.setPublicKey(keyPair.getPublic().getEncoded());
-            request.setSignature(Security.signRequest(keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
+            request.setPublicKey(this.keyPair.getPublic().getEncoded());
+            request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
             WebTarget target = this.client.target(proxyURI).path("ledger");
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
@@ -100,13 +101,9 @@ public class Client {
                 return reply.getLedgerReply();
             } else
                 throw new WebApplicationException(r.getStatus());
-        } catch (ProcessingException | IOException |
-                 NoSuchAlgorithmException | UnrecoverableKeyException e) {
+        } catch (ProcessingException e) {
             throw new InternalServerErrorException();
-        } catch (KeyStoreException | CertificateException e) {
-            throw new WebApplicationException("Account not created!", Response.Status.NOT_FOUND);
         }
-
     }
 
     public void sendTransaction(String originAccount, String destinationAccount) {
@@ -115,9 +112,8 @@ public class Client {
             byte[] originAccountBytes = this.accounts.get(originAccount);
             byte[] destinationAccountBytes = this.accounts.get(destinationAccount);
             Request request = new Request(LedgerRequestType.SEND_TRANSACTION, originAccountBytes, destinationAccountBytes, DEFAULT_AMOUNT_TRANSACTIONS,nonce.nextLong());
-            KeyPair keyPair = Security.getKeyPair(originAccount);
-            request.setPublicKey(keyPair.getPublic().getEncoded());
-            request.setSignature(Security.signRequest(keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
+            request.setPublicKey(this.keyPair.getPublic().getEncoded());
+            request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
             WebTarget target = this.client.target(proxyURI).path("transaction");
 
             Response r = target.request()
@@ -133,19 +129,16 @@ public class Client {
                     throw new WebApplicationException(reply.getError());
             } else
                 throw new WebApplicationException(r.getStatus());
-        } catch ( ProcessingException | UnrecoverableKeyException | NoSuchAlgorithmException | IOException e) {
+        } catch ( ProcessingException e) {
             throw new InternalServerErrorException();
-        } catch (CertificateException | KeyStoreException e) {
-            throw new WebApplicationException("Account not created!", Response.Status.NOT_FOUND);
         }
     }
 
     public int getGlobalValue(String account) {
         try {
             Request request = new Request(LedgerRequestType.GET_GLOBAL_VALUE);
-            KeyPair keyPair = Security.getKeyPair(account);
-            request.setPublicKey(keyPair.getPublic().getEncoded());
-            request.setSignature(Security.signRequest(keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
+            request.setPublicKey(this.keyPair.getPublic().getEncoded());
+            request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
             WebTarget target = this.client.target(proxyURI).path("value");
 
             Response r = target.request()
@@ -162,10 +155,8 @@ public class Client {
                 return reply.getIntReply();
             } else
                 throw new WebApplicationException(r.getStatus());
-        } catch ( ProcessingException | UnrecoverableKeyException | NoSuchAlgorithmException | IOException e) {
+        } catch ( ProcessingException e) {
             throw new InternalServerErrorException();
-        } catch (CertificateException | KeyStoreException e) {
-            throw new WebApplicationException("Account not created!", Response.Status.NOT_FOUND);
         }
     }
 
@@ -176,9 +167,8 @@ public class Client {
                 accountsBytes.add( this.accounts.get(acc));
             }
             Request request = new Request(LedgerRequestType.GET_TOTAL_VALUE,accountsBytes);
-            KeyPair keyPair = Security.getKeyPair(account);
-            request.setPublicKey(keyPair.getPublic().getEncoded());
-            request.setSignature(Security.signRequest(keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
+            request.setPublicKey(this.keyPair.getPublic().getEncoded());
+            request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
             WebTarget target = this.client.target(proxyURI).path("accounts/value");
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
@@ -194,10 +184,8 @@ public class Client {
                 return reply.getIntReply();
             } else
                 throw new WebApplicationException(r.getStatus());
-        } catch ( ProcessingException | UnrecoverableKeyException | NoSuchAlgorithmException | IOException e) {
+        } catch ( ProcessingException e) {
             throw new InternalServerErrorException();
-        } catch (CertificateException | KeyStoreException e) {
-            throw new WebApplicationException("Account not created!", Response.Status.NOT_FOUND);
         }
     }
 
@@ -205,9 +193,8 @@ public class Client {
         try {
             byte[] accountBytes = this.accounts.get(account);
             Request request = new Request(LedgerRequestType.GET_EXTRACT, accountBytes);
-            KeyPair keyPair = Security.getKeyPair(account);
-            request.setPublicKey(keyPair.getPublic().getEncoded());
-            request.setSignature(Security.signRequest(keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
+            request.setPublicKey(this.keyPair.getPublic().getEncoded());
+            request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
             WebTarget target = this.client.target(proxyURI).path("account/extract");
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
@@ -223,10 +210,8 @@ public class Client {
                 return reply.getListReply();
             } else
                 throw new WebApplicationException(r.getStatus());
-        } catch ( ProcessingException | UnrecoverableKeyException | NoSuchAlgorithmException | IOException e) {
+        } catch ( ProcessingException e) {
             throw new InternalServerErrorException();
-        } catch (CertificateException | KeyStoreException e) {
-            throw new WebApplicationException("Account not created!", Response.Status.NOT_FOUND);
         }
     }
 
@@ -234,9 +219,8 @@ public class Client {
         try {
             byte[] accountBytes = this.accounts.get(account);
             Request request = new Request(LedgerRequestType.GET_BALANCE, accountBytes);
-            KeyPair keyPair = Security.getKeyPair(account);
-            request.setPublicKey(keyPair.getPublic().getEncoded());
-            request.setSignature(Security.signRequest(keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
+            request.setPublicKey(this.keyPair.getPublic().getEncoded());
+            request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
             WebTarget target = this.client.target(proxyURI).path("account/balance");
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
@@ -252,10 +236,8 @@ public class Client {
                 return reply.getIntReply();
             } else
                 throw new WebApplicationException(r.getStatus());
-        } catch ( ProcessingException | UnrecoverableKeyException | NoSuchAlgorithmException | IOException e) {
+        } catch ( ProcessingException e) {
             throw new InternalServerErrorException();
-        } catch (CertificateException | KeyStoreException e) {
-            throw new WebApplicationException("Account not created!", Response.Status.NOT_FOUND);
         }
     }
 
@@ -263,9 +245,8 @@ public class Client {
         try {
             byte[] account = this.idMaker(email);
             Request request = new Request(LedgerRequestType.CREATE_ACCOUNT, account);
-            KeyPair keyPair = Security.getKeyPair(email);
-            request.setPublicKey(keyPair.getPublic().getEncoded());
-            request.setSignature(Security.signRequest(keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
+            request.setPublicKey(this.keyPair.getPublic().getEncoded());
+            request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
             WebTarget target = client.target(proxyURI).path("account");
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
@@ -294,10 +275,15 @@ public class Client {
     public Block getBlockToMine(String account) {
         try {
             Request request = new Request(LedgerRequestType.GET_BLOCK_TO_MINE);
+<<<<<<< Updated upstream
             KeyPair keyPair = Security.getKeyPair(account);
             System.out.println("TEM KEY PAIR");
             request.setPublicKey(keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
+=======
+            request.setPublicKey(this.keyPair.getPublic().getEncoded());
+            request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
+>>>>>>> Stashed changes
             WebTarget target = this.client.target(proxyURI).path("/mine/get");
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
@@ -318,6 +304,7 @@ public class Client {
             } else {
                 System.out.println("ERRO DE RESPOSTA " );
                 throw new WebApplicationException(r.getStatus());
+<<<<<<< Updated upstream
             }
         } catch ( ProcessingException | UnrecoverableKeyException | NoSuchAlgorithmException | IOException e) {
             System.out.println("PROBLEMAS COM A CHAVE");
@@ -325,6 +312,10 @@ public class Client {
         } catch (CertificateException | KeyStoreException e) {
             System.out.println("NAO HA CONTA");
             throw new WebApplicationException("Account not created!", Response.Status.NOT_FOUND);
+=======
+        } catch ( ProcessingException e) {
+            throw new InternalServerErrorException();
+>>>>>>> Stashed changes
         }
     }
 
@@ -332,9 +323,8 @@ public class Client {
         try {
             byte[] accountBytes = this.accounts.get(account);
             Request request = new Request(LedgerRequestType.MINE_BLOCK, accountBytes, block);
-            KeyPair keyPair = Security.getKeyPair(account);
-            request.setPublicKey(keyPair.getPublic().getEncoded());
-            request.setSignature(Security.signRequest(keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
+            request.setPublicKey(this.keyPair.getPublic().getEncoded());
+            request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
             WebTarget target = this.client.target(proxyURI).path("/mine/add");
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
@@ -349,11 +339,14 @@ public class Client {
                     throw new WebApplicationException(reply.getError());
             } else
                 throw new WebApplicationException(r.getStatus());
-        } catch ( ProcessingException | UnrecoverableKeyException | NoSuchAlgorithmException | IOException e) {
+        } catch ( ProcessingException e) {
             throw new InternalServerErrorException();
-        } catch (CertificateException | KeyStoreException e) {
-            throw new WebApplicationException("Account not created!", Response.Status.NOT_FOUND);
         }
+    }
+
+    private static KeyPair getKeyPair() throws NoSuchAlgorithmException {
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("EC");
+        return keyPairGenerator.generateKeyPair();
     }
 }
 
