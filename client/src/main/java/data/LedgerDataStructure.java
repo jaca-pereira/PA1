@@ -38,7 +38,7 @@ public class LedgerDataStructure {
 
     public void addAccount(byte[] account) {
         String acc = new String(account);
-        if(this.accounts.containsKey(acc))
+        if(this.accounts.get(acc)==null)
             throw new IllegalArgumentException("Account already exists!");
         this.accounts.put(acc, 0);
     }
@@ -168,4 +168,7 @@ public class LedgerDataStructure {
         minedBlocks.add(block);
     }
 
+    public List<Block> getLedger() {
+        return minedBlocks;
+    }
 }

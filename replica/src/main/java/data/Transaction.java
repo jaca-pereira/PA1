@@ -78,4 +78,9 @@ public class Transaction implements Serializable {
         }
         return null;
     }
+
+    public String toString() {
+
+        return null;
+    }
 }

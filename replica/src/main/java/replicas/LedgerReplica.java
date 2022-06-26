@@ -14,6 +14,7 @@ import redis.clients.jedis.JedisPoolConfig;
 
 import java.io.*;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 public class LedgerReplica extends DefaultSingleRecoverable {

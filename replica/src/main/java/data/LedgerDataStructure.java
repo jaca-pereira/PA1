@@ -130,6 +130,7 @@ public class LedgerDataStructure {
         List<Transaction> extract = new LinkedList<>();
         for(Block block: this.minedBlocks.subList(begin, this.minedBlocks.size()))
             extract.addAll(block.getExtract(account));
+
         return extract;
     }
 
@@ -174,4 +175,7 @@ public class LedgerDataStructure {
         minedBlocks.add(block);
     }
 
+    public List<Block> getLedger() {
+        return minedBlocks;
+    }
 }

@@ -22,11 +22,13 @@ public class Reply implements Serializable {
     private boolean boolReply;
     private byte[] byteReply;
     private int intReply;
-    private List<Transaction> listReply;
+    private List listReply;
 
     private LedgerRequestType requestType;
 
     private Block blockReply;
+
+
 
     private Error error;
     public Reply(String error) {
@@ -58,12 +60,13 @@ public class Reply implements Serializable {
         this.requestType = requestType;
     }
 
-    public Reply(List<Transaction> listReply, LedgerRequestType requestType) {
+    public Reply(List listReply, LedgerRequestType requestType) {
         this.publicKeyProxy = null;
         this.signatureProxy = null;
         this.publicKeyReplica = null;
         this.signatureReplica = null;
         this.listReply = listReply;
+        this.requestType = requestType;
     }
     public Reply(Block blockReply, LedgerRequestType requestType) {
         this.publicKeyProxy = null;

@@ -57,8 +57,8 @@ public class Ledger {
         this.toJedis(ledger);
     }
 
-    public LedgerDataStructure getLedger() {
-        return this.fromJedis();
+    public List<Block> getLedger() {
+        return this.fromJedis().getLedger();
     }
 
 
