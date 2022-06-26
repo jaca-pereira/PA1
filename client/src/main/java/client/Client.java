@@ -70,11 +70,13 @@ public class Client implements ClientAPI {
     public boolean  mineBlock(String account) {
         System.out.println("ENTROU NO MINING");
         Block blockToMine = client.getBlockToMine(account);
+        System.out.println("JA TEM BLOCO PARA MINAR");
         boolean hasAlreadyBeenMined = false;
         int nrMiningAttempts = 0;
         SecureRandom secureRandom = new SecureRandom();
         long nonce;
         do {
+            System.out.println("MINANDO");
             nonce = secureRandom.nextLong();
             blockToMine.setNonce(nonce);
             nrMiningAttempts++;
@@ -83,10 +85,13 @@ public class Client implements ClientAPI {
                 hasAlreadyBeenMined = new String(client.getBlockToMine(account).getLastBlockHash()).equals(new String(blockToMine.getBlockHash()));
             }
         } while (!this.proofOfWork(blockToMine, blockToMine.getDifficulty()) && !hasAlreadyBeenMined);
-
-        if (!hasAlreadyBeenMined)
+        if (!hasAlreadyBeenMined) {
+            System.out.println("MINOU");
             client.mineBlock(account, blockToMine);
-        else throw new WebApplicationException("BLock Already Mined");
+        }else {
+            System.out.println("ja estava minado");
+            throw new WebApplicationException("BLock Already Mined");
+        }
         return true;
     }
 

@@ -97,10 +97,12 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                         break;
                     case MINE_BLOCK:
                         this.ledger.addMinedBlock(request.getBlock());
+                        System.out.println("MINOU");
                         Request rewardRequest = new Request(LedgerRequestType.LOAD_MONEY, this.LEDGER, request.getAccount(), this.reward, -1);
                         rewardRequest.setPublicKey(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
                         rewardRequest.setSignature(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), LedgerRequestType.LOAD_MONEY.toString().getBytes()));
                         this.sendTransaction(rewardRequest);
+                        System.out.println("ENVIOU TRANSACTION");
                         if(++rewardCounter == FIRST_X_BLOCKS)
                             this.reward = 10;
                         rep = new Reply(reward, LedgerRequestType.MINE_BLOCK);
@@ -109,6 +111,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                         rep = new Reply("Operation not supported");
                 }
             } else {
+                System.out.println("MAL ASSINADO");
                 rep = new Reply("Bad signature");
             }
             rep.setPublicKeyReplica(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());

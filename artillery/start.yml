@@ -10,7 +10,13 @@ config:
 scenarios:    
   - name: Create Account
     flow:
+      - loop:
+        - post:
+            url: "/create_account"
+            json:
+              email: "{{ user }}"
+        count: 4
       - post:
           url: "/mine"
           json:
-            account: "{{ user }}"
+            account: "{{ user }}" 

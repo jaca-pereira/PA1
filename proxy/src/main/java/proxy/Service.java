@@ -47,6 +47,7 @@ public class Service implements ServiceAPI {
 
             Request deserialized = Request.deserialize(request);
             if (!Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature())) {
+                System.out.println("MAL ASSINADO");
                 return Reply.serialize(new Reply("Request not properly signed!"));
             }
             objOut.writeObject(deserialized);
@@ -59,6 +60,7 @@ public class Service implements ServiceAPI {
                 return Reply.serialize(rep);
             }
         } catch (IOException | ClassNotFoundException e) {
+            System.out.println("IO EXCEPTION");
             System.out.println("Exception: " + e.getMessage());
             return Reply.serialize(new Reply(e.getMessage()));
         }
@@ -75,6 +77,7 @@ public class Service implements ServiceAPI {
 
             Request deserialized = Request.deserialize(request);
             if (!Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature())) {
+                System.out.println("MAL ASSINADO");
                 return Reply.serialize(new Reply("Request not properly signed!"));
             }
             objOut.writeObject(deserialized);
@@ -84,6 +87,7 @@ public class Service implements ServiceAPI {
             ReplyListener replyListener = new ReplyListenerImp(replyChain, this.asynchServiceProxy);
             this.asynchServiceProxy.invokeAsynchRequest(request, replyListener, type);
             List<Reply> replicaReplies = replyChain.take();
+            System.out.println("HOUVE TAKE");
             ProxyReply proxyReply = new ProxyReply();
             replicaReplies.forEach(rep -> {
                 rep.setPublicKeyProxy(this.keyPair.getPublic().getEncoded());
@@ -92,6 +96,7 @@ public class Service implements ServiceAPI {
             });
             return ProxyReply.serialize(proxyReply);
         } catch (IOException e) {
+            System.out.println("ERRO IO");
             System.out.println("Exception: " + e.getMessage());
             return Reply.serialize(new Reply(e.getMessage()));
         } catch (InterruptedException e) {
@@ -150,6 +155,7 @@ public class Service implements ServiceAPI {
 
     @Override
     public byte[] getBlockToMine(byte[] request) {
+        System.out.println("ENTROU NO GETBLOCKTOMINE");
        if (this.asynch)
             return this.sendRequestAsynch(request, TOMMessageType.UNORDERED_REQUEST, LedgerRequestType.GET_BLOCK_TO_MINE);
         else return this.sendRequest(request, TOMMessageType.UNORDERED_REQUEST);
@@ -157,9 +163,14 @@ public class Service implements ServiceAPI {
 
     @Override
     public byte[] mineBlock(byte[] request) {
-        if (this.asynch)
+        if (this.asynch) {
+            System.out.println("ENTROU NO ASYNCH");
             return this.sendRequestAsynch(request, TOMMessageType.ORDERED_REQUEST, LedgerRequestType.MINE_BLOCK);
-        else return this.sendRequest(request, TOMMessageType.ORDERED_REQUEST);
+        }
+        else {
+            System.out.println("ENTROU NO SYNCH");
+            return this.sendRequest(request, TOMMessageType.ORDERED_REQUEST);
+        }
     }
 
 }

@@ -295,6 +295,7 @@ public class Client {
         try {
             Request request = new Request(LedgerRequestType.GET_BLOCK_TO_MINE);
             KeyPair keyPair = Security.getKeyPair(account);
+            System.out.println("TEM KEY PAIR");
             request.setPublicKey(keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
             WebTarget target = this.client.target(proxyURI).path("/mine/get");
@@ -305,16 +306,24 @@ public class Client {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
+                    System.out.println("MAL ASSINADO RESPOSTA");
                     throw new WebApplicationException("Bizantine error!");
                 }
-                if (reply.getError()!=null)
+                if (reply.getError()!=null) {
+                    System.out.println("TEM ERRO");
                     throw new WebApplicationException(reply.getError());
+                }
+                System.out.println("RESPONDEU O BLOCO");
                 return reply.getBlockReply();
-            } else
+            } else {
+                System.out.println("ERRO DE RESPOSTA " );
                 throw new WebApplicationException(r.getStatus());
+            }
         } catch ( ProcessingException | UnrecoverableKeyException | NoSuchAlgorithmException | IOException e) {
+            System.out.println("PROBLEMAS COM A CHAVE");
             throw new InternalServerErrorException();
         } catch (CertificateException | KeyStoreException e) {
+            System.out.println("NAO HA CONTA");
             throw new WebApplicationException("Account not created!", Response.Status.NOT_FOUND);
         }
     }

@@ -27,14 +27,14 @@ public class LedgerDataStructure {
         this.minedBlocks = new LinkedList<>();
         this.blocksToMine = new LinkedList<>();
         this.accounts = new HashMap<>();
-        this.genesisBlock();
         this.minimumTransactions = 1;
         this.difficulty = difficulty;
+        this.genesisBlock();
 
     }
 
     private void genesisBlock() {
-        Block genesis = new Block();
+        Block genesis = new Block(new byte[]{0x0}, new LinkedList<>(), new HashMap<>(), this.difficulty);
         this.blocksToMine.add(genesis);
     }
 
@@ -147,20 +147,28 @@ public class LedgerDataStructure {
 
 
     public Block getBlockToMine() throws Exception {
-        if (blocksToMine.size()==0)
+        if (blocksToMine.size()==0) {
+            System.out.println("NÃO HA BLOCOS PARA MINAR");
             throw new Exception("No blocks to mine");
+        }
+        System.out.println("HA BLOCOS PARA MINAR");
         return blocksToMine.get(0);
     }
 
     public void addMinedBlock(Block block) throws Exception {
-        if(accounts.containsKey(new String(block.getAccount())))
+        if (accounts.containsKey(new String(block.getAccount()))) {
+            System.out.println("CONTA NAO EXISTE");
             throw new IllegalArgumentException("Account does not exist");
-        if(!Security.verifySignature(block.getPublicKey(), block.getMerkle().getTransactionsHash(), block.getSignature()))
+        } else if (!Security.verifySignature(block.getPublicKey(), block.getMerkle().getTransactionsHash(), block.getSignature())){
+            System.out.println("BLOCO MAL ASSINADO");
             throw new IllegalArgumentException("Block Signature not valid!");
-        if (!Block.proofOfWork(block))
+        } else if (!Block.proofOfWork(block)) {
+            System.out.println("NÃO PROVA O WORK");
             throw new IllegalArgumentException("Block does not have proof of work!");
-        if(!new String(blocksToMine.get(0).getBlockHash()).equals(new String(block.getBlockHash())))
+        } else if(!new String(blocksToMine.get(0).getBlockHash()).equals(new String(block.getBlockHash()))) {
+            System.out.println("JA FOI MINADO");
             throw new Exception("Block already mined!");
+        }
         blocksToMine.remove(0);
         minedBlocks.add(block);
     }

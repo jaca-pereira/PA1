@@ -39,6 +39,9 @@ public class Merkle {
     }
 
     private byte[] setTransactionsHash() {
+        if (merkelTree.size()==0)
+            return new byte[]{0x0};
+
         List<byte[]> hash1 = new LinkedList<>();
         List<byte[]> hash2 = new LinkedList<>();
         List<byte[]> hash = hash1;

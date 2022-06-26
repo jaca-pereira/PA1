@@ -34,7 +34,7 @@ public class LedgerDataStructure {
     }
 
     private void genesisBlock() {
-        Block genesis = new Block();
+        Block genesis = new Block(new byte[]{0x0}, new LinkedList<>(), new HashMap<>(), this.difficulty);
         this.blocksToMine.add(genesis);
     }
 

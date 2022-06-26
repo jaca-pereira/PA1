@@ -7,6 +7,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.security.PublicKey;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,10 +23,6 @@ public class Block {
     private byte[] account;
 
     private int difficulty;
-
-    public Block() {
-
-    }
 
     public Block(byte[] lastBlockHash, List<Transaction> transactionsList, Map<String, Account> transactionsMap, int difficulty) {
         this.lastBlockHash = lastBlockHash;
