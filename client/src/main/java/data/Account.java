@@ -26,7 +26,7 @@ public class Account {
     }
 
     public void changeBalance(int amount) {
-        this.balance += amount;
+        this.balance = amount;
     }
 
 

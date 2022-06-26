@@ -69,7 +69,7 @@ system.communication.bindaddress = auto
 
 
 #Timeout to asking for a clientClass request. This value should be greater than the batch timeout
-system.totalordermulticast.timeout = 2000
+system.totalordermulticast.timeout = 10000
 
 #Batch timeout. If set to any non-positive integer value, the next consensus instance
 #is triggered as soon as (1) the previous one is finished, and (2) any number new requests arrive,
@@ -195,7 +195,7 @@ system.ssltls.key_store_file=EC_KeyPair_256.pkcs12
 # With cipher (recommended).
 system.ssltls.enabled_ciphers = TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
 
-## NOTE: it is mandatory to use the specific keyPair file regarding the algorithm, see below.  
+## NOTE: it is mandatory to use the specific keyPair file regarding the algorithm, see below.
 ## TLS_ECDHE_ECDSA_WITH_*, // used with EC keyStore (EC_KeyPair_*.pkcs12).
 ## TLS_RSA_WITH_*, OR TLS_ECDHE_RSA_WITH_*,  // used with RSA keyStore (RSA_KeyPair_*.pkcs12).
 
@@ -208,10 +208,13 @@ system.ssltls.enabled_ciphers = TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
 #With cipher (secure)
 ##system.ssltls.enabled_ciphers = TLS_RSA_WITH_AES_128_GCM_SHA256,
 
-
 ############################################
 ######### Client-Side Timeouts #############
 ############################################
 
 # Timeout for an ordered request (in seconds)
 system.clientClass.invokeOrderedTimeout = 40
+
+
+
+

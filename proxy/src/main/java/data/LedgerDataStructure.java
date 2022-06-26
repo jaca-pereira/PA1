@@ -2,60 +2,113 @@ package data;
 
 import Security.Security;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class LedgerDataStructure {
 
 
-    public static final int MINIMUM_TRANSACTIONS = 16;
-    public static final int REWARD = 10;
-    private Map<String, Account> notMinedTransactionsMap;
+    public static final int MAXIMUM_MINIMUM_TRANSACTIONS = 16;
+    private final int difficulty;
+
     private List<Transaction> notMinedTransactionsList;
     private List<byte[]> transactionsId;
     private int globalValue;
     private List<Block> minedBlocks;
-    private int alreadyBeingMinerated;
 
-    public LedgerDataStructure() {
-        this.notMinedTransactionsMap = new HashMap<>();
-        this.notMinedTransactionsList = new LinkedList<>();
+    private List<Block> blocksToMine;
+    private Map<String,Integer> accounts;
+    private int minimumTransactions;
+
+
+    public LedgerDataStructure(int difficulty) {
+        this.notMinedTransactionsList = new ArrayList<>(MAXIMUM_MINIMUM_TRANSACTIONS);
         this.transactionsId = new LinkedList<>();
         this.globalValue = 0;
         this.minedBlocks = new LinkedList<>();
-        this.alreadyBeingMinerated = 0;
+        this.blocksToMine = new LinkedList<>();
+        this.accounts = new HashMap<>();
+        this.genesisBlock();
+        this.minimumTransactions = 1;
+        this.difficulty = difficulty;
+
+    }
+
+    private void genesisBlock() {
+        Block genesis = new Block();
+        this.blocksToMine.add(genesis);
     }
 
     public void addAccount(byte[] account) {
         String acc = new String(account);
-        if(this.notMinedTransactionsMap.containsKey(acc))
+        if(this.accounts.containsKey(acc))
             throw new IllegalArgumentException("Account already exists!");
-        this.notMinedTransactionsMap.put(acc, new Account());
+        this.accounts.put(acc, 0);
     }
 
     public void transaction(Transaction t) {
-        Account destinationAccount = this.notMinedTransactionsMap.get(new String(t.getDestinationAccount()));
-        if (destinationAccount == null)
+        String dtAccount = new String(t.getDestinationAccount());
+        if (dtAccount == null)
+            throw new IllegalArgumentException("Destination account is null!");
+        Integer balanceDestination = this.accounts.get(dtAccount);
+        if (balanceDestination == null)
             throw new IllegalArgumentException("Destination account does not exist!");
         if (t.getNonce()!=-1) {
-            Account originAccount = this.notMinedTransactionsMap.get(new String(t.getOriginAccount()));
-            if (originAccount == null)
+            String orAccount = new String(t.getOriginAccount());
+            if (orAccount==null)
+                throw new IllegalArgumentException("Origin account is null!");
+            Integer balance = this.accounts.get(orAccount);
+            if (balance == null)
                 throw new IllegalArgumentException("Origin account does not exist!");
             if (this.transactionsId.contains(t.getId()))
                 throw new IllegalArgumentException("Request already made! Byzantine attack?");
-            if (originAccount.getBalance()>=t.getValue()) {
+            if (balance < t.getValue())
                 this.transactionsId.add(t.getId());
-                originAccount.addTransaction(t);
-                originAccount.changeBalance(-t.getValue());
-            }else
+            else
                 throw new IllegalArgumentException("Origin account does not have sufficient balance!");
-        } else
-            this.globalValue += t.getValue();
-        destinationAccount.addTransaction(t);
-        destinationAccount.changeBalance(t.getValue());
+        }
         this.notMinedTransactionsList.add(t);
+        if (this.notMinedTransactionsList.size() == minimumTransactions)
+            this.generateBlock();
+    }
+
+    private void generateBlock() {
+        Block last = this.minedBlocks.get(minedBlocks.size()-1);
+        Map<String, Account> merkleMap = new HashMap<>();
+        List<Transaction> merkleTree = new LinkedList<>();
+        for (Transaction transaction: this.notMinedTransactionsList ) {
+            if (transaction.getNonce() != -1) { // se não for uma reward do ledger
+                Account account = merkleMap.get(new String(transaction.getOriginAccount()));
+                if (account == null) // se a conta nao estiver ja na nova merkle tree, criar
+                    account = new Account();
+                Integer balance = this.accounts.get(new String(transaction.getOriginAccount()));
+                if (balance!= null) { // se a conta ja existe
+                    account.changeBalance(balance);
+                }
+                if (account.getBalance() < transaction.getValue()) //se não tem saldo suficiente, saltar transação
+                    continue;
+                account.changeBalance(account.getBalance() - transaction.getValue());
+                accounts.put(new String(transaction.getOriginAccount()),balance - transaction.getValue());
+                merkleMap.put(new String(transaction.getOriginAccount()), account);
+            } else { //aumentar o valor global do ledger
+                this.globalValue += transaction.getValue();
+            }
+            Account destinationAccount = merkleMap.get(new String(transaction.getDestinationAccount()));
+            if (destinationAccount == null)
+                destinationAccount = new Account();
+            Integer destinationBalance = this.accounts.get(new String(transaction.getDestinationAccount()));
+            if (destinationBalance!= null) { // se a conta ja existe
+                destinationAccount.changeBalance(destinationBalance);
+            }
+            destinationAccount.changeBalance(destinationAccount.getBalance() + transaction.getValue());
+            accounts.put(new String(transaction.getDestinationAccount()),destinationBalance + transaction.getValue());
+            merkleMap.put(new String(transaction.getDestinationAccount()), destinationAccount);
+
+            merkleTree.add(transaction);
+        }
+        blocksToMine.add(new Block(last.getBlockHash(), merkleTree, merkleMap, difficulty));
+        notMinedTransactionsList = new ArrayList<>(MAXIMUM_MINIMUM_TRANSACTIONS);
+        if(this.minimumTransactions != MAXIMUM_MINIMUM_TRANSACTIONS)
+            this.minimumTransactions *= 2;
     }
 
 
@@ -66,63 +119,50 @@ public class LedgerDataStructure {
 
 
     public int getBalance(byte[] account) {
-        Account acc = notMinedTransactionsMap.get(new String(account));
-        if (acc == null)
+        Integer balance = accounts.get(new String(account));
+        if (balance == null)
             throw new IllegalArgumentException("Account does not exist!");
-        return acc.getBalance();
+        return balance;
     }
 
-    public List<Transaction> getExtract(byte[] account) {
-        Account acc = notMinedTransactionsMap.get(new String(account));
-        if (acc == null)
+    public List<Transaction> getExtract(byte[] account, int begin) {
+        if (!accounts.containsKey(new String(account)))
             throw new IllegalArgumentException("Account does not exist!");
         List<Transaction> extract = new LinkedList<>();
         for(Block block: this.minedBlocks)
             extract.addAll(block.getExtract(account));
-        extract.addAll(acc.getTransactionList());
         return extract;
     }
 
     public int getTotalValue(List<byte[]> accounts) {
         int totalValue = 0;
         for (byte[] account: accounts) {
-            Account acc = notMinedTransactionsMap.get(new String(account));
-            if (acc == null)
-                throw new IllegalArgumentException("Account "+ new String(account) + " does not exist!");
-            totalValue += acc.getBalance();
+            Integer balance = this.accounts.get(new String(account));
+            if (balance == null)
+                throw new IllegalArgumentException("Account does not exist!");
+            totalValue += balance;
         }
         return totalValue;
     }
 
 
     public Block getBlockToMine() throws Exception {
-        if (notMinedTransactionsList.size() < MINIMUM_TRANSACTIONS) {
-            throw new Exception("Not enough transactions no mine!");
-        }
-        List<Transaction> transactions = this.notMinedTransactionsList.subList(0,9);
-        Map<String, Account> map = new HashMap<>();
-
-        for (Transaction transaction : transactions) {
-            String account = new String(transaction.getOriginAccount());
-            map.put(account, this.notMinedTransactionsMap.get(account));
-        }
-        return new Block(this.minedBlocks.get(this.minedBlocks.size()-1).getBlockHash(), transactions, map);
+        if (blocksToMine.size()==0)
+            throw new Exception("No blocks to mine");
+        return blocksToMine.get(0);
     }
 
-    public int addMinedBlock(Block block) throws Exception {
+    public void addMinedBlock(Block block) throws Exception {
+        if(accounts.containsKey(new String(block.getAccount())))
+            throw new IllegalArgumentException("Account does not exist");
         if(!Security.verifySignature(block.getPublicKey(), block.getMerkle().getTransactionsHash(), block.getSignature()))
             throw new IllegalArgumentException("Block Signature not valid!");
         if (!Block.proofOfWork(block))
             throw new IllegalArgumentException("Block does not have proof of work!");
-        List<Transaction> transactionsMined = block.getMerkle().getMerkelTree();
-        if(this.notMinedTransactionsList.removeAll(transactionsMined)) {
-            this.minedBlocks.add(block);
-            this.notMinedTransactionsMap.forEach((accountId, account) -> account.removeTransactions(transactionsMined));
-            Account miner = this.notMinedTransactionsMap.get(block.getAccount());
-            miner.changeBalance(REWARD);
-            return miner.getBalance();
-        } else throw new Exception("Block already mined!");
-
+        if(!new String(blocksToMine.get(0).getBlockHash()).equals(new String(block.getBlockHash())))
+            throw new Exception("Block already mined!");
+        blocksToMine.remove(0);
+        minedBlocks.add(block);
     }
 
 }

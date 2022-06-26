@@ -26,11 +26,7 @@ public class Account {
     }
 
     public void changeBalance(int amount) {
-        this.balance += amount;
+        this.balance = amount;
     }
 
-
-    public void removeTransactions(List<Transaction> transactionsMinerated) {
-        this.transactionList.removeAll(transactionsMinerated);
-    }
 }

@@ -20,13 +20,20 @@ public class Block {
 
     private byte[] account;
 
-    public Block(byte[] lastBlockHash, List<Transaction> transactionsList, Map<String, Account> transactionsMap) {
+    private int difficulty;
+
+    public Block() {
+
+    }
+
+    public Block(byte[] lastBlockHash, List<Transaction> transactionsList, Map<String, Account> transactionsMap, int difficulty) {
         this.lastBlockHash = lastBlockHash;
         this.nonce = -1;
         this.signature = null;
         this.publicKey = null;
         this.account = null;
         this.merkle = new Merkle(transactionsList, transactionsMap);
+        this.difficulty = difficulty;
     }
 
     public void setNonce(long nonce) {
@@ -118,5 +125,9 @@ public class Block {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public int getDifficulty() {
+        return this.difficulty;
     }
 }

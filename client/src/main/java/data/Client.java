@@ -79,7 +79,7 @@ public class Client {
     }
 
 
-    public void getLedger(String account_alias) {
+    public LedgerDataStructure getLedger(String account_alias) {
         try {
             Request request = new Request(LedgerRequestType.GET_LEDGER);
             KeyPair keyPair = Security.getKeyPair(account_alias);
@@ -92,11 +92,12 @@ public class Client {
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
-                if (reply==null)
+                if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
                     throw new WebApplicationException("Bizantine error!");
-                if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy()))
-                    throw new WebApplicationException("Bizantine error!");
-                LedgerDataStructure ledger = reply.getLedgerReply();
+                }
+                if (reply.getError()!=null)
+                    throw new WebApplicationException(reply.getError());
+                return reply.getLedgerReply();
             } else
                 throw new WebApplicationException(r.getStatus());
         } catch (ProcessingException | IOException |
@@ -125,10 +126,11 @@ public class Client {
             if(  r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
-                if (reply==null)
+                if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
                     throw new WebApplicationException("Bizantine error!");
-                if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy()))
-                    throw new WebApplicationException("Bizantine error!");
+                }
+                if (reply.getError()!=null)
+                    throw new WebApplicationException(reply.getError());
             } else
                 throw new WebApplicationException(r.getStatus());
         } catch ( ProcessingException | UnrecoverableKeyException | NoSuchAlgorithmException | IOException e) {
@@ -138,7 +140,7 @@ public class Client {
         }
     }
 
-    public void getGlobalValue(String account) {
+    public int getGlobalValue(String account) {
         try {
             Request request = new Request(LedgerRequestType.GET_GLOBAL_VALUE);
             KeyPair keyPair = Security.getKeyPair(account);
@@ -152,10 +154,12 @@ public class Client {
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
-                if (reply==null)
+                if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
                     throw new WebApplicationException("Bizantine error!");
-                if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy()))
-                    throw new WebApplicationException("Bizantine error!");
+                }
+                if (reply.getError()!=null)
+                    throw new WebApplicationException(reply.getError());
+                return reply.getIntReply();
             } else
                 throw new WebApplicationException(r.getStatus());
         } catch ( ProcessingException | UnrecoverableKeyException | NoSuchAlgorithmException | IOException e) {
@@ -165,7 +169,7 @@ public class Client {
         }
     }
 
-    public void getTotalValue(String account, List<String> accounts) {
+    public int getTotalValue(String account, List<String> accounts) {
         try {
             List<byte[]> accountsBytes = new ArrayList<>(accounts.size());
             for (String acc: accounts) {
@@ -182,11 +186,12 @@ public class Client {
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
-                if (reply==null)
+                if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
                     throw new WebApplicationException("Bizantine error!");
-                if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy()))
-                    throw new WebApplicationException("Bizantine error!");
-                int value = reply.getIntReply();
+                }
+                if (reply.getError()!=null)
+                    throw new WebApplicationException(reply.getError());
+                return reply.getIntReply();
             } else
                 throw new WebApplicationException(r.getStatus());
         } catch ( ProcessingException | UnrecoverableKeyException | NoSuchAlgorithmException | IOException e) {
@@ -196,7 +201,7 @@ public class Client {
         }
     }
 
-    public void getExtract(String account) {
+    public List<Transaction> getExtract(String account) {
         try {
             byte[] accountBytes = this.accounts.get(account);
             Request request = new Request(LedgerRequestType.GET_EXTRACT, accountBytes);
@@ -210,10 +215,12 @@ public class Client {
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
-                if (reply==null)
+                if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
                     throw new WebApplicationException("Bizantine error!");
-                if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy()))
-                    throw new WebApplicationException("Bizantine error!");
+                }
+                if (reply.getError()!=null)
+                    throw new WebApplicationException(reply.getError());
+                return reply.getListReply();
             } else
                 throw new WebApplicationException(r.getStatus());
         } catch ( ProcessingException | UnrecoverableKeyException | NoSuchAlgorithmException | IOException e) {
@@ -223,7 +230,7 @@ public class Client {
         }
     }
 
-    public void getBalance(String account) {
+    public int getBalance(String account) {
         try {
             byte[] accountBytes = this.accounts.get(account);
             Request request = new Request(LedgerRequestType.GET_BALANCE, accountBytes);
@@ -237,10 +244,12 @@ public class Client {
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
-                if (reply==null)
+                if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
                     throw new WebApplicationException("Bizantine error!");
-                if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy()))
-                    throw new WebApplicationException("Bizantine error!");
+                }
+                if (reply.getError()!=null)
+                    throw new WebApplicationException(reply.getError());
+                return reply.getIntReply();
             } else
                 throw new WebApplicationException(r.getStatus());
         } catch ( ProcessingException | UnrecoverableKeyException | NoSuchAlgorithmException | IOException e) {
@@ -257,23 +266,26 @@ public class Client {
             KeyPair keyPair = Security.getKeyPair(email);
             request.setPublicKey(keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
-            WebTarget target = this.client.target(proxyURI).path("account");
+            WebTarget target = client.target(proxyURI).path("account");
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
-                if (reply==null)
+                if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
                     throw new WebApplicationException("Bizantine error!");
-                if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy()))
-                    throw new WebApplicationException("Bizantine error!");
-            } else
+                }
+                if (reply.getError()!=null)
+                    throw new WebApplicationException(reply.getError());
+                accounts.put(email, account);
+            } else {
                 throw new WebApplicationException(r.getStatus());
+            }
         } catch ( ProcessingException | UnrecoverableKeyException | NoSuchAlgorithmException | IOException e) {
-            throw new InternalServerErrorException();
-        } catch (CertificateException | KeyStoreException e) {
-            throw new WebApplicationException("Account not created!", Response.Status.NOT_FOUND);
+            throw new WebApplicationException();
+        } catch(CertificateException | KeyStoreException e) {
+            throw new WebApplicationException("Account keystore not created!");
         }
 
     }
@@ -292,10 +304,11 @@ public class Client {
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
-                if (reply==null)
+                if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
                     throw new WebApplicationException("Bizantine error!");
-                if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy()))
-                    throw new WebApplicationException("Bizantine error!");
+                }
+                if (reply.getError()!=null)
+                    throw new WebApplicationException(reply.getError());
                 return reply.getBlockReply();
             } else
                 throw new WebApplicationException(r.getStatus());
@@ -320,10 +333,11 @@ public class Client {
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
-                if (reply==null)
+                if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
                     throw new WebApplicationException("Bizantine error!");
-                if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy()))
-                    throw new WebApplicationException("Bizantine error!");
+                }
+                if (reply.getError()!=null)
+                    throw new WebApplicationException(reply.getError());
             } else
                 throw new WebApplicationException(r.getStatus());
         } catch ( ProcessingException | UnrecoverableKeyException | NoSuchAlgorithmException | IOException e) {

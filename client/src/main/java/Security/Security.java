@@ -45,7 +45,7 @@ public class Security {
 
     public static KeyPair getKeyPair(String alias) throws IOException, KeyStoreException, CertificateException, NoSuchAlgorithmException, UnrecoverableKeyException {
         KeyStore keyStore = KeyStore.getInstance("JKS");
-        FileInputStream fis = new FileInputStream("security/" + alias +"keystore.jks");
+        FileInputStream fis = new FileInputStream("security/" + alias +"_keystore.jks");
         keyStore.load(fis, PASSWORD.toCharArray());
         KeyPair keyPair = new KeyPair(keyStore.getCertificate(alias).getPublicKey(), (PrivateKey) keyStore.getKey(alias, PASSWORD.toCharArray()));
         return keyPair;

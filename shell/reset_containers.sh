@@ -1,11 +1,15 @@
 #!/bin/sh
 docker rm $(docker stop $(docker ps -a -q ))
 
-docker image rmi proxy
-docker image rmi redis
-docker image rmi replica
-docker image rmi client
-docker image rmi artilleryio/artillery
+rm -r ../security
+rm -r ../client/security
+rm -r ../proxy/security
+mkdir ../security
+mkdir ../client/security
+mkdir ../proxy/security
+
+rm ../replica/config/currentView
+rm ../proxy/config/currentView
 
 docker network remove net
 

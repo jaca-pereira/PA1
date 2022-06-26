@@ -1,0 +1,63 @@
+config:
+  payload: 
+    -
+      path: "users.csv"
+      fields: 
+        - "user"
+    -
+      path: "weights.csv"
+      fields: 
+        - "weightWrite"
+        - "weightRead"
+  target: "http://172.19.0.3:8080"
+  phases:
+    - duration: 10
+      arrivalRate: 1
+scenarios:
+  - name: Get Balance
+    weight: weightRead
+    flow:
+    - log: "Getting Balance"
+      - post:
+          url: "/balance"
+          json:
+            account: "{{ user }}"
+  - name: Get Extract
+    weight: weightRead
+    flow:
+    - log: "Getting Extract"
+      - post:
+          url: "/extract"
+          json:
+            account: "{{ user }}"
+  - name: Send Transaction
+    weight: weightWrite
+    flow:
+    - log: "Sending Transaction"
+      - post:
+          url: "/transaction"
+          json:
+            accounts: ["{{ user }}", "{{ user }}"]
+  - name: Get Total Value
+    weight: weightRead
+    flow:
+    - log: "Getting total value"
+      - post:
+          json:
+            accounts: ["{{ user }}", "{{ user }}", "{{ user }}"]
+  - name: Get Global Value
+    weight: weightRead
+    flow:
+    - log: "Getting global value"
+      - post:
+          url: "/global_value"
+          json:
+            account: "{{ user }}"
+  - name: Get Ledger
+    weight: weightRead
+    flow:
+    - log: "Getting legder"
+      - post:
+          url: "/ledger"
+          json:
+            account: "{{ user }}"

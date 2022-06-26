@@ -19,33 +19,37 @@ import static java.util.Collections.synchronizedCollection;
 
 public class ReplyListenerImp implements bftsmart.communication.client.ReplyListener {
 
-    private final AsynchServiceProxy asynchServiceProxy;
+    private AsynchServiceProxy asynchServiceProxy;
 
     private final Collection<Reply> replies =
             synchronizedCollection(new LinkedList<>());
     private final BlockingQueue<List<Reply>> replyChain;
-    private final AtomicInteger repliesCounter;
+    private AtomicInteger repliesCounter;
 
     public ReplyListenerImp(BlockingQueue<List<Reply>> replyChain, AsynchServiceProxy asynchServiceProxy) {
+        System.out.println("CONSTRUTOR");
         this.replyChain = replyChain;
         this.asynchServiceProxy = asynchServiceProxy;
-        replies.clear();
         repliesCounter = new AtomicInteger(0);
+        System.out.println("CONSTRUTOR NÃO ESTOIROU");
     }
 
     @Override
     public void reset() {
-
+        this.replyChain.clear();
+        repliesCounter = new AtomicInteger(0);
     }
 
     @Override
     public void replyReceived(RequestContext context, TOMMessage msg) {
+        System.out.println("REPLY_LISTENER_CHAMADO");
         if(msg.getContent().length > 0) {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(msg.getContent());
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
                 Reply reply = (Reply) objIn.readObject();
                 if (!Security.verifySignature(reply.getPublicKeyReplica(), reply.getRequestType().toString().getBytes(), reply.getSignatureReplica())) {
                     replyChain.add(new LinkedList<>());
+                    System.out.println("REPLICAS ASSINARAM MAL");
                     asynchServiceProxy.cleanAsynchRequest(context.getOperationId());
                     replies.clear();
                 } else
@@ -57,6 +61,7 @@ public class ReplyListenerImp implements bftsmart.communication.client.ReplyList
 
         if (this.isValid()) {
             replyChain.add(new LinkedList<>(replies));
+            System.out.println("RESPOSTA READY");
             asynchServiceProxy.cleanAsynchRequest(context.getOperationId());
             replies.clear();
         }

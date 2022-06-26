@@ -83,4 +83,9 @@ public class Security {
 
         return sslContext;
     }
+
+    public static KeyPair getKeyPair() throws NoSuchAlgorithmException {
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("EC");
+        return keyPairGenerator.generateKeyPair();
+    }
 }

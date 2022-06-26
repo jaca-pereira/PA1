@@ -2,7 +2,10 @@ FROM artilleryio/artillery
 
 WORKDIR .
 
-COPY config.csv config.csv
 COPY users.csv users.csv
-COPY proxies.csv proxies.csv
-COPY create_accounts.yml create_accounts.yml
+COPY weights.csv weights.csv
+COPY start.yml start.yml
+COPY workload_0.yml workload_0.yml
+COPY workload_1.yml workload_1.yml
+COPY workload_2.yml workload_2.yml
+COPY workload_3.yml workload_3.yml

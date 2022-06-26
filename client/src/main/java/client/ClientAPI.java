@@ -11,41 +11,49 @@ public interface ClientAPI {
     @POST
     @Path("/create_account")
     @Consumes(MediaType.APPLICATION_JSON )
-    void create_account(String email);
+    @Produces
+    boolean create_account(String email);
 
     @POST
     @Path("/balance")
     @Consumes(MediaType.APPLICATION_JSON )
-    void getBalance(String account);
+    @Produces
+    boolean getBalance(String account);
 
     @POST
     @Path("/extract")
     @Consumes(MediaType.APPLICATION_JSON )
-    void getExtract(String account);
+    @Produces
+    boolean getExtract(String account);
 
     @POST
     @Path("/transaction")
     @Consumes(MediaType.APPLICATION_JSON )
-    void sendTransaction(String originAccount, String destinationAccount);
+    @Produces
+    boolean sendTransaction(List<String> accounts);
 
     @POST
     @Path("/total_value")
     @Consumes(MediaType.APPLICATION_JSON )
-    void getTotalValue(String account, List<String> accounts);
+    @Produces
+    boolean getTotalValue(List<String> accounts);
 
     @POST
     @Path("/global_value")
     @Consumes(MediaType.APPLICATION_JSON )
-    void getGlobalValue(String account);
+    @Produces
+    boolean getGlobalValue(String account);
 
     @POST
     @Path("/ledger")
     @Consumes(MediaType.APPLICATION_JSON )
-    void getLedger(String account);
+    @Produces
+    boolean getLedger(String account);
 
     @POST
     @Path("/mine")
     @Consumes(MediaType.APPLICATION_JSON )
-    void mineBlock(String account, int difficulty);
+    @Produces
+    boolean mineBlock(String account);
 
 }

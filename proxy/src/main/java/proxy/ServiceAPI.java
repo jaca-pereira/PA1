@@ -14,12 +14,6 @@ public interface ServiceAPI {
     byte[] createAccount(byte[] data);
 
     @POST
-    @Path("/account/load")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    byte[] loadMoney(byte[] data);
-
-    @POST
     @Path("/account/balance")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

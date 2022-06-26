@@ -28,6 +28,10 @@ public class Reply implements Serializable {
 
     private Block blockReply;
 
+    private Error error;
+    public Reply(String error) {
+        this.error = new Error(error);
+    }
     public Reply(boolean boolReply, LedgerRequestType requestType) {
         this.boolReply = boolReply;
         this.publicKeyProxy = null;
@@ -77,6 +81,18 @@ public class Reply implements Serializable {
         this.signatureReplica = null;
         this.ledgerReply = ledgerReply;
         this.requestType = requestType;
+    }
+
+    public Reply(LedgerRequestType requestType) {
+        this.requestType = requestType;
+        this.publicKeyProxy = null;
+        this.signatureProxy = null;
+        this.publicKeyReplica = null;
+        this.signatureReplica = null;
+    }
+
+    public Error getError() {
+        return error;
     }
 
     public Block getBlockReply() {

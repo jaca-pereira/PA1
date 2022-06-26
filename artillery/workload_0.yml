@@ -1,49 +1,63 @@
-scenario:
+config:
+  payload: 
+    -
+      path: "users.csv"
+      fields: 
+        - "user"
+    -
+      path: "weights.csv"
+      fields: 
+        - "weightWrite"
+        - "weightRead"
+  target: "http://172.19.0.2:8080"
+  phases:
+    - duration: 10
+      arrivalRate: 1
+scenarios:
   - name: Get Balance
     weight: weightRead
     flow:
     - log: "Getting Balance"
       - post:
           url: "/balance"
-scenario:
+          json:
+            account: "{{ user }}"
   - name: Get Extract
     weight: weightRead
     flow:
     - log: "Getting Extract"
       - post:
           url: "/extract"
-scenario:
+          json:
+            account: "{{ user }}"
   - name: Send Transaction
     weight: weightWrite
     flow:
     - log: "Sending Transaction"
       - post:
           url: "/transaction"
-scenario:
+          json:
+            accounts: ["{{ user }}", "{{ user }}"]
   - name: Get Total Value
     weight: weightRead
     flow:
     - log: "Getting total value"
       - post:
-          url: "/total_value"
-scenario:
+          json:
+            accounts: ["{{ user }}", "{{ user }}", "{{ user }}"]
   - name: Get Global Value
     weight: weightRead
     flow:
     - log: "Getting global value"
       - post:
           url: "/global_value"
-scenario:
+          json:
+            account: "{{ user }}"
   - name: Get Ledger
     weight: weightRead
     flow:
     - log: "Getting legder"
       - post:
           url: "/ledger"
-scenario:
-  - name: Mine Block
-    weight: weightWrite
-    flow:
-    - log: "Mining a block"
-      - post:
-          url: "/mine"
+          json:
+            account: "{{ user }}"

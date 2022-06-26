@@ -8,25 +8,25 @@ fi
 F=$1
 N=$((3*$F+1))
 
-cd ../configs/
-cp hosts.template hosts.config
-cp system.template system.config
+#cd ../configs/
+#cp hosts.template hosts.config
+#cp system.template system.config
 
-echo "system.initial.view = $(seq -s ',' 20 $(( $N - 1 + 20 )) )" >> system.config
-echo "system.servers.num = $N" >> system.config
-echo "system.servers.f = $F" >> system.config
-for i in `seq 20 $(( $N - 1 + 20 ))`; do
-    echo "$i 172.19.0.$(($i + 20)) 11000 11001" >> hosts.config
-done
-echo "7001 127.0.0.1 11100" >> hosts.config
+#echo "system.initial.view = $(seq -s ',' 20 $(( $N - 1 + 20 )) )" >> system.config
+#echo "system.servers.num = $N" >> system.config
+#echo "system.servers.f = $F" >> system.config
+#for i in `seq 20 $(( $N - 1 + 20 ))`; do
+#    echo "$i 172.19.20.$(($i - 20)) 11000 11001" >> hosts.config
+#done
+#echo "7001 127.0.0.1 11100" >> hosts.config
 
 
-cp hosts.config ../replica/config
-cp system.config ../replica/config
-cp hosts.config ../proxy/config
-cp system.config ../proxy/config
-cp hosts.config ../client/config
-cp system.config ../client/config
+#cp hosts.config ../replica/config
+#cp system.config ../replica/config
+#cp hosts.config ../proxy/config
+#cp system.config ../proxy/config
+#cp hosts.config ../client/config
+#cp system.config ../client/config
 
 
 cd ../security
