@@ -50,7 +50,7 @@ public class ReplyListenerImp implements bftsmart.communication.client.ReplyList
                 Reply reply = (Reply) objIn.readObject();
                 byte[] signature = reply.getSignatureReplica();
                 PublicKey publicKey = reply.getPublicKeyReplica();
-                if (signature == null || publicKey == null || !Security.verifySignature(publicKey, reply.getRequestType().toString().getBytes(), signature) || reply.getError()!=null) {
+                if (publicKey == null || signature== null || reply.getError()!=null || !Security.verifySignature(publicKey, reply.getRequestType().toString().getBytes(), signature)) {
                     replyChain.add(new LinkedList<>());
                     System.out.println("REPLICAS ASSINARAM MAL");
                     asynchServiceProxy.cleanAsynchRequest(context.getOperationId());

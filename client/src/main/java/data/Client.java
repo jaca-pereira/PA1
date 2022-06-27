@@ -29,7 +29,6 @@ import javax.ws.rs.core.Response;
 
 public class Client {
 
-    public static final int DEFAULT_AMOUNT_TRANSACTIONS = 5;
     private final URI proxyURI;
     private final javax.ws.rs.client.Client client;
 
@@ -100,8 +99,14 @@ public class Client {
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
-                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
+                List<byte[]> replies = proxyReply.getReplicaReplies();
+                if (replies.size()==0) {
+                    System.out.println("MAL ASSINADO RESPOSTA");
+                    throw new WebApplicationException("Bizantine error!");
+                }
+                Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
+                    System.out.println("MAL ASSINADO RESPOSTA");
                     throw new WebApplicationException("Bizantine error!");
                 }
                 if (reply.getError()!=null)
@@ -114,7 +119,7 @@ public class Client {
         }
     }
 
-    public void sendTransaction() {
+    public void sendTransaction(int value) {
         try {
             SecureRandom nonce = new SecureRandom();
             byte[] originAccountBytes = this.getCurrentUser();
@@ -122,7 +127,7 @@ public class Client {
             do {
                 destinationAccountBytes = this.getCurrentUser();
             } while (new String (originAccountBytes).equals(new String(destinationAccountBytes)));
-            Request request = new Request(LedgerRequestType.SEND_TRANSACTION, originAccountBytes, destinationAccountBytes, 0,nonce.nextLong());
+            Request request = new Request(LedgerRequestType.SEND_TRANSACTION, originAccountBytes, destinationAccountBytes, value,nonce.nextLong());
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
             WebTarget target = this.client.target(proxyURI).path("transaction");
@@ -132,8 +137,14 @@ public class Client {
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if(  r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
-                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
+                List<byte[]> replies = proxyReply.getReplicaReplies();
+                if (replies.size()==0) {
+                    System.out.println("MAL ASSINADO RESPOSTA");
+                    throw new WebApplicationException("Bizantine error!");
+                }
+                Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
+                    System.out.println("MAL ASSINADO RESPOSTA");
                     throw new WebApplicationException("Bizantine error!");
                 }
                 if (reply.getError()!=null)
@@ -157,8 +168,14 @@ public class Client {
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
-                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
+                List<byte[]> replies = proxyReply.getReplicaReplies();
+                if (replies.size()==0) {
+                    System.out.println("MAL ASSINADO RESPOSTA");
+                    throw new WebApplicationException("Bizantine error!");
+                }
+                Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
+                    System.out.println("MAL ASSINADO RESPOSTA");
                     throw new WebApplicationException("Bizantine error!");
                 }
                 if (reply.getError()!=null)
@@ -186,8 +203,14 @@ public class Client {
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
-                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
+                List<byte[]> replies = proxyReply.getReplicaReplies();
+                if (replies.size()==0) {
+                    System.out.println("MAL ASSINADO RESPOSTA");
+                    throw new WebApplicationException("Bizantine error!");
+                }
+                Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
+                    System.out.println("MAL ASSINADO RESPOSTA");
                     throw new WebApplicationException("Bizantine error!");
                 }
                 if (reply.getError()!=null)
@@ -212,8 +235,14 @@ public class Client {
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
-                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
+                List<byte[]> replies = proxyReply.getReplicaReplies();
+                if (replies.size()==0) {
+                    System.out.println("MAL ASSINADO RESPOSTA");
+                    throw new WebApplicationException("Bizantine error!");
+                }
+                Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
+                    System.out.println("MAL ASSINADO RESPOSTA");
                     throw new WebApplicationException("Bizantine error!");
                 }
                 if (reply.getError()!=null)
@@ -238,8 +267,14 @@ public class Client {
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
-                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
+                List<byte[]> replies = proxyReply.getReplicaReplies();
+                if (replies.size()==0) {
+                    System.out.println("MAL ASSINADO RESPOSTA");
+                    throw new WebApplicationException("Bizantine error!");
+                }
+                Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
+                    System.out.println("MAL ASSINADO RESPOSTA");
                     throw new WebApplicationException("Bizantine error!");
                 }
                 if (reply.getError()!=null)
@@ -264,8 +299,14 @@ public class Client {
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
-                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
+                List<byte[]> replies = proxyReply.getReplicaReplies();
+                if (replies.size()==0) {
+                    System.out.println("MAL ASSINADO RESPOSTA");
+                    throw new WebApplicationException("Bizantine error!");
+                }
+                Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
+                    System.out.println("MAL ASSINADO RESPOSTA");
                     throw new WebApplicationException("Bizantine error!");
                 }
                 if (reply.getError()!=null)
@@ -296,7 +337,12 @@ public class Client {
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
-                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
+                List<byte[]> replies = proxyReply.getReplicaReplies();
+                if (replies.size()==0) {
+                    System.out.println("MAL ASSINADO RESPOSTA");
+                    throw new WebApplicationException("Bizantine error!");
+                }
+                Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
                     System.out.println("MAL ASSINADO RESPOSTA");
                     throw new WebApplicationException("Bizantine error!");
@@ -335,8 +381,14 @@ public class Client {
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));
             if( r.getStatus() == Response.Status.OK.getStatusCode() && r.hasEntity() ) {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
-                Reply reply = Reply.deserialize(proxyReply.getReplicaReplies().get(0));
+                List<byte[]> replies = proxyReply.getReplicaReplies();
+                if (replies.size()==0) {
+                    System.out.println("MAL ASSINADO RESPOSTA");
+                    throw new WebApplicationException("Bizantine error!");
+                }
+                Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
+                    System.out.println("MAL ASSINADO RESPOSTA");
                     throw new WebApplicationException("Bizantine error!");
                 }
                 if (reply.getError()!=null)

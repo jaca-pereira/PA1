@@ -22,22 +22,22 @@ public class Tests {
     @Test
     public void testGeneral() {
 
-        assert client.create_account("joao");
-        assert client.create_account("manel");
-        assert client.create_account("toino");
-        assert client.create_account("ze palindra");
-        assert client.mineBlock();
-        assert client.mineBlock();
-        assert client.sendTransaction();
-        assert client.mineBlock();
-        assert client.sendTransaction();
-        assert client.sendTransaction();
-        assert client.sendTransaction();
-        List<Transaction> transactions =client.getExtract();
-        for (Transaction t: transactions) {
-            System.out.println(t.toString());
-            System.out.println();
-        }
+        System.out.println(client.create_account("joao"));
+        System.out.println(client.create_account("manel"));
+        System.out.println(client.create_account("toino"));
+        System.out.println(client.create_account("ze palindra"));
+        System.out.println(client.mineBlock());
+        System.out.println(client.mineBlock());
+        System.out.println(client.mineBlock());
+        System.out.println(client.sendTransaction(0));
+        System.out.println(client.sendTransaction(10));
+        System.out.println(client.sendTransaction(20));
+        System.out.println(client.sendTransaction(1000));
+        System.out.println();
+        System.out.println(client.getLedger());
+        System.out.println();
+        System.out.println(client.getExtract());
+        System.out.println();
         System.out.println(client.getBalance());
         System.out.println();
         System.out.println(client.getGlobalValue());

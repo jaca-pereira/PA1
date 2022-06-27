@@ -124,8 +124,20 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                 byteOut.flush();
                 reply = byteOut.toByteArray();
         } catch (Exception e) {
-            e.printStackTrace();
-            reply = Reply.serialize(new Reply(e.getMessage()));
+            try {
+                ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+                ObjectOutput objOut = new ObjectOutputStream(byteOut);
+                e.printStackTrace();
+                Reply repError = new Reply(e.getMessage());
+                repError.setPublicKeyReplica(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
+                repError.setSignatureReplica(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), LedgerRequestType.ERROR.toString().getBytes()));
+                objOut.writeObject(repError);
+                objOut.flush();
+                byteOut.flush();
+                reply = byteOut.toByteArray();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         System.out.println("VAI ENVIAR RESPOSTA");
         return reply;
@@ -178,8 +190,22 @@ public class LedgerReplica extends DefaultSingleRecoverable {
             byteOut.flush();
             reply = byteOut.toByteArray();
         } catch (Exception e) {
-            e.printStackTrace();
-            reply = Reply.serialize(new Reply(e.getMessage()));
+            try {
+
+                ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+                ObjectOutput objOut = new ObjectOutputStream(byteOut);
+                e.printStackTrace();
+                Reply repError = new Reply(e.getMessage());
+                repError.setPublicKeyReplica(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
+                repError.setSignatureReplica(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), LedgerRequestType.ERROR.toString().getBytes()));
+                objOut.writeObject(repError);
+                objOut.flush();
+                byteOut.flush();
+                reply = byteOut.toByteArray();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
         }
         System.out.println("VAI ENVIAR RESPOSTA");
         return reply;

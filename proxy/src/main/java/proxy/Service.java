@@ -48,7 +48,12 @@ public class Service implements ServiceAPI {
             Request deserialized = Request.deserialize(request);
             if (!Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature())) {
                 System.out.println("MAL ASSINADO");
-                return Reply.serialize(new Reply("Request not properly signed!"));
+                Reply reply = new Reply("Request not properly signed!");
+                reply.setPublicKeyProxy(this.keyPair.getPublic().getEncoded());
+                reply.setSignatureProxy(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.ERROR.toString().getBytes()));
+                ProxyReply proxyReply = new ProxyReply();
+                proxyReply.addReply(reply);
+                return ProxyReply.serialize(proxyReply);
             }
             objOut.writeObject(deserialized);
             objOut.flush();
@@ -57,12 +62,19 @@ public class Service implements ServiceAPI {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(reply);
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
                 Reply rep = (Reply) objIn.readObject();
-                return Reply.serialize(rep);
+                rep.setPublicKeyProxy(this.keyPair.getPublic().getEncoded());
+                rep.setSignatureProxy(Security.signRequest(this.keyPair.getPrivate(), deserialized.getRequestType().toString().getBytes()));
+                ProxyReply proxyReply = new ProxyReply();
+                proxyReply.addReply(rep);
+                return ProxyReply.serialize(proxyReply);
             }
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("IO EXCEPTION");
-            System.out.println("Exception: " + e.getMessage());
-            return Reply.serialize(new Reply(e.getMessage()));
+            Reply reply = new Reply("IO error");
+            reply.setPublicKeyProxy(this.keyPair.getPublic().getEncoded());
+            reply.setSignatureProxy(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.ERROR.toString().getBytes()));
+            ProxyReply proxyReply = new ProxyReply();
+            proxyReply.addReply(reply);
+            return ProxyReply.serialize(proxyReply);
         }
 
 
@@ -78,7 +90,12 @@ public class Service implements ServiceAPI {
             Request deserialized = Request.deserialize(request);
             if (!Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature())) {
                 System.out.println("MAL ASSINADO");
-                return Reply.serialize(new Reply("Request not properly signed!"));
+                Reply reply = new Reply("Request not properly signed!");
+                reply.setPublicKeyProxy(this.keyPair.getPublic().getEncoded());
+                reply.setSignatureProxy(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.ERROR.toString().getBytes()));
+                ProxyReply proxyReply = new ProxyReply();
+                proxyReply.addReply(reply);
+                return ProxyReply.serialize(proxyReply);
             }
             objOut.writeObject(deserialized);
             objOut.flush();
@@ -96,9 +113,12 @@ public class Service implements ServiceAPI {
             });
             return ProxyReply.serialize(proxyReply);
         } catch (IOException e) {
-            System.out.println("ERRO IO");
-            System.out.println("Exception: " + e.getMessage());
-            return Reply.serialize(new Reply(e.getMessage()));
+            Reply reply = new Reply("IO error");
+            reply.setPublicKeyProxy(this.keyPair.getPublic().getEncoded());
+            reply.setSignatureProxy(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.ERROR.toString().getBytes()));
+            ProxyReply proxyReply = new ProxyReply();
+            proxyReply.addReply(reply);
+            return ProxyReply.serialize(proxyReply);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

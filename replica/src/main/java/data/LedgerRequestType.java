@@ -10,7 +10,9 @@ public enum LedgerRequestType {
     LOAD_MONEY,
     GET_BALANCE,
     GET_BLOCK_TO_MINE,
-    MINE_BLOCK;
+    MINE_BLOCK,
+
+    ERROR;
 }
 
 
