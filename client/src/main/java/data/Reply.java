@@ -11,7 +11,6 @@ public class Reply implements Serializable {
     private static final long serialVersionUID = 1L;
 
 
-    private LedgerDataStructure ledgerReply;
     //Security stuff
     private byte[] publicKeyProxy;
     private byte[] signatureProxy;
@@ -77,15 +76,6 @@ public class Reply implements Serializable {
         this.requestType = requestType;
     }
 
-    public Reply(LedgerDataStructure ledgerReply, LedgerRequestType requestType) {
-        this.publicKeyProxy = null;
-        this.signatureProxy = null;
-        this.publicKeyReplica = null;
-        this.signatureReplica = null;
-        this.ledgerReply = ledgerReply;
-        this.requestType = requestType;
-    }
-
     public Reply(LedgerRequestType requestType) {
         this.requestType = requestType;
         this.publicKeyProxy = null;
@@ -114,7 +104,7 @@ public class Reply implements Serializable {
         return this.intReply;
     }
 
-    public List<Transaction> getListReply() {
+    public List getListReply() {
         return this.listReply;
     }
 
@@ -178,8 +168,5 @@ public class Reply implements Serializable {
         this.signatureReplica = signatureReplica;
     }
 
-    public LedgerDataStructure getLedgerReply() {
-        return ledgerReply;
-    }
 
 }

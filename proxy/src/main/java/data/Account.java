@@ -53,4 +53,14 @@ public class Account implements Serializable {
         return null;
     }
 
+    public String toString() {
+        String result = "Transactions List: {\n";
+        for (Transaction t : transactionList) {
+            result += t.toString();
+        }
+        result+= "}\n";
+        result+= "balance: " + balance + "\n";
+        return result;
+    }
+
 }

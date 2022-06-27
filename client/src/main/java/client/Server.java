@@ -36,7 +36,6 @@ public class Server {
         //Client client = new Client(proxyURI);
         Tests tests = new Tests();
         tests.testGeneral();
-        tests.mineBlock();
 
         while(true);
         //ResourceConfig config = new ResourceConfig();

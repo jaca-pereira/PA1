@@ -1,6 +1,9 @@
 package client;
 
 
+import data.Block;
+import data.Transaction;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -18,13 +21,13 @@ public interface ClientAPI {
     @Path("/balance")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    boolean getBalance();
+    int getBalance();
 
     @POST
     @Path("/extract")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    boolean getExtract();
+    List<Transaction> getExtract();
 
     @POST
     @Path("/transaction")
@@ -36,19 +39,19 @@ public interface ClientAPI {
     @Path("/total_value")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    boolean getTotalValue();
+    int getTotalValue();
 
     @POST
     @Path("/global_value")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    boolean getGlobalValue();
+    int getGlobalValue();
 
     @POST
     @Path("/ledger")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    boolean getLedger();
+    List<Block> getLedger();
 
     @POST
     @Path("/mine")

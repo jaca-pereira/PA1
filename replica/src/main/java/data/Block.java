@@ -15,7 +15,7 @@ public class Block implements Serializable {
     private Merkle merkle;
 
     private byte[] signature;
-    private PublicKey publicKey;
+    private byte[] publicKey;
 
     private byte[] account;
 
@@ -42,7 +42,7 @@ public class Block implements Serializable {
         this.signature = signature;
     }
 
-    public void setPublicKey(PublicKey publicKey) {
+    public void setPublicKey(byte[] publicKey) {
         this.publicKey = publicKey;
     }
 
@@ -73,7 +73,7 @@ public class Block implements Serializable {
         return signature;
     }
 
-    public PublicKey getPublicKey() {
+    public byte[] getPublicKey() {
         return publicKey;
     }
 
@@ -120,5 +120,17 @@ public class Block implements Serializable {
         }
         return false;
     }
+
+    public String toString() {
+        String res = "Last Block Hash: " + new String(lastBlockHash) + "\n";
+        res += "Nonce: " + this.nonce + "\n";
+        res += "Merkle: {" + this.merkle.toString() + "}\n";
+        res += "Signature: " + new String(signature) + "\n";
+        res += "Public Key: " + new String(publicKey) + "\n";
+        res += "Account: " + new String(account) + "\n";
+        res += "Hash: " + new String(hash) + "\n";
+        return res;
+    }
+
 
 }

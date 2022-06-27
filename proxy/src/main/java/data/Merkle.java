@@ -11,28 +11,30 @@ import java.util.Map;
 public class Merkle implements Serializable {
 
     public static final int SHA_256_SIZE = 256;
-    private List<Transaction> merkelTree;
-    private Map<String, Account> merkelMap;
+    private List<Transaction> merkleTree;
+    private Map<String, Account> merkleMap;
 
     private byte[] transactionsHash;
 
     public Merkle(List<Transaction> merkelTree, Map<String, Account> merkelMap) {
-        this.merkelTree = merkelTree;
-        this.merkelMap = merkelMap;
+        this.merkleTree = merkelTree;
+        this.merkleMap = merkelMap;
         this.transactionsHash = this.setTransactionsHash();
     }
 
     public List<Transaction> getExtract(String id) {
-        Account account = merkelMap.get(id);
+        Account account = merkleMap.get(id);
+        if (account == null)
+            return new LinkedList<>();
         return account.getTransactionList();
     }
 
-    public List<Transaction> getMerkelTree() {
-        return this.merkelTree;
+    public List<Transaction> getMerkleTree() {
+        return this.merkleTree;
     }
 
-    public Map<String, Account> getMerkelMap() {
-        return this.merkelMap;
+    public Map<String, Account> getMerkleMap() {
+        return this.merkleMap;
     }
 
     public byte[] getTransactionsHash (){
@@ -40,13 +42,13 @@ public class Merkle implements Serializable {
     }
 
     private byte[] setTransactionsHash() {
-        if (merkelTree.size()==0)
+        if (merkleTree.size()==0)
             return new byte[]{0x0};
 
         List<byte[]> hash1 = new LinkedList<>();
         List<byte[]> hash2 = new LinkedList<>();
         List<byte[]> hash = hash1;
-        this.merkelTree.forEach(transaction -> hash.add(TOMUtil.computeHash(transaction.getId())));
+        this.merkleTree.forEach(transaction -> hash.add(TOMUtil.computeHash(transaction.getId())));
         hash1 = hash;
         while (hash1.size() > 1) {
             for (int i = 0; i < hash1.size(); i += 2) {
@@ -85,4 +87,18 @@ public class Merkle implements Serializable {
         return null;
     }
 
+    public String toString() {
+        String result = "Merkle Tree: {\n";
+        for (Transaction t : merkleTree) {
+            result += t.toString();
+        }
+        result+= "}\n";
+        result += "Merkle Map: {\n";
+        for (String account: merkleMap.keySet()) {
+            result += "account: " + account + "-> " + merkleMap.get(account).toString();
+        }
+        result+= "}\n";
+        result+= "Transactions Hash: " + new String(transactionsHash) +"\n";
+        return result;
+    }
 }

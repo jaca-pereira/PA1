@@ -38,7 +38,7 @@ public class LedgerDataStructure {
 
     public void addAccount(byte[] account) {
         String acc = new String(account);
-        if(this.accounts.get(acc)==null)
+        if(this.accounts.get(acc)!=null)
             throw new IllegalArgumentException("Account already exists!");
         this.accounts.put(acc, 0);
     }
@@ -61,8 +61,7 @@ public class LedgerDataStructure {
                 throw new IllegalArgumentException("Request already made! Byzantine attack?");
             if (balance < t.getValue())
                 throw new IllegalArgumentException("Origin account does not have sufficient balance!");
-            else
-                this.transactionsId.add(t.getId());
+            this.transactionsId.add(t.getId());
 
         }
         this.notMinedTransactionsList.add(t);
@@ -71,40 +70,41 @@ public class LedgerDataStructure {
     }
 
     private void generateBlock() {
-        Block last = this.minedBlocks.get(minedBlocks.size()-1);
         Map<String, Account> merkleMap = new HashMap<>();
         List<Transaction> merkleTree = new LinkedList<>();
         for (Transaction transaction: this.notMinedTransactionsList ) {
             if (transaction.getNonce() != -1) { // se não for uma reward do ledger
+                Integer balance = this.accounts.get(new String(transaction.getOriginAccount()));
+                if (balance== null)
+                    continue;
                 Account account = merkleMap.get(new String(transaction.getOriginAccount()));
                 if (account == null) // se a conta nao estiver ja na nova merkle tree, criar
                     account = new Account();
-                Integer balance = this.accounts.get(new String(transaction.getOriginAccount()));
-                if (balance!= null) { // se a conta ja existe
-                    account.changeBalance(balance);
-                }
+                account.changeBalance(balance);
                 if (account.getBalance() < transaction.getValue()) //se não tem saldo suficiente, saltar transação
                     continue;
                 account.changeBalance(account.getBalance() - transaction.getValue());
+                account.addTransaction(transaction);
                 accounts.put(new String(transaction.getOriginAccount()),balance - transaction.getValue());
                 merkleMap.put(new String(transaction.getOriginAccount()), account);
-            } else { //aumentar o valor global do ledger
-                this.globalValue += transaction.getValue();
             }
+            Integer destinationBalance = this.accounts.get(new String(transaction.getDestinationAccount()));
+            if (destinationBalance== null) // se a conta ja existe
+                continue;
             Account destinationAccount = merkleMap.get(new String(transaction.getDestinationAccount()));
             if (destinationAccount == null)
                 destinationAccount = new Account();
-            Integer destinationBalance = this.accounts.get(new String(transaction.getDestinationAccount()));
-            if (destinationBalance!= null) { // se a conta ja existe
-                destinationAccount.changeBalance(destinationBalance);
-            }
+            destinationAccount.changeBalance(destinationBalance);
             destinationAccount.changeBalance(destinationAccount.getBalance() + transaction.getValue());
+            destinationAccount.addTransaction(transaction);
             accounts.put(new String(transaction.getDestinationAccount()),destinationBalance + transaction.getValue());
             merkleMap.put(new String(transaction.getDestinationAccount()), destinationAccount);
-
             merkleTree.add(transaction);
+            if (transaction.getNonce() == -1)
+                this.globalValue += transaction.getValue();
         }
-        blocksToMine.add(new Block(last.getHash(), merkleTree, merkleMap));
+        byte[] lastBlockHash = this.minedBlocks.get(minedBlocks.size()-1).getHash();
+        blocksToMine.add(new Block(lastBlockHash, merkleTree, merkleMap));
         notMinedTransactionsList = new ArrayList<>(MAXIMUM_MINIMUM_TRANSACTIONS);
         if(this.minimumTransactions != MAXIMUM_MINIMUM_TRANSACTIONS)
             this.minimumTransactions *= 2;

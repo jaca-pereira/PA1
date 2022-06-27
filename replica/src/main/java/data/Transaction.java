@@ -80,7 +80,13 @@ public class Transaction implements Serializable {
     }
 
     public String toString() {
-
-        return null;
+        String result = "";
+        result+= "nonce: " + nonce +"\n";
+        result+= "id: " + id +"\n";
+        result+= "originAccount: " + new String(originAccount) +"\n";
+        result+= "destinationAccount: " + new String(destinationAccount) +"\n";
+        result+= "value: " + value +"\n";
+        result+= "signature: " + new String(sig) +"\n";
+        return result;
     }
 }

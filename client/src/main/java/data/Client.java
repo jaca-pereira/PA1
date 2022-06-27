@@ -89,7 +89,7 @@ public class Client {
     }
 
 
-    public LedgerDataStructure getLedger() {
+    public List<Block> getLedger() {
         try {
             Request request = new Request(LedgerRequestType.GET_LEDGER);
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
@@ -106,7 +106,7 @@ public class Client {
                 }
                 if (reply.getError()!=null)
                     throw new WebApplicationException(reply.getError());
-                return reply.getLedgerReply();
+                return (List<Block>) reply.getListReply();
             } else
                 throw new WebApplicationException(r.getStatus());
         } catch (ProcessingException e) {
@@ -218,7 +218,7 @@ public class Client {
                 }
                 if (reply.getError()!=null)
                     throw new WebApplicationException(reply.getError());
-                return reply.getListReply();
+                return (List<Transaction>) reply.getListReply();
             } else
                 throw new WebApplicationException(r.getStatus());
         } catch ( ProcessingException e) {
@@ -324,6 +324,8 @@ public class Client {
     public void mineBlock(Block block) {
         try {
             byte[] accountBytes = block.getAccount();
+            block.setSignature((Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.MINE_BLOCK.toString().getBytes())));
+            block.setPublicKey(this.keyPair.getPublic().getEncoded());
             Request request = new Request(LedgerRequestType.MINE_BLOCK, accountBytes, block);
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));

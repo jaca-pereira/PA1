@@ -10,7 +10,7 @@ import javassist.bytecode.ByteArray;
 import java.net.URI;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-
+import java.util.List;
 
 
 public class Client implements ClientAPI {
@@ -28,15 +28,13 @@ public class Client implements ClientAPI {
     }
 
     @Override
-    public boolean getBalance() {
-        client.getBalance();
-        return true;
+    public int getBalance() {
+        return client.getBalance();
     }
 
     @Override
-    public boolean getExtract() {
-        client.getExtract();
-        return true;
+    public List<Transaction> getExtract() {
+        return client.getExtract();
     }
 
 
@@ -47,21 +45,18 @@ public class Client implements ClientAPI {
     }
 
     @Override
-    public boolean getTotalValue() {
-        client.getTotalValue();
-        return true;
+    public int getTotalValue() {
+        return client.getTotalValue();
     }
 
     @Override
-    public boolean getGlobalValue() {
-        client.getGlobalValue();
-        return true;
+    public int getGlobalValue() {
+        return client.getGlobalValue();
     }
 
     @Override
-    public boolean getLedger() {
-        client.getLedger();
-        return true;
+    public List<Block> getLedger() {
+        return client.getLedger();
     }
 
     @Override
