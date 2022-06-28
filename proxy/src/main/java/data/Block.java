@@ -23,7 +23,10 @@ public class Block implements Serializable {
 
     private byte[] hash;
 
-    public Block(byte[] lastBlockHash, List<Transaction> transactionsList, Map<String, Account> transactionsMap) {
+
+    private int difficulty;
+
+    public Block(byte[] lastBlockHash, List<Transaction> transactionsList, Map<String, Account> transactionsMap, int difficulty) {
         this.lastBlockHash = lastBlockHash;
         this.nonce = -1;
         this.signature = null;
@@ -31,9 +34,12 @@ public class Block implements Serializable {
         this.account = null;
         this.merkle = new Merkle(transactionsList, transactionsMap);
         this.hash = null;
+        this.difficulty = difficulty;
     }
 
-
+    public int getDifficulty() {
+        return difficulty;
+    }
     public void setNonce(long nonce) {
         this.nonce = nonce;
     }
@@ -111,10 +117,16 @@ public class Block implements Serializable {
 
     public static boolean proofOfWork(Block block) {
         try {
-            BigInteger hashInt = new BigInteger(block.getLastBlockHash());
-            long nonceHash = block.getNonce() + hashInt.longValue();
-            if(nonceHash < Long.MAX_VALUE)
-                return true;
+            byte[] hash = TOMUtil.computeHash(Block.serialize(block));
+            Byte zero = Byte.valueOf("0");
+            int count = 0;
+            for (int i = 0; i < hash.length; i++) {
+                Byte b = hash[0];
+                if (b.equals(zero))
+                    count++;
+                if(count > block.getDifficulty())
+                    return true;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -131,7 +143,6 @@ public class Block implements Serializable {
         res += "Hash: " + new String(hash) + "\n";
         return res;
     }
-
 
 
 }

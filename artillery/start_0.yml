@@ -1,23 +1,18 @@
 config:
-  payload: 
-    - path: "users.csv"
-      fields: 
-        - "user"
   target: "http://172.19.0.2:8080"
   phases:
-    - duration: 120
+    - duration: 5
       arrivalCount: 1
 scenarios:    
   - name: Create Account
     flow:
       - post:
           url: "/create_account"
-          json: "manel"
       - post:
           url: "/create_account"
-          json: "joão"
       - post:
           url: "/create_account"
-          json: "toze"
+      - post:
+          url: "/mine"
       - post:
           url: "/mine"

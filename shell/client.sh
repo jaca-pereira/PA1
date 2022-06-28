@@ -10,21 +10,14 @@ C=$1
 
 cd ../client
 
-cp ../security/clientcacerts.jks security/clientcacerts.jks
-
-
-cd security/
-
-cd ..
-
 mvn clean compile assembly:single
 
-#docker build -t client .
+docker build -t client .
 
-#for i in `seq 0 $(( $C - 1  ))`; do 
-#docker run --network net --ip "172.19.0.$(($i + 2))" --name "client_$i" -p 8080 -d client java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server
+for i in `seq 0 $(( $C - 1  ))`; do 
+    
+    docker run --network net --ip "172.19.0.$(($i + 2))" --name "client_$i" -p 8080 -d client java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server "https://172.19.10.$i"
 
-#done
-	
+done
 cd ../shell
 

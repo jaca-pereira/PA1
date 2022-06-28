@@ -12,12 +12,13 @@ A=$4
 
 sh reset_containers.sh
 sh config.sh $F
+#sh security.sh
 sh network.sh
-sleep 2
+sleep 1
 sh replica.sh $F $D
 sleep 5
 sh proxy.sh $P $A
 sleep 2
 sh client.sh $C
-#sleep 2
-#sh artillery.sh
+sleep 2
+sh artillery.sh

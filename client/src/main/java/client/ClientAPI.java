@@ -15,7 +15,7 @@ public interface ClientAPI {
     @Path("/create_account")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    String create_account(String email);
+    String create_account();
 
     @POST
     @Path("/balance")
@@ -33,7 +33,7 @@ public interface ClientAPI {
     @Path("/transaction")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    String sendTransaction(int value);
+    String sendTransaction();
 
     @POST
     @Path("/total_value")

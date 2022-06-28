@@ -8,6 +8,7 @@ public class LedgerDataStructure {
 
 
     public static final int MAXIMUM_MINIMUM_TRANSACTIONS = 16;
+    public static final int DIFFICULTY = 2;
 
     private List<Transaction> notMinedTransactionsList;
     private List<byte[]> transactionsId;
@@ -17,6 +18,7 @@ public class LedgerDataStructure {
     private List<Block> blocksToMine;
     private Map<String,Integer> accounts;
     private int minimumTransactions;
+    private int difficulty;
 
 
     public LedgerDataStructure() {
@@ -27,12 +29,13 @@ public class LedgerDataStructure {
         this.blocksToMine = new LinkedList<>();
         this.accounts = new HashMap<>();
         this.minimumTransactions = 1;
+        this.difficulty = 0;
         this.genesisBlock();
 
     }
 
     private void genesisBlock() {
-        Block genesis = new Block(new byte[]{0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, new LinkedList<>(), new HashMap<>()); //needs 8 bytes for Big Integer conversion
+        Block genesis = new Block(new byte[]{0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, new LinkedList<>(), new HashMap<>(), this.difficulty); //needs 8 bytes for Big Integer conversion
         this.blocksToMine.add(genesis);
     }
 
@@ -104,7 +107,9 @@ public class LedgerDataStructure {
                 this.globalValue += transaction.getValue();
         }
         byte[] lastBlockHash = this.minedBlocks.get(minedBlocks.size()-1).getHash();
-        blocksToMine.add(new Block(lastBlockHash, merkleTree, merkleMap));
+        if (this.difficulty != DIFFICULTY && this.minedBlocks.size()>2)
+            this.difficulty = DIFFICULTY;
+        blocksToMine.add(new Block(lastBlockHash, merkleTree, merkleMap, this.difficulty));
         notMinedTransactionsList = new ArrayList<>(MAXIMUM_MINIMUM_TRANSACTIONS);
         if(this.minimumTransactions != MAXIMUM_MINIMUM_TRANSACTIONS)
             this.minimumTransactions *= 2;

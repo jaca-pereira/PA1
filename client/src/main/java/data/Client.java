@@ -32,14 +32,14 @@ public class Client {
     private final URI proxyURI;
     private final javax.ws.rs.client.Client client;
 
-    private Map<Integer, byte[]> accounts;
+    private List<byte[]> accounts;
     private KeyPair keyPair;
     private int currentUser;
 
     public Client(URI proxyURI) throws NoSuchAlgorithmException {
         this.proxyURI = proxyURI;
         this.client = this.startClient();
-        this.accounts = new HashMap<>();
+        this.accounts = new LinkedList<>();
         this.keyPair = Security.getKeyPair();
         this.currentUser = -1;
     }
@@ -119,7 +119,7 @@ public class Client {
         }
     }
 
-    public void sendTransaction(int value) {
+    public void sendTransaction() {
         try {
             SecureRandom nonce = new SecureRandom();
             byte[] originAccountBytes = this.getCurrentUser();
@@ -127,7 +127,7 @@ public class Client {
             do {
                 destinationAccountBytes = this.getCurrentUser();
             } while (new String (originAccountBytes).equals(new String(destinationAccountBytes)));
-            Request request = new Request(LedgerRequestType.SEND_TRANSACTION, originAccountBytes, destinationAccountBytes, value,nonce.nextLong());
+            Request request = new Request(LedgerRequestType.SEND_TRANSACTION, originAccountBytes, destinationAccountBytes, 20,nonce.nextLong());
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
             WebTarget target = this.client.target(proxyURI).path("transaction");
@@ -287,9 +287,9 @@ public class Client {
         }
     }
 
-    public void createAccount(String email) {
+    public void createAccount() {
         try {
-            byte[] account = this.idMaker(email);
+            byte[] account = this.idMaker("email");
             Request request = new Request(LedgerRequestType.CREATE_ACCOUNT, account);
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
@@ -311,7 +311,7 @@ public class Client {
                 }
                 if (reply.getError()!=null)
                     throw new WebApplicationException(reply.getError());
-                accounts.put(accounts.size(), account);
+                accounts.add(account);
             } else {
                 throw new WebApplicationException(r.getStatus());
             }

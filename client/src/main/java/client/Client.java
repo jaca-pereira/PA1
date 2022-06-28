@@ -22,10 +22,9 @@ public class Client implements ClientAPI {
     }
 
     @Override
-    public String create_account(String email) {
-        System.out.println(email);
+    public String create_account() {
         try {
-            client.createAccount(email);
+            client.createAccount();
             return "true";
         } catch (WebApplicationException e) {
             return e.getMessage();
@@ -58,9 +57,9 @@ public class Client implements ClientAPI {
 
 
     @Override
-    public String sendTransaction(int value) {
+    public String sendTransaction() {
         try {
-            client.sendTransaction(value);
+            client.sendTransaction();
             return "true";
         } catch (WebApplicationException e) {
             return e.getMessage();

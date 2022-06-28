@@ -1,0 +1,14 @@
+config:
+  target: "http://172.19.0.4:8080"
+  phases:
+    - duration: 5
+      arrivalCount: 1
+scenarios:    
+  - name: Create Account
+    flow:
+      - post:
+          url: "/create_account"
+      - post:
+          url: "/create_account"
+      - post:
+          url: "/create_account"

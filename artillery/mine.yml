@@ -1,0 +1,11 @@
+config:
+  target: "http://172.19.0.2:8080"
+  phases:
+    - duration: 60
+      arrivalCount: 1
+scenarios:
+  - name: Mine
+    flow:
+    - log: "Mining"
+      - post:
+          url: "/mine"
