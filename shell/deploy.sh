@@ -20,5 +20,5 @@ sleep 5
 sh proxy.sh $P $A
 sleep 2
 sh client.sh $C
-sleep 2
-sh artillery.sh
+#sleep 2
+#sh artillery.sh

@@ -22,39 +22,39 @@ public class ReplyListenerImp implements bftsmart.communication.client.ReplyList
 
     private AsynchServiceProxy asynchServiceProxy;
 
-    private final Collection<Reply> replies =
+    private Collection<Reply> replies =
             synchronizedCollection(new LinkedList<>());
     private final BlockingQueue<List<Reply>> replyChain;
     private AtomicInteger repliesCounter;
 
     public ReplyListenerImp(BlockingQueue<List<Reply>> replyChain, AsynchServiceProxy asynchServiceProxy) {
-        System.out.println("CONSTRUTOR");
         this.replyChain = replyChain;
         this.asynchServiceProxy = asynchServiceProxy;
         repliesCounter = new AtomicInteger(0);
-        System.out.println("CONSTRUTOR NÃO ESTOIROU");
     }
 
     @Override
     public void reset() {
         this.replyChain.clear();
         repliesCounter = new AtomicInteger(0);
+        replies = synchronizedCollection(new LinkedList<>());
     }
 
     @Override
     public void replyReceived(RequestContext context, TOMMessage msg) {
-        System.out.println("REPLY_LISTENER_CHAMADO");
         if(msg.getContent().length > 0) {
             try (ByteArrayInputStream byteIn = new ByteArrayInputStream(msg.getContent());
                  ObjectInput objIn = new ObjectInputStream(byteIn)) {
                 Reply reply = (Reply) objIn.readObject();
                 byte[] signature = reply.getSignatureReplica();
                 PublicKey publicKey = reply.getPublicKeyReplica();
-                if (publicKey == null || signature== null || reply.getError()!=null || !Security.verifySignature(publicKey, reply.getRequestType().toString().getBytes(), signature)) {
-                    replyChain.add(new LinkedList<>());
-                    System.out.println("REPLICAS ASSINARAM MAL");
-                    asynchServiceProxy.cleanAsynchRequest(context.getOperationId());
+                if (publicKey == null || signature == null || reply.getError()!=null || !Security.verifySignature(publicKey, reply.getRequestType().toString().getBytes(), signature)) {
+                    System.out.println("REPLICAS RESPONDERAM COM ERRO");
                     replies.clear();
+                    if (reply.getError()!=null)
+                        replies.add(reply);
+                    replyChain.add(new LinkedList<>(replies));
+                    asynchServiceProxy.cleanAsynchRequest(context.getOperationId());
                 } else {
                     replies.add(reply);
                 }
@@ -64,9 +64,8 @@ public class ReplyListenerImp implements bftsmart.communication.client.ReplyList
         }
         if (this.isValid()) {
             replyChain.add(new LinkedList<>(replies));
-            System.out.println("RESPOSTA READY");
+            System.out.println("RESPOSTA PRONTA");
             asynchServiceProxy.cleanAsynchRequest(context.getOperationId());
-            replies.clear();
         }
     }
 

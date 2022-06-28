@@ -14,16 +14,12 @@ import redis.clients.jedis.JedisPoolConfig;
 
 import java.io.*;
 
-import java.util.List;
-import java.util.logging.Logger;
-
 public class LedgerReplica extends DefaultSingleRecoverable {
 
     public static final int PORT = 6379;
     private static final byte[] LEDGER = new byte[]{0x0};
     private static final int FIRST_X_BLOCKS = 4;
     private Ledger ledger;
-    private Logger logger;
     private ServiceReplica serviceReplica;
     private int reward;
     private int rewardCounter;
@@ -47,7 +43,6 @@ public class LedgerReplica extends DefaultSingleRecoverable {
 
     public LedgerReplica(int id) throws IOException {
         ledger = new Ledger(this.initRedis(id));
-        logger = Logger.getLogger(LedgerReplica.class.getName());
         BasicConfigurator.configure();
         serviceReplica = new ServiceReplica(id, this, this);
         this.reward = 100;
@@ -55,9 +50,9 @@ public class LedgerReplica extends DefaultSingleRecoverable {
     }
 
     private boolean sendTransaction(Request request) {
-        if (request.getBegin() < 0)
+        if (request.getValue() < 0)
             throw new IllegalArgumentException("Value must be positive!");
-        this.ledger.sendTransaction(new Transaction(request.getAccount(), request.getAccountDestiny(), request.getNonce(), request.getBegin(), request.getSignature()));
+        this.ledger.sendTransaction(new Transaction(request.getAccount(), request.getAccountDestiny(), request.getNonce(), request.getValue(), request.getSignature()));
         return true;
     }
 
@@ -82,7 +77,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                             rep = new Reply(this.ledger.getBalance(request.getAccount()), LedgerRequestType.GET_BALANCE);
                             break;
                         case GET_EXTRACT:
-                            rep = new Reply(this.ledger.getExtract(request.getAccount(), request.getBegin()), LedgerRequestType.GET_EXTRACT);
+                            rep = new Reply(this.ledger.getExtract(request.getAccount(), request.getValue()), LedgerRequestType.GET_EXTRACT);
                             break;
                         case GET_TOTAL_VALUE:
                             rep = new Reply(this.ledger.getTotalValue(request.getAccounts()), LedgerRequestType.GET_TOTAL_VALUE);
@@ -117,8 +112,6 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                 }
                 rep.setPublicKeyReplica(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
                 rep.setSignatureReplica(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), request.getRequestType().toString().getBytes()));
-                System.out.println(rep.getPublicKeyReplica());
-                System.out.println(rep.getSignatureReplica());
                 objOut.writeObject(rep);
                 objOut.flush();
                 byteOut.flush();
@@ -161,7 +154,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                         rep = new Reply(this.ledger.getBalance(request.getAccount()), LedgerRequestType.GET_BALANCE);
                         break;
                     case GET_EXTRACT:
-                        rep = new Reply(this.ledger.getExtract(request.getAccount(), request.getBegin()), LedgerRequestType.GET_EXTRACT);
+                        rep = new Reply(this.ledger.getExtract(request.getAccount(), request.getValue()), LedgerRequestType.GET_EXTRACT);
                         break;
                     case GET_TOTAL_VALUE:
                         rep = new Reply(this.ledger.getTotalValue(request.getAccounts()), LedgerRequestType.GET_TOTAL_VALUE);
@@ -184,15 +177,12 @@ public class LedgerReplica extends DefaultSingleRecoverable {
             }
             rep.setPublicKeyReplica(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
             rep.setSignatureReplica(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), request.getRequestType().toString().getBytes()));
-            System.out.println(rep.getPublicKeyReplica());
-            System.out.println(rep.getSignatureReplica());
             objOut.writeObject(rep);
             objOut.flush();
             byteOut.flush();
             reply = byteOut.toByteArray();
         } catch (Exception e) {
             try {
-
                 ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
                 ObjectOutput objOut = new ObjectOutputStream(byteOut);
                 e.printStackTrace();
@@ -204,9 +194,9 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                 byteOut.flush();
                 reply = byteOut.toByteArray();
             } catch (IOException ex) {
+                e.printStackTrace();
                 throw new RuntimeException(ex);
             }
-
         }
         System.out.println("VAI ENVIAR RESPOSTA");
         return reply;

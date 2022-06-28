@@ -1,12 +1,8 @@
 package client;
 
 
-import data.Block;
-import data.Transaction;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 
 @Path("/")
 public interface ClientAPI {

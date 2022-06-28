@@ -15,7 +15,7 @@ public class Request implements Serializable {
     private byte[] signature;
     private byte[] account;
     private byte[] accountDestiny;
-    private  int begin;
+    private  int value;
     private long nonce;
     private List<byte[]> accounts;
     private Block block;
@@ -25,7 +25,7 @@ public class Request implements Serializable {
         this.requestType = requestType;
         this.account = account;
         this.accountDestiny = accountDestiny;
-        this.begin = value;
+        this.value = value;
         this.nonce = nonce;
         this.publicKey = null;
         this.signature = null;
@@ -48,7 +48,7 @@ public class Request implements Serializable {
     public Request(LedgerRequestType requestType, byte[] account, int begin) {
         this.requestType = requestType;
         this.account = account;
-        this.begin = begin;
+        this.value = begin;
         this.publicKey = null;
         this.signature = null;
     }
@@ -108,8 +108,8 @@ public class Request implements Serializable {
         return this.accountDestiny;
     }
 
-    public int getBegin() {
-        return this.begin;
+    public int getValue() {
+        return this.value;
     }
 
     public long getNonce() {

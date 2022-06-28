@@ -87,7 +87,6 @@ public class Client {
         return null;
     }
 
-
     public List<Block> getLedger() {
         try {
             Request request = new Request(LedgerRequestType.GET_LEDGER);
@@ -101,16 +100,19 @@ public class Client {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 List<byte[]> replies = proxyReply.getReplicaReplies();
                 if (replies.size()==0) {
-                    System.out.println("MAL ASSINADO RESPOSTA");
-                    throw new WebApplicationException("Bizantine error!");
+                    System.out.println("OPERAÇÃO NÃO FOI POSSÍVEL");
+                    return new LinkedList<>();
                 }
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
-                    System.out.println("MAL ASSINADO RESPOSTA");
-                    throw new WebApplicationException("Bizantine error!");
+                    System.out.println("MAL ASSINADO REPLICAS");
+                    return new LinkedList<>();
                 }
-                if (reply.getError()!=null)
-                    throw new WebApplicationException(reply.getError());
+                if (reply.getError()!=null) {
+                    System.out.println("OPERAÇÃO VEM COM ERRO");
+                    System.out.println(reply.getError().getMessage());
+                    return new LinkedList<>();
+                }
                 return (List<Block>) reply.getListReply();
             } else
                 throw new WebApplicationException(r.getStatus());
@@ -139,16 +141,19 @@ public class Client {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 List<byte[]> replies = proxyReply.getReplicaReplies();
                 if (replies.size()==0) {
-                    System.out.println("MAL ASSINADO RESPOSTA");
-                    throw new WebApplicationException("Bizantine error!");
+                    System.out.println("OPERAÇÃO NÃO FOI POSSÍVEL");
+                    return;
                 }
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
-                    System.out.println("MAL ASSINADO RESPOSTA");
-                    throw new WebApplicationException("Bizantine error!");
+                    System.out.println("MAL ASSINADO REPLICAS");
+                    return;
                 }
-                if (reply.getError()!=null)
-                    throw new WebApplicationException(reply.getError());
+                if (reply.getError()!=null) {
+                    System.out.println("OPERAÇÃO VEM COM ERRO");
+                    System.out.println(reply.getError().getMessage());
+                    return;
+                }
             } else
                 throw new WebApplicationException(r.getStatus());
         } catch ( ProcessingException e) {
@@ -170,16 +175,19 @@ public class Client {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 List<byte[]> replies = proxyReply.getReplicaReplies();
                 if (replies.size()==0) {
-                    System.out.println("MAL ASSINADO RESPOSTA");
-                    throw new WebApplicationException("Bizantine error!");
+                    System.out.println("OPERAÇÃO NÃO FOI POSSÍVEL");
+                    return -1;
                 }
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
-                    System.out.println("MAL ASSINADO RESPOSTA");
-                    throw new WebApplicationException("Bizantine error!");
+                    System.out.println("MAL ASSINADO REPLICAS");
+                    return -1;
                 }
-                if (reply.getError()!=null)
-                    throw new WebApplicationException(reply.getError());
+                if (reply.getError()!=null) {
+                    System.out.println("OPERAÇÃO VEM COM ERRO");
+                    System.out.println(reply.getError().getMessage());
+                    return -1;
+                }
                 return reply.getIntReply();
             } else
                 throw new WebApplicationException(r.getStatus());
@@ -205,16 +213,19 @@ public class Client {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 List<byte[]> replies = proxyReply.getReplicaReplies();
                 if (replies.size()==0) {
-                    System.out.println("MAL ASSINADO RESPOSTA");
-                    throw new WebApplicationException("Bizantine error!");
+                    System.out.println("OPERAÇÃO NÃO FOI POSSÍVEL");
+                    return -1;
                 }
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
-                    System.out.println("MAL ASSINADO RESPOSTA");
-                    throw new WebApplicationException("Bizantine error!");
+                    System.out.println("MAL ASSINADO REPLICAS");
+                    return -1;
                 }
-                if (reply.getError()!=null)
-                    throw new WebApplicationException(reply.getError());
+                if (reply.getError()!=null) {
+                    System.out.println("OPERAÇÃO VEM COM ERRO");
+                    System.out.println(reply.getError().getMessage());
+                    return -1;
+                }
                 return reply.getIntReply();
             } else
                 throw new WebApplicationException(r.getStatus());
@@ -237,16 +248,19 @@ public class Client {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 List<byte[]> replies = proxyReply.getReplicaReplies();
                 if (replies.size()==0) {
-                    System.out.println("MAL ASSINADO RESPOSTA");
-                    throw new WebApplicationException("Bizantine error!");
+                    System.out.println("OPERAÇÃO NÃO FOI POSSÍVEL");
+                    return new LinkedList<>();
                 }
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
-                    System.out.println("MAL ASSINADO RESPOSTA");
-                    throw new WebApplicationException("Bizantine error!");
+                    System.out.println("MAL ASSINADO REPLICAS");
+                    return new LinkedList<>();
                 }
-                if (reply.getError()!=null)
-                    throw new WebApplicationException(reply.getError());
+                if (reply.getError()!=null) {
+                    System.out.println("OPERAÇÃO VEM COM ERRO");
+                    System.out.println(reply.getError().getMessage());
+                    return new LinkedList<>();
+                }
                 return (List<Transaction>) reply.getListReply();
             } else
                 throw new WebApplicationException(r.getStatus());
@@ -269,16 +283,19 @@ public class Client {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 List<byte[]> replies = proxyReply.getReplicaReplies();
                 if (replies.size()==0) {
-                    System.out.println("MAL ASSINADO RESPOSTA");
-                    throw new WebApplicationException("Bizantine error!");
+                    System.out.println("OPERAÇÃO NÃO FOI POSSÍVEL");
+                    return -1;
                 }
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
-                    System.out.println("MAL ASSINADO RESPOSTA");
-                    throw new WebApplicationException("Bizantine error!");
+                    System.out.println("MAL ASSINADO REPLICAS");
+                    return -1;
                 }
-                if (reply.getError()!=null)
-                    throw new WebApplicationException(reply.getError());
+                if (reply.getError()!=null) {
+                    System.out.println("OPERAÇÃO VEM COM ERRO");
+                    System.out.println(reply.getError().getMessage());
+                    return -1;
+                }
                 return reply.getIntReply();
             } else
                 throw new WebApplicationException(r.getStatus());
@@ -301,22 +318,25 @@ public class Client {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 List<byte[]> replies = proxyReply.getReplicaReplies();
                 if (replies.size()==0) {
-                    System.out.println("MAL ASSINADO RESPOSTA");
-                    throw new WebApplicationException("Bizantine error!");
+                    System.out.println("OPERAÇÃO NÃO FOI POSSÍVEL");
+                    return;
                 }
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
-                    System.out.println("MAL ASSINADO RESPOSTA");
-                    throw new WebApplicationException("Bizantine error!");
+                    System.out.println("MAL ASSINADO REPLICAS");
+                    return;
                 }
-                if (reply.getError()!=null)
-                    throw new WebApplicationException(reply.getError());
-                System.out.println("CORREU TUDO");
+                if (reply.getError()!=null) {
+                    System.out.println("OPERAÇÃO VEM COM ERRO");
+                    System.out.println(reply.getError().getMessage());
+                    return ;
+                }
                 accounts.add(account);
             } else {
                 throw new WebApplicationException(r.getStatus());
             }
         } catch ( ProcessingException e) {
+            e.printStackTrace();
             throw new WebApplicationException();
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
@@ -340,23 +360,22 @@ public class Client {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 List<byte[]> replies = proxyReply.getReplicaReplies();
                 if (replies.size()==0) {
-                    System.out.println("MAL ASSINADO RESPOSTA");
-                    throw new WebApplicationException("Bizantine error!");
+                    System.out.println("OPERAÇÃO NÃO FOI POSSÍVEL");
+                    return null;
                 }
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
-                    System.out.println("MAL ASSINADO RESPOSTA");
-                    throw new WebApplicationException("Bizantine error!");
+                    System.out.println("MAL ASSINADO REPLICAS");
+                    return null;
                 }
                 if (reply.getError()!=null) {
-                    System.out.println("TEM ERRO");
-                    throw new WebApplicationException(reply.getError());
+                    System.out.println("OPERAÇÃO VEM COM ERRO");
+                    System.out.println(reply.getError().getMessage());
+                    return null;
                 }
-                System.out.println("RESPONDEU O BLOCO");
-                Block block = reply.getBlockReply();
+                Block block= reply.getBlockReply();
                 block.setAccount(this.getCurrentUser());
-
-                return block;
+                return reply.getBlockReply();
             } else {
                 System.out.println("ERRO DE RESPOSTA " );
                 throw new WebApplicationException(r.getStatus());
@@ -384,16 +403,19 @@ public class Client {
                 ProxyReply proxyReply = ProxyReply.deserialize(r.readEntity(byte[].class));
                 List<byte[]> replies = proxyReply.getReplicaReplies();
                 if (replies.size()==0) {
-                    System.out.println("MAL ASSINADO RESPOSTA");
-                    throw new WebApplicationException("Bizantine error!");
+                    System.out.println("OPERAÇÃO NÃO FOI POSSÍVEL");
+                    return;
                 }
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
-                    System.out.println("MAL ASSINADO RESPOSTA");
-                    throw new WebApplicationException("Bizantine error!");
+                    System.out.println("MAL ASSINADO REPLICAS");
+                    return;
                 }
-                if (reply.getError()!=null)
-                    throw new WebApplicationException(reply.getError());
+                if (reply.getError()!=null) {
+                    System.out.println("OPERAÇÃO VEM COM ERRO");
+                    System.out.println(reply.getError().getMessage());
+                    return;
+                }
             } else
                 throw new WebApplicationException(r.getStatus());
         } catch ( ProcessingException e) {

@@ -30,7 +30,9 @@ public class Reply implements Serializable {
 
     private Error error;
     public Reply(String error) {
+
         this.error = new Error(error);
+        this.requestType = LedgerRequestType.ERROR;
     }
     public Reply(boolean boolReply, LedgerRequestType requestType) {
         this.boolReply = boolReply;

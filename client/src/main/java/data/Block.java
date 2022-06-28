@@ -3,45 +3,35 @@ package data;
 import bftsmart.tom.util.TOMUtil;
 
 import java.io.*;
-import java.math.BigInteger;
-import java.security.PublicKey;
-
 import java.util.List;
 import java.util.Map;
 
 public class Block implements Serializable {
-    private byte[] lastBlockHash;
-    private long nonce;
-    private Merkle merkle;
+
 
     private byte[] signature;
     private byte[] publicKey;
-
-    private byte[] account;
 
     private static final long serialVersionUID = 1L;
 
     private byte[] hash;
 
-
+    private BlockHeader blockHeader;
     private int difficulty;
 
     public Block(byte[] lastBlockHash, List<Transaction> transactionsList, Map<String, Account> transactionsMap, int difficulty) {
-        this.lastBlockHash = lastBlockHash;
-        this.nonce = -1;
         this.signature = null;
         this.publicKey = null;
-        this.account = null;
-        this.merkle = new Merkle(transactionsList, transactionsMap);
         this.hash = null;
         this.difficulty = difficulty;
+        this.blockHeader = new BlockHeader(lastBlockHash, transactionsList, transactionsMap);
     }
 
     public int getDifficulty() {
         return difficulty;
     }
     public void setNonce(long nonce) {
-        this.nonce = nonce;
+        this.blockHeader.setNonce(nonce);
     }
 
     public void setSignature(byte[] signature) {
@@ -53,27 +43,20 @@ public class Block implements Serializable {
     }
 
     public void setAccount(byte[] account) {
-        this.account = account;
+        this.blockHeader.setAccount(account);
     }
 
     public byte[] getAccount() {
-        return account;
+        return this.blockHeader.getAccount();
     }
     public byte[] getLastBlockHash() {
-        return this.lastBlockHash;
+        return this.blockHeader.getLastBlockHash();
     }
 
     public List<Transaction> getExtract(byte[] account) {
-        return this.merkle.getExtract(new String(account));
+        return this.blockHeader.getExtract(new String(account));
     }
 
-    public Merkle getMerkle() {
-        return this.merkle;
-    }
-
-    public long getNonce() {
-        return this.nonce;
-    }
 
     public byte[] getSignature() {
         return signature;
@@ -117,14 +100,14 @@ public class Block implements Serializable {
 
     public static boolean proofOfWork(Block block) {
         try {
-            byte[] hash = TOMUtil.computeHash(Block.serialize(block));
+            byte[] hash = TOMUtil.computeHash(BlockHeader.serialize(block.getHeader()));
             Byte zero = Byte.valueOf("0");
             int count = 0;
             for (int i = 0; i < hash.length; i++) {
-                String bt = String.valueOf(hash[0]);
+                String bt = String.valueOf(hash[i]);
                 if (bt.equals(String.valueOf(zero)))
                     count++;
-                else if (count > 0) count--;
+                else count=0;
                 if(count >= block.getDifficulty())
                     return true;
             }
@@ -134,13 +117,14 @@ public class Block implements Serializable {
         return false;
     }
 
+    public BlockHeader getHeader() {
+        return this.blockHeader;
+    }
+
     public String toString() {
-        String res = "Last Block Hash: " + new String(lastBlockHash) + "\n";
-        res += "Nonce: " + this.nonce + "\n";
-        res += "Merkle: {" + this.merkle.toString() + "}\n";
+        String res = this.blockHeader.toString();
         res += "Signature: " + new String(signature) + "\n";
         res += "Public Key: " + new String(publicKey) + "\n";
-        res += "Account: " + new String(account) + "\n";
         res += "Hash: " + new String(hash) + "\n";
         return res;
     }

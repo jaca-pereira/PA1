@@ -1,7 +1,7 @@
 config:
   target: "http://172.19.0.5:8080"
   phases:
-    - duration: 5
+    - duration: 15
       arrivalRate: 1
 scenarios:
   - name: Send Transaction
