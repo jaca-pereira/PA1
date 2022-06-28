@@ -1,18 +1,16 @@
 config:
   target: "http://172.19.0.3:8080"
   phases:
-    - duration: 10
+    - duration: 5
       arrivalRate: 1
 scenarios:
   - name: Send Transaction
     weight: 1/2
     flow:
-    - log: "Sending Transaction"
       - post:
           url: "/transaction"
   - name: Get Ledger
     weight: 1/2
     flow:
-    - log: "Getting legder"
       - post:
           url: "/ledger"

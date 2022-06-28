@@ -16,7 +16,7 @@ public class Tests {
 
     private Client client;
     public Tests() throws NoSuchAlgorithmException {
-        client = new Client(URI.create("https://172.19.10.0:63907/"));
+        client = new Client(URI.create("https://172.19.10.0:8080/"));
     }
 
     @Test

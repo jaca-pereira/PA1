@@ -124,7 +124,7 @@ public class Block implements Serializable {
                 String bt = String.valueOf(hash[0]);
                 if (bt.equals(String.valueOf(zero)))
                     count++;
-                System.out.println(block.getDifficulty());
+                else if (count > 0) count--;
                 if(count >= block.getDifficulty())
                     return true;
             }

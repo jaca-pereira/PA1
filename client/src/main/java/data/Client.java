@@ -311,6 +311,7 @@ public class Client {
                 }
                 if (reply.getError()!=null)
                     throw new WebApplicationException(reply.getError());
+                System.out.println("CORREU TUDO");
                 accounts.add(account);
             } else {
                 throw new WebApplicationException(r.getStatus());

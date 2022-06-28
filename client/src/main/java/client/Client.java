@@ -111,7 +111,6 @@ public class Client implements ClientAPI {
                 blockToMine.setNonce(nonce);
             } while (!Block.proofOfWork(blockToMine));
             System.out.println("MINOU");
-            blockToMine.setHash(TOMUtil.computeHash(Block.serialize(blockToMine)));
             client.mineBlock(blockToMine);
             return "true";
         } catch (WebApplicationException e) {

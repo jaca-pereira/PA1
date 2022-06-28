@@ -66,10 +66,12 @@ public class Service implements ServiceAPI {
                 rep.setSignatureProxy(Security.signRequest(this.keyPair.getPrivate(), deserialized.getRequestType().toString().getBytes()));
                 ProxyReply proxyReply = new ProxyReply();
                 proxyReply.addReply(rep);
+                System.out.println("RECEBEU REPLY");
                 return ProxyReply.serialize(proxyReply);
             }
         } catch (IOException | ClassNotFoundException e) {
             Reply reply = new Reply("IO error");
+            e.printStackTrace();
             reply.setPublicKeyProxy(this.keyPair.getPublic().getEncoded());
             reply.setSignatureProxy(Security.signRequest(this.keyPair.getPrivate(), LedgerRequestType.ERROR.toString().getBytes()));
             ProxyReply proxyReply = new ProxyReply();

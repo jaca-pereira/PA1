@@ -1,6 +1,7 @@
 package data;
 
 import Security.Security;
+import bftsmart.tom.util.TOMUtil;
 
 import java.util.*;
 
@@ -177,6 +178,7 @@ public class LedgerDataStructure {
             throw new Exception("Block already mined!");
         }
         blocksToMine.remove(0);
+        block.setHash(TOMUtil.computeHash(Block.serialize(block)));
         minedBlocks.add(block);
     }
 
