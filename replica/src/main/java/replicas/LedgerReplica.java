@@ -136,6 +136,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                 byteOut.flush();
                 reply = byteOut.toByteArray();
             } catch (IOException ex) {
+                e.printStackTrace();
                 throw new RuntimeException(ex);
             }
         }

@@ -1,0 +1,55 @@
+{
+  "aggregate": {
+    "counters": {
+      "vusers.created_by_name.Create Account": 1,
+      "vusers.created": 1,
+      "http.requests": 1,
+      "errors.ETIMEDOUT": 1,
+      "vusers.failed": 1
+    },
+    "rates": {
+      "http.request_rate": 1
+    },
+    "firstCounterAt": 1656422056986,
+    "lastCounterAt": 1656422067011,
+    "firstMetricAt": 1656422056986,
+    "lastMetricAt": 1656422067011,
+    "period": 1656422060000,
+    "summaries": {},
+    "histograms": {}
+  },
+  "intermediate": [
+    {
+      "counters": {
+        "vusers.created_by_name.Create Account": 1,
+        "vusers.created": 1,
+        "http.requests": 1
+      },
+      "rates": {
+        "http.request_rate": 1
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1656422056986,
+      "lastCounterAt": 1656422056996,
+      "firstMetricAt": 1656422056986,
+      "lastMetricAt": 1656422056996,
+      "period": "1656422050000",
+      "summaries": {},
+      "histograms": {}
+    },
+    {
+      "counters": {
+        "errors.ETIMEDOUT": 1,
+        "vusers.failed": 1
+      },
+      "rates": {},
+      "firstCounterAt": 1656422067010,
+      "lastCounterAt": 1656422067011,
+      "firstMetricAt": 1656422067010,
+      "lastMetricAt": 1656422067011,
+      "period": "1656422060000",
+      "summaries": {},
+      "histograms": {}
+    }
+  ]
+}

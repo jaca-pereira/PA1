@@ -121,10 +121,11 @@ public class Block implements Serializable {
             Byte zero = Byte.valueOf("0");
             int count = 0;
             for (int i = 0; i < hash.length; i++) {
-                Byte b = hash[0];
-                if (b.equals(zero))
+                String bt = String.valueOf(hash[0]);
+                if (bt.equals(String.valueOf(zero)))
                     count++;
-                if(count > block.getDifficulty())
+                System.out.println(block.getDifficulty());
+                if(count >= block.getDifficulty())
                     return true;
             }
         } catch (Exception e) {

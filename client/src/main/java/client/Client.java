@@ -103,7 +103,6 @@ public class Client implements ClientAPI {
         System.out.println("ENTROU NO MINING");
         try {
             Block blockToMine = client.getBlockToMine();
-            System.out.println("JA TEM BLOCO PARA MINAR");
             SecureRandom secureRandom = new SecureRandom();
             long nonce;
             do {
@@ -116,6 +115,7 @@ public class Client implements ClientAPI {
             client.mineBlock(blockToMine);
             return "true";
         } catch (WebApplicationException e) {
+            e.printStackTrace();
             return e.getMessage();
         }
     }
