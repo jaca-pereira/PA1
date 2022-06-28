@@ -43,7 +43,7 @@ public class Server {
 
         JdkHttpServerFactory.createHttpServer( serverURI, config);
 
-        Log.info(String.format("%s Server ready @ %s\n",  InetAddress.getLocalHost().getCanonicalHostName(), serverURI))
+        Log.info(String.format("%s Server ready @ %s\n",  InetAddress.getLocalHost().getCanonicalHostName(), serverURI));
 
     }
 
