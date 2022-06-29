@@ -15,7 +15,7 @@ sh config.sh $F
 #sh security.sh
 sh network.sh
 sleep 1
-sh replica.sh $F $D
+sh replica.sh $F $A
 sleep 5
 sh proxy.sh $P $A
 sleep 2

@@ -118,7 +118,6 @@ public class Client implements ClientAPI {
             SecureRandom secureRandom = new SecureRandom();
             long nonce;
             do {
-                System.out.println("MINANDO");
                 nonce = secureRandom.nextLong();
                 blockToMine.setNonce(nonce);
             } while (!Block.proofOfWork(blockToMine));

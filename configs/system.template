@@ -214,5 +214,5 @@ system.ssltls.enabled_ciphers = TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
 ############################################
 
 # Timeout for an ordered request (in seconds)
-system.client.invokeOrderedTimeout = 40
+system.client.invokeOrderedTimeout = 100
 

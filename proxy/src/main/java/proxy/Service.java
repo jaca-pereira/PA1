@@ -63,9 +63,16 @@ public class Service implements ServiceAPI {
                        replicaReplies.add(new Reply("Sem resposta"));
                } else {
                    System.out.println("ENTROU NO SYNC");
-                   ByteArrayInputStream byteIn = new ByteArrayInputStream(serviceProxy.invoke(byteOut.toByteArray(), type));
+                   byte[] serializedReply;
+                   if (type.equals(TOMMessageType.ORDERED_REQUEST))
+                       serializedReply = serviceProxy.invokeOrdered(byteOut.toByteArray());
+                   else
+                       serializedReply = serviceProxy.invokeUnordered(byteOut.toByteArray());
+                   System.out.println("PASSOU O INVOKE");
+                   ByteArrayInputStream byteIn = new ByteArrayInputStream(serializedReply);
                    ObjectInput objIn = new ObjectInputStream(byteIn);
                    Reply reply = Reply.deserialize((byte[]) objIn.readObject());
+                   System.out.println("LEU A REPLY");
                    replicaReplies.add(reply);
                }
            }

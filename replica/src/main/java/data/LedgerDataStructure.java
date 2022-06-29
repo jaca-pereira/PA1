@@ -176,7 +176,7 @@ public class LedgerDataStructure {
         } else if (!Block.proofOfWork(block)) {
             System.out.println("NÃO PROVA O WORK");
             throw new IllegalArgumentException("Block does not have proof of work!");
-        } else if(!new String(blocksToMine.get(0).getLastBlockHash()).equals(new String(block.getLastBlockHash()))) {
+        } else if(blocksToMine.isEmpty() || !new String(blocksToMine.get(0).getLastBlockHash()).equals(new String(block.getLastBlockHash()))) {
             System.out.println("JA FOI MINADO");
             throw new Exception("Block already mined!");
         }

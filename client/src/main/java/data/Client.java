@@ -409,6 +409,7 @@ public class Client {
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
                     System.out.println("MAL ASSINADO REPLICAS");
+                    System.out.println(reply.getError().getMessage());
                     return;
                 }
                 if (reply.getError()!=null) {
