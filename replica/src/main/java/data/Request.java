@@ -61,10 +61,12 @@ public class Request implements Serializable {
     }
 
     public Request(LedgerRequestType requestType) {
+        this.publicKey = null;
+        this.signature = null;
         this.requestType = requestType;
     }
 
-    public static byte[] serialize(Request obj) {
+        public static byte[] serialize(Request obj) {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             ObjectOutputStream os = new ObjectOutputStream(out);

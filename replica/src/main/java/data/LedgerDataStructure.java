@@ -43,7 +43,6 @@ public class LedgerDataStructure {
     public void addAccount(byte[] account) {
         String acc = new String(account);
         if(this.accounts.get(acc)!=null){
-            System.out.println("CONTA JÁ EXISTE");
             throw new IllegalArgumentException("Account already exists!");
         }
 
@@ -110,6 +109,7 @@ public class LedgerDataStructure {
             if (transaction.getNonce() == -1)
                 this.globalValue += transaction.getValue();
         }
+
         byte[] lastBlockHash = this.minedBlocks.get(minedBlocks.size()-1).getHash();
         if (this.difficulty != DIFFICULTY && this.minedBlocks.size()>1)
             this.difficulty = DIFFICULTY;
@@ -129,7 +129,6 @@ public class LedgerDataStructure {
     public int getBalance(byte[] account) {
         Integer balance = accounts.get(new String(account));
         if (balance == null){
-            System.out.println("CONTA NÃO EXISTE");
             throw new IllegalArgumentException("Account does not exist!");
         }
         return balance;
@@ -137,7 +136,6 @@ public class LedgerDataStructure {
 
     public List<Transaction> getExtract(byte[] account, int begin) {
         if (accounts.get(new String(account))==null){
-            System.out.println("CONTA NÃO EXISTE");
             throw new IllegalArgumentException("Account does not exist!");
         }
         List<Transaction> extract = new LinkedList<>();
@@ -151,7 +149,6 @@ public class LedgerDataStructure {
         for (byte[] account: accounts) {
             Integer balance = this.accounts.get(new String(account));
             if (balance == null) {
-                System.out.println("CONTA NÃO EXISTE");
                 throw new IllegalArgumentException("Account does not exist!");
             }
             totalValue += balance;
@@ -162,7 +159,6 @@ public class LedgerDataStructure {
 
     public Block getBlockToMine() throws Exception {
         if (blocksToMine.size()==0) {
-            System.out.println("NÃO HA BLOCOS PARA MINAR");
             throw new Exception("No blocks to mine");
         }
         System.out.println("HA BLOCOS PARA MINAR");
@@ -171,13 +167,10 @@ public class LedgerDataStructure {
 
     public void addMinedBlock(Block block) throws Exception {
         if (accounts.get(new String(block.getAccount()))==null) {
-            System.out.println("CONTA NAO EXISTE");
             throw new IllegalArgumentException("Account does not exist");
         } else if (!Block.proofOfWork(block)) {
-            System.out.println("NÃO PROVA O WORK");
             throw new IllegalArgumentException("Block does not have proof of work!");
         } else if(blocksToMine.isEmpty() || !new String(blocksToMine.get(0).getLastBlockHash()).equals(new String(block.getLastBlockHash()))) {
-            System.out.println("JA FOI MINADO");
             throw new Exception("Block already mined!");
         }
         blocksToMine.remove(0);

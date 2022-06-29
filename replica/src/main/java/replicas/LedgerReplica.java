@@ -18,22 +18,19 @@ public class LedgerReplica extends DefaultSingleRecoverable {
 
     public static final int PORT = 6379;
     private static final byte[] LEDGER = new byte[]{0x0};
-    private static final int FIRST_X_BLOCKS = 4;
-    private final boolean async;
     private Ledger ledger;
     private ServiceReplica serviceReplica;
-    private int reward;
-    private int rewardCounter;
+    public static final int REWARD = 30;
 
     public static void main(String[] args) throws IOException {
-        if (args.length < 2) {
-            System.out.println("Usage: LedgerReplica <id> <async>");
+        if (args.length < 1) {
+            System.out.println("Usage: LedgerReplica <id>");
             System.exit(-1);
         }
-        new LedgerReplica(Integer.parseInt(args[0]), Boolean.valueOf(args[1]));
+        new LedgerReplica(Integer.parseInt(args[0]));
     }
 
-    private Jedis initRedis(int id) throws IOException {
+    private Jedis initRedis(int id)  {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxTotal(128);
         jedisPoolConfig.setMaxIdle(128);
@@ -42,13 +39,10 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         return jedisPool.getResource();
     }
 
-    public LedgerReplica(int id, boolean async) throws IOException {
+    public LedgerReplica(int id) {
         ledger = new Ledger(this.initRedis(id));
         BasicConfigurator.configure();
         serviceReplica = new ServiceReplica(id, this, this);
-        this.reward = 100;
-        this.rewardCounter = 0;
-        this.async = async;
     }
 
     private boolean sendTransaction(Request request) {
@@ -95,27 +89,22 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                             break;
                         case MINE_BLOCK:
                             this.ledger.addMinedBlock(request.getBlock());
-                            System.out.println("MINOU");
-                            Request rewardRequest = new Request(LedgerRequestType.LOAD_MONEY, this.LEDGER, request.getAccount(), this.reward, -1);
+                            Request rewardRequest = new Request(LedgerRequestType.LOAD_MONEY, this.LEDGER, request.getAccount(), REWARD, -1);
                             rewardRequest.setPublicKey(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
                             rewardRequest.setSignature(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), LedgerRequestType.LOAD_MONEY.toString().getBytes()));
                             this.sendTransaction(rewardRequest);
-                            System.out.println("ENVIOU TRANSACTION");
-                            if(++rewardCounter == FIRST_X_BLOCKS)
-                                this.reward = 10;
-                            rep = new Reply(reward, LedgerRequestType.MINE_BLOCK);
+                            rep = new Reply(REWARD, request.getRequestType());
+
                             break;
                         default:
                             rep = new Reply("Operation not supported");
                     }
                 } else {
-                    System.out.println("MAL ASSINADO");
                     rep = new Reply("Bad signature");
                 }
-                if (async) {
-                    rep.setPublicKeyReplica(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
-                    rep.setSignatureReplica(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), request.getRequestType().toString().getBytes()));
-                }
+
+                rep.setPublicKeyReplica(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
+                rep.setSignatureReplica(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), request.getRequestType().toString().getBytes()));
                 objOut.writeObject(rep);
                 objOut.flush();
                 byteOut.flush();
@@ -126,10 +115,8 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                 ObjectOutput objOut = new ObjectOutputStream(byteOut);
                 e.printStackTrace();
                 Reply repError = new Reply(e.getMessage());
-                if (async) {
-                    repError.setPublicKeyReplica(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
-                    repError.setSignatureReplica(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), LedgerRequestType.ERROR.toString().getBytes()));
-                }
+                repError.setPublicKeyReplica(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
+                repError.setSignatureReplica(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), LedgerRequestType.ERROR.toString().getBytes()));
                 objOut.writeObject(repError);
                 objOut.flush();
                 byteOut.flush();
@@ -139,7 +126,6 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                 throw new RuntimeException(ex);
             }
         }
-        System.out.println("VAI ENVIAR RESPOSTA");
         return reply;
     }
 
@@ -178,13 +164,11 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                         rep = new Reply("Operation not supported");
                 }
             } else {
-                System.out.println("MAL ASSINADO");
                 rep = new Reply("Bad signature");
             }
-            if (async) {
-                rep.setPublicKeyReplica(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
-                rep.setSignatureReplica(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), request.getRequestType().toString().getBytes()));
-            }
+            rep.setPublicKeyReplica(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
+            rep.setSignatureReplica(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), request.getRequestType().toString().getBytes()));
+
             objOut.writeObject(rep);
             objOut.flush();
             byteOut.flush();
@@ -195,10 +179,8 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                 ObjectOutput objOut = new ObjectOutputStream(byteOut);
                 e.printStackTrace();
                 Reply repError = new Reply(e.getMessage());
-                if (async) {
-                    repError.setPublicKeyReplica(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
-                    repError.setSignatureReplica(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), LedgerRequestType.ERROR.toString().getBytes()));
-                }
+                repError.setPublicKeyReplica(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
+                repError.setSignatureReplica(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), LedgerRequestType.ERROR.toString().getBytes()));
                 objOut.writeObject(repError);
                 objOut.flush();
                 byteOut.flush();
@@ -208,7 +190,6 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                 throw new RuntimeException(ex);
             }
         }
-        System.out.println("VAI ENVIAR RESPOSTA");
         return reply;
     }
 

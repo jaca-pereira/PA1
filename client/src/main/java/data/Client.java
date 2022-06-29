@@ -350,8 +350,6 @@ public class Client {
             Request request = new Request(LedgerRequestType.GET_BLOCK_TO_MINE);
             request.setPublicKey(keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
-            request.setPublicKey(this.keyPair.getPublic().getEncoded());
-            request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
             WebTarget target = this.client.target(proxyURI).path("/mine/get");
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)

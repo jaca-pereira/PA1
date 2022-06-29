@@ -49,7 +49,6 @@ public class ReplyListenerImp implements bftsmart.communication.client.ReplyList
                 byte[] signature = reply.getSignatureReplica();
                 PublicKey publicKey = reply.getPublicKeyReplica();
                 if (publicKey == null || signature == null || reply.getError()!=null || !Security.verifySignature(publicKey, reply.getRequestType().toString().getBytes(), signature)) {
-                    System.out.println("REPLICAS RESPONDERAM COM ERRO");
                     replies.clear();
                     if (reply.getError()!=null)
                         replies.add(reply);
@@ -64,7 +63,6 @@ public class ReplyListenerImp implements bftsmart.communication.client.ReplyList
         }
         if (this.isValid()) {
             replyChain.add(new LinkedList<>(replies));
-            System.out.println("RESPOSTA PRONTA");
             asynchServiceProxy.cleanAsynchRequest(context.getOperationId());
         }
     }
