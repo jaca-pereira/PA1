@@ -195,14 +195,13 @@ public class LedgerReplica extends DefaultSingleRecoverable {
 
     @Override
     public byte[] getSnapshot() {
-
-        return new byte[0];
+        return LedgerDataStructure.serialize(ledger.fromJedis());
     }
 
 
 
     @Override
     public void installSnapshot(byte[] state) {
-
+        this.ledger.toJedis(LedgerDataStructure.deserialize(state));
     }
 }

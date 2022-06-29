@@ -10,13 +10,13 @@ public class Ledger {
     
     private Jedis jedis;
 
-    private void toJedis(LedgerDataStructure ledger) {
+    public void toJedis(LedgerDataStructure ledger) {
         Gson gson = new Gson();
         String json = gson.toJson(ledger);
         jedis.set("ledger",json);
     }
 
-    private LedgerDataStructure fromJedis() {
+    public LedgerDataStructure fromJedis() {
         String json = jedis.get("ledger");
         Gson gson = new Gson();
         return gson.fromJson(json, LedgerDataStructure.class);
@@ -27,6 +27,8 @@ public class Ledger {
         this.jedis = jedis;
         this.toJedis(ledger);
     }
+
+
 
     public byte[]  addAccount(byte[] account) {
         LedgerDataStructure ledger= this.fromJedis();

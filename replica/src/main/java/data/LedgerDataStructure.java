@@ -3,11 +3,12 @@ package data;
 import Security.Security;
 import bftsmart.tom.util.TOMUtil;
 
+import java.io.*;
 import java.util.*;
 
-public class LedgerDataStructure {
+public class LedgerDataStructure implements Serializable {
 
-
+    private static final long serialVersionUID = 1L;
     public static final int MAXIMUM_MINIMUM_TRANSACTIONS = 16;
     public static final int DIFFICULTY = 3;
 
@@ -180,5 +181,28 @@ public class LedgerDataStructure {
 
     public List<Block> getLedger() {
         return minedBlocks;
+    }
+
+    public static byte[] serialize(LedgerDataStructure obj) {
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            ObjectOutputStream os = new ObjectOutputStream(out);
+            os.writeObject(obj);
+            return out.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static LedgerDataStructure deserialize(byte[] data) {
+        try {
+            ByteArrayInputStream in = new ByteArrayInputStream(data);
+            ObjectInputStream is = new ObjectInputStream(in);
+            return (LedgerDataStructure) is.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
