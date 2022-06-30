@@ -9,7 +9,7 @@ No diretório shell, correr o comando
 1. número de proxies 
 2. numero de clientes
 3. 0 - correr o bft smart, 1 - correr o blockmess
-4. 0, correr a classe Test do cliente, 1- correr os testes do artillery
+4. 0 - correr a classe Test do cliente, 1- correr os testes do artillery
 5. numero de falhas a tolerar, apenas necessário para correr o bft smart
 
 EX: correr o bft-smart para tolerância 1 falha bizantina, com os testes do artillery
