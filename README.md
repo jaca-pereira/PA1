@@ -4,23 +4,23 @@
 
 No diretório shell, correr o comando
 
-sh deploy.sh <n_proxies(max_proxies==10)> <n_clients(max_clients=10)> <blockmess> <artillery> <n_faults(max_faults=3)>
+> **_NOTE:_**  sh deploy.sh <n_proxies(max_proxies==10)> <n_clients(max_clients=10)> <blockmess> <artillery> <n_faults(max_faults=3)>
 
-$1 : número de proxies 
-$2 : numero de clientes
-$3 : 0 - correr o bft smart, 1 - correr o blockmess
-$4 : 0, correr a classe Test do cliente, 1- correr os testes do artillery
-$5 : numero de falhas a tolerar, apenas necessário para correr o bft smart
+1. : número de proxies 
+2. : numero de clientes
+3. : 0 - correr o bft smart, 1 - correr o blockmess
+4. : 0, correr a classe Test do cliente, 1- correr os testes do artillery
+5. : numero de falhas a tolerar, apenas necessário para correr o bft smart
 
 EX: correr o bft-smart para tolerância 1 falha bizantina, com os testes do artillery
 
-sh deploy.sh 4 4 0 1 1 
+> **_NOTE:_** sh deploy.sh 4 4 0 1 1 
 
 EX: correr o blockmess com os testes do client
 
-sh deploy.sh 4 4 1 0 
+> **_NOTE:_** sh deploy.sh 4 4 1 0 
 
-Nota: o blockmess está integrado com o proxy, ao contrário do bft smart que está dividido entre proxy e replica. 
+> Nota: o blockmess está integrado com o proxy, ao contrário do bft smart que está dividido entre proxy e replica. 
 
 A solução está preparada para correr em docker
 
@@ -35,6 +35,6 @@ No caso do blockmess, está todo integrado no próprio proxy. As operações de 
 Replicas do bft smart, responsáveis pela ordenação e processamento de operações
 
 # Artillery
-start_x.yml - ficheiros de arranque do cliente, devem ser corridos antes do workload
-workload_x.yml - workload para teste de bftsmart vs blockmess, os pesos de operações de leitura e escrita poderao ser alterados nos ficheiros
+- start_x.yml - ficheiros de arranque do cliente, devem ser corridos antes do workload
+- workload_x.yml - workload para teste de bftsmart vs blockmess, os pesos de operações de leitura e escrita poderao ser alterados nos ficheiros
 mine.yml . workload para testar a mineração de blocos. os primeiros blocos têm dificuldade 0, a partir do 2o bloco a dificuldade aumenta e este workload permite testar o tempo que demora a minar um bloco. Os resultados terão de ser observados nos logs dos containers uma vez que ainda não descobrimos como transferir o ficheiro report do container para o exterior.
