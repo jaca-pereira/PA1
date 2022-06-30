@@ -32,7 +32,6 @@ public class LedgerDataStructure {
         this.minimumTransactions = 1;
         this.difficulty = 0;
         this.blockToMine = genesisBlock();
-        System.out.println("CONSTRUTOR CRL");
     }
 
     private Block genesisBlock() {
