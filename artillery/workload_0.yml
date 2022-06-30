@@ -3,12 +3,17 @@ config:
   phases:
     - duration: 15
       arrivalRate: 1
+  payload:
+    path: "./valores.csv"
+    fields:
+      - "transaction"
 scenarios:
   - name: Send Transaction
     weight: 1/2
     flow:
       - post:
           url: "/transaction"
+          json: "{{transaction}}"
   - name: Get Ledger
     weight: 1/2
     flow:

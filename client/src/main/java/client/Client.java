@@ -5,8 +5,6 @@ package client;
 import bftsmart.tom.util.TOMUtil;
 
 import data.*;
-import javassist.bytecode.ByteArray;
-import test.Tests;
 
 import javax.ws.rs.WebApplicationException;
 import java.net.URI;
@@ -20,13 +18,15 @@ public class Client implements ClientAPI {
 
     public Client(URI proxyURI) throws NoSuchAlgorithmException {
        this.client = new data.Client(proxyURI);
-       Tests tests = new Tests(this);
-       tests.testGeneral();
+       //Tests tests = new Tests(this);
+       //tests.testGeneral();
     }
 
     @Override
     public String create_account(String email) {
         try {
+            email = email.substring(1,email.length()-1);
+            System.out.println(email);
             client.createAccount(email);
             return "true";
         } catch (WebApplicationException e) {
@@ -63,9 +63,13 @@ public class Client implements ClientAPI {
 
 
     @Override
-    public String sendTransaction(List<String> accountAndValue) {
+    public String sendTransaction(String accountAndValue) {
         try {
-            client.sendTransaction(accountAndValue.get(0), accountAndValue.get(1), Integer.valueOf(accountAndValue.get(2)));
+            String[] list = accountAndValue.split(" ");
+            list[0] = list[0].substring(1);
+            list[2] = list[2].substring(0, list[2].length() - 1);
+            System.out.println(list[0] + " transaction");
+            client.sendTransaction(list[0], list[1], Integer.valueOf(list[2]));
             return "true";
         } catch (WebApplicationException e) {
             e.printStackTrace();
@@ -111,6 +115,7 @@ public class Client implements ClientAPI {
     @Override
     public String  mineBlock(String account) {
         try {
+            account = account.substring(1,account.length()-1);
             Block blockToMine = client.getBlockToMine(account);
             if (blockToMine == null)
                 return "false";
@@ -122,6 +127,7 @@ public class Client implements ClientAPI {
             } while (!Block.proofOfWork(blockToMine));
             blockToMine.setHash(TOMUtil.computeHash(BlockHeader.serialize(blockToMine.getHeader())));
             client.mineBlock(blockToMine);
+            System.out.println(account + " minou");
             return "true";
         } catch (WebApplicationException e) {
             e.printStackTrace();

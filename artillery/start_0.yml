@@ -1,18 +1,68 @@
 config:
   target: "http://172.19.0.2:8080"
   phases:
-    - duration: 5
+    - duration: 30
       arrivalCount: 1
 scenarios:    
   - name: Create Account
     flow:
       - post:
           url: "/create_account"
+          json: peras
       - post:
           url: "/create_account"
+          json: palindra
       - post:
           url: "/create_account"
+          json: carol
+      - post:
+          url: "/create_account"
+          json: rita
       - post:
           url: "/mine"
+          json: peras
       - post:
           url: "/mine"
+          json: palindra
+      - post:
+          url: "/transaction"
+          json: peras carol 10
+      - post:
+          url: "/mine"
+          json: carol
+      - post:
+          url: "/transaction"
+          json: carol peras 10
+      - post:
+          url: "/transaction"
+          json: peras carol 10
+      - post:
+          url: "/transaction"
+          json: carol peras 10
+      - post:
+          url: "/mine"
+          json: rita
+      - post:
+          url: "/transaction"
+          json: carol peras 20
+      - post:
+          url: "/transaction"
+          json: peras carol 5
+      - post:
+          url: "/transaction"
+          json: peras carol 5
+      - post:
+          url: "/transaction"
+          json: peras carol 5
+      - post:
+          url: "/transaction"
+          json: peras carol 5
+      - post:
+          url: "/transaction"
+          json: carol peras 5
+      - post:
+          url: "/transaction"
+          json: peras carol 5
+      - post:
+          url: "/mine"
+          json: palindra

@@ -1,8 +1,8 @@
 package test;
 import client.Client;
 
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.TestInstance;
+//import org.junit.jupiter.api.Test;
 
 import java.net.URI;
 import java.security.NoSuchAlgorithmException;
@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class Tests {
 
     private Client client;
@@ -19,7 +19,7 @@ public class Tests {
         this.client = client;
     }
 
-    @Test
+    //@Test
     public void testGeneral() {
 
         System.out.println(client.create_account("joao"));
@@ -32,24 +32,24 @@ public class Tests {
         accountsAndValue.add("joao");
         accountsAndValue.add("palindra");
         accountsAndValue.add("10");
-        System.out.println(client.sendTransaction(accountsAndValue));
+        System.out.println(client.sendTransaction(""));
         System.out.println(client.mineBlock("joao"));
 
         accountsAndValue = new ArrayList<>(3);
         accountsAndValue.add("joao");
         accountsAndValue.add("palindra");
         accountsAndValue.add("10");
-        System.out.println(client.sendTransaction(accountsAndValue));
+        System.out.println(client.sendTransaction(""));
         accountsAndValue = new ArrayList<>(3);
         accountsAndValue.add("joao");
         accountsAndValue.add("rita");
         accountsAndValue.add("10");
-        System.out.println(client.sendTransaction(accountsAndValue));
+        System.out.println(client.sendTransaction("accountsAndValue"));
         accountsAndValue = new ArrayList<>(3);
         accountsAndValue.add("joao");
         accountsAndValue.add("rita");
         accountsAndValue.add("10");
-        System.out.println(client.sendTransaction(accountsAndValue));
+        System.out.println(client.sendTransaction("accountsAndValue"));
         System.out.println(client.mineBlock("carol"));
         System.out.println(client.mineBlock("carol"));
         System.out.println(client.getBalance("joao"));

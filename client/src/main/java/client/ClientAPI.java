@@ -30,7 +30,7 @@ public interface ClientAPI {
     @Path("/transaction")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    String sendTransaction(List<String> accounts);
+    String sendTransaction(String accountAndValue);
 
     @POST
     @Path("/total_value")
