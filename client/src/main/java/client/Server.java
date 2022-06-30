@@ -37,7 +37,10 @@ public class Server {
 
         URI serverURI = URI.create(String.format("http://%s:%s/", ip, PORT));
         URI proxyURI = URI.create(args[0]);
-        boolean artillery = Boolean.parseBoolean(args[1]);
+        boolean artillery;
+        if (Integer.parseInt(args[1]) == 1)
+            artillery = true;
+        else artillery = false;
         Client client = new Client(proxyURI, artillery);
         ResourceConfig config = new ResourceConfig();
         config.register(client);

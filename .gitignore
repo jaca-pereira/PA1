@@ -1,13 +1,4 @@
 
 .idea*
-/target
-
-client/target/
-
-*.jar
-
-proxy/target/
-
-replica/target/
 
 Opinião Professor
