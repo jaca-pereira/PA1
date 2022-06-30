@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Ledger {
 
-    private static final int PORT = 8080;
+    private static final int PORT = 6379;
     private Jedis jedis;
 
     public void toJedis(LedgerDataStructure ledger) {
@@ -31,7 +31,7 @@ public class Ledger {
         jedisPoolConfig.setMaxTotal(128);
         jedisPoolConfig.setMaxIdle(128);
         jedisPoolConfig.setMinIdle(120);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, "172.19.30." + id, PORT);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, "172.19.30." + (id-10), PORT);
         return jedisPool.getResource();
     }
 

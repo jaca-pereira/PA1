@@ -1,7 +1,7 @@
 config:
   target: "http://172.19.0.2:8080"
   phases:
-    - duration: 30
+    - duration: 5
       arrivalCount: 1
 scenarios:    
   - name: Create Account
@@ -26,43 +26,9 @@ scenarios:
           json: palindra
       - post:
           url: "/transaction"
-          json: peras carol 10
+          json: peras rita 10
       - post:
           url: "/mine"
           json: carol
       - post:
-          url: "/transaction"
-          json: carol peras 10
-      - post:
-          url: "/transaction"
-          json: peras carol 10
-      - post:
-          url: "/transaction"
-          json: carol peras 10
-      - post:
-          url: "/mine"
-          json: rita
-      - post:
-          url: "/transaction"
-          json: carol peras 20
-      - post:
-          url: "/transaction"
-          json: peras carol 5
-      - post:
-          url: "/transaction"
-          json: peras carol 5
-      - post:
-          url: "/transaction"
-          json: peras carol 5
-      - post:
-          url: "/transaction"
-          json: peras carol 5
-      - post:
-          url: "/transaction"
-          json: carol peras 5
-      - post:
-          url: "/transaction"
-          json: peras carol 5
-      - post:
-          url: "/mine"
-          json: palindra
+          url: "/ledger"

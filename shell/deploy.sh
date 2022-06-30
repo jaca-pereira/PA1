@@ -1,24 +1,36 @@
 #!/bin/bash
 
-if [ $# -lt 4 ] || [ $1 -gt 3  ] || [ $2 -gt 10  ] || [ $3 -gt 10  ]; then
-    echo "Usage: deploy.sh <n_faults(max_faults=3)> <n_proxies(max_proxies==10)> <n_clients(max_clients=10)> <bftsmart>"
+if [ $# -lt 4 ] || [ $1 -gt 10  ] || [ $2 -gt 10  ] ; then
+    echo "Usage: deploy.sh <n_proxies(max_proxies==10)> <n_clients(max_clients=10)> <blockmess> <n_faults(max_faults=3)> <artillery>"
     exit 1
 fi
 
-F=$1
-P=$2
-C=$3
-B=$4
+F=$4
+P=$1
+C=$2
+B=$3
+A=$5
 
 sh reset_containers.sh
 sh config.sh $F
-#sh security.sh
+#sh security.sh chaves ja criadas, não é necessário correr
 sh network.sh
 sleep 1
-sh replica.sh $F
-sleep 5
-sh proxy.sh $P $B
-sleep 2
-sh client.sh $C
-sleep 2
-sh artillery.sh
+
+if [ $B -eq 0] ; then
+    sh replica.sh $F
+    sleep 5
+    sh proxy.sh $P
+    sleep 2
+fi
+
+if [ $B -eq 1] ; then
+    sh blockmess.sh $P
+    sleep 5
+fi
+
+sh client.sh $C $A
+if [ $A -eq "true"] ; then
+    sleep 2
+    sh artillery.sh
+fi

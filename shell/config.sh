@@ -27,6 +27,8 @@ cp hosts.config ../proxy/config
 cp system.config ../proxy/config
 cp hosts.config ../client/config
 cp system.config ../client/config
+cp config.properties ../proxy/config
+cp log4j2.xml ../proxy/log4j2.xml
 
 cd ../shell
 

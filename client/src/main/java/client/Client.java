@@ -5,6 +5,7 @@ package client;
 import bftsmart.tom.util.TOMUtil;
 
 import data.*;
+import test.Tests;
 
 import javax.ws.rs.WebApplicationException;
 import java.net.URI;
@@ -16,17 +17,22 @@ import java.util.List;
 public class Client implements ClientAPI {
     private data.Client client;
 
-    public Client(URI proxyURI) throws NoSuchAlgorithmException {
+    private boolean artillery;
+
+    public Client(URI proxyURI, boolean artillery) throws NoSuchAlgorithmException {
        this.client = new data.Client(proxyURI);
-       //Tests tests = new Tests(this);
-       //tests.testGeneral();
+       this.artillery = artillery;
+       if (!this.artillery) {
+           Tests tests = new Tests(this);
+           tests.testGeneral();
+       }
     }
 
     @Override
     public String create_account(String email) {
         try {
-            email = email.substring(1,email.length()-1);
-            System.out.println(email);
+            if (artillery)
+                email = email.substring(1,email.length()-1);
             client.createAccount(email);
             return "true";
         } catch (WebApplicationException e) {
@@ -65,10 +71,9 @@ public class Client implements ClientAPI {
     @Override
     public String sendTransaction(String accountAndValue) {
         try {
+            if (artillery)
+                accountAndValue = accountAndValue.substring(1,accountAndValue.length()-1);
             String[] list = accountAndValue.split(" ");
-            list[0] = list[0].substring(1);
-            list[2] = list[2].substring(0, list[2].length() - 1);
-            System.out.println(list[0] + " transaction");
             client.sendTransaction(list[0], list[1], Integer.valueOf(list[2]));
             return "true";
         } catch (WebApplicationException e) {
@@ -115,7 +120,8 @@ public class Client implements ClientAPI {
     @Override
     public String  mineBlock(String account) {
         try {
-            account = account.substring(1,account.length()-1);
+            if (artillery)
+                account = account.substring(1,account.length()-1);
             Block blockToMine = client.getBlockToMine(account);
             if (blockToMine == null)
                 return "false";

@@ -8,7 +8,27 @@ scenarios:
     flow:
       - post:
           url: "/create_account"
+          json: peras
       - post:
           url: "/create_account"
+          json: palindra
       - post:
           url: "/create_account"
+          json: carol
+      - post:
+          url: "/create_account"
+          json: rita
+      - post:
+          url: "/mine"
+          json: peras
+      - post:
+          url: "/mine"
+          json: palindra
+      - post:
+          url: "/transaction"
+          json: peras rita 10
+      - post:
+          url: "/mine"
+          json: carol
+      - post:
+          url: "/ledger"

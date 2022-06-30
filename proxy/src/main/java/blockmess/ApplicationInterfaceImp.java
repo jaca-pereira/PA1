@@ -67,7 +67,7 @@ public class ApplicationInterfaceImp extends ApplicationInterface {
             e.printStackTrace();
             try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
                  ObjectOutput objOut = new ObjectOutputStream(byteOut)) {
-                Reply reply = new Reply("Operation not supported");
+                Reply reply = new Reply(e.getMessage());
                 objOut.writeObject(reply);
                 objOut.flush();
                 byteOut.flush();

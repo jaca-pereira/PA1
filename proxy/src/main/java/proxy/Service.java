@@ -28,7 +28,7 @@ public class Service implements ServiceAPI {
     private final boolean blockmess;
     private Ledger ledger;
 
-    public Service(int proxyId, boolean blockmess) {
+    public Service(int proxyId, boolean blockmess, int numNodes) {
         try {
             this.keyPair = Security.getKeyPair();
         } catch (NoSuchAlgorithmException e) {
@@ -37,7 +37,10 @@ public class Service implements ServiceAPI {
         this.blockmess = blockmess;
         if (blockmess) {
             this.ledger = new Ledger(proxyId);
-            this.blockmessInterface = new ApplicationInterfaceImp(new String[0], ledger);
+            String[] properties = new String[2];
+            properties[0] = String.format("address=172.19.20.%s", proxyId);
+            properties[1] = String.format("expectedNumNodes=%s", numNodes);
+            this.blockmessInterface = new ApplicationInterfaceImp(properties, ledger);
         }else
             this.asyncServiceProxy = new AsynchServiceProxy(proxyId);
 
@@ -54,13 +57,20 @@ public class Service implements ServiceAPI {
        }
        return replicaReplies;
     }
-    private List<Reply> sendRequestBlockmess(byte[] bytes, Request request, TOMMessageType type) {
+    private List<Reply> sendRequestBlockmess(byte[] bytes, Request request, TOMMessageType type) throws IOException, ClassNotFoundException {
         List<Reply> replies = new LinkedList<>();
         Reply reply;
         if (type.equals(TOMMessageType.ORDERED_REQUEST)) {
-            applicationInterface.ReplyListener replyListener = new ReplyListenerBlockmess();
-            this.blockmessInterface.invokeAsyncOperation(bytes, replyListener);
-            reply = new Reply(true, request.getRequestType());
+            if (!request.getRequestType().equals(LedgerRequestType.GET_BLOCK_TO_MINE)) {
+                applicationInterface.ReplyListener replyListener = new ReplyListenerBlockmess();
+                this.blockmessInterface.invokeAsyncOperation(bytes, replyListener);
+                reply = new Reply(true, request.getRequestType());
+            } else {
+                ByteArrayInputStream byteIn = new ByteArrayInputStream(this.blockmessInterface.invokeSyncOperation(bytes).getLeft());
+                ObjectInput objIn = new ObjectInputStream(byteIn);
+                reply = (Reply) objIn.readObject();
+            }
+
         } else {
             switch (request.getRequestType()) {
                 case GET_BALANCE:
@@ -86,7 +96,7 @@ public class Service implements ServiceAPI {
         return replies;
     }
 
-    private List<Reply> executeCommand(Request request, ByteArrayOutputStream byteOut, ObjectOutput objOut) throws InterruptedException, IOException {
+    private List<Reply> executeCommand(Request request, ByteArrayOutputStream byteOut, ObjectOutput objOut) throws InterruptedException, IOException, ClassNotFoundException {
         objOut.writeObject(request);
         objOut.flush();
         byteOut.flush();
@@ -135,7 +145,7 @@ public class Service implements ServiceAPI {
                 proxyReply.addReply(rep);
             });
             return ProxyReply.serialize(proxyReply);
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return null;
