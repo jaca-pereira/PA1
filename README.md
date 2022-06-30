@@ -4,7 +4,7 @@
 
 No diretório shell, correr o comando
 
-> **_NOTE:_**  sh deploy.sh <n_proxies(max_proxies==10)> <n_clients(max_clients=10)> <blockmess> <artillery> <n_faults(max_faults=3)>
+```sh deploy.sh <n_proxies(max_proxies==10)> <n_clients(max_clients=10)> <blockmess> <artillery> <n_faults(max_faults=3)>```
 
 1. : número de proxies 
 2. : numero de clientes
@@ -14,13 +14,13 @@ No diretório shell, correr o comando
 
 EX: correr o bft-smart para tolerância 1 falha bizantina, com os testes do artillery
 
-> **_NOTE:_** sh deploy.sh 4 4 0 1 1 
+ ```sh deploy.sh 4 4 0 1 1``` 
 
 EX: correr o blockmess com os testes do client
 
-> **_NOTE:_** sh deploy.sh 4 4 1 0 
+```sh deploy.sh 4 4 1 0``` 
 
-> Nota: o blockmess está integrado com o proxy, ao contrário do bft smart que está dividido entre proxy e replica. 
+> **_NOTA:_** o blockmess está integrado com o proxy, ao contrário do bft smart que está dividido entre proxy e replica. 
 
 A solução está preparada para correr em docker
 
