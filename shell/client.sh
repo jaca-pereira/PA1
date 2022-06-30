@@ -10,8 +10,6 @@ C=$1
 
 cd ../client
 
-mvn clean compile assembly:single
-
 docker build -t client .
 
 for i in `seq 0 $(( $C - 1  ))`; do 

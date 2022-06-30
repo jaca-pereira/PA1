@@ -28,19 +28,24 @@ public class Server {
 
     public static void main(String [] args) throws UnknownHostException, NoSuchAlgorithmException, KeyManagementException {
 
-        if (args.length < 1) {
-            System.out.println("Usage: <proxyID> ");
+        if (args.length < 2) {
+            System.out.println("Usage: <proxyID> <blockmess>");
             System.exit(-1);
         }
 
 
         int id = Integer.parseInt(args[0]);
+        int blm = Integer.parseInt(args[1]);
+        boolean blockmess;
+        if (blm == 0)
+            blockmess = false;
+        else blockmess = true;
         String ip = InetAddress.getLocalHost().getHostAddress();
 
 
         String serverURI = String.format("https://%s:%s/", ip, PORT);
 
-        Service service = new Service(id);
+        Service service = new Service(id, blockmess);
 
         ResourceConfig config = new ResourceConfig();
         config.register(service);

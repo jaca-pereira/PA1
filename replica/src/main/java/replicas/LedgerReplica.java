@@ -85,16 +85,19 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                             rep = new Reply(this.ledger.getLedger(), LedgerRequestType.GET_LEDGER);
                             break;
                         case GET_BLOCK_TO_MINE:
+                            System.out.println("ENTROU NO GET_BLOCK");
                             rep = new Reply(this.ledger.getBlockToMine(), LedgerRequestType.GET_BLOCK_TO_MINE);
+                            System.out.println("SAIU DO GET_BLOCK");
                             break;
                         case MINE_BLOCK:
+                            System.out.println("ENTROU NO MINE_BLOCK");
                             this.ledger.addMinedBlock(request.getBlock());
                             Request rewardRequest = new Request(LedgerRequestType.LOAD_MONEY, this.LEDGER, request.getAccount(), REWARD, -1);
                             rewardRequest.setPublicKey(serviceReplica.getReplicaContext().getStaticConfiguration().getPublicKey().getEncoded());
                             rewardRequest.setSignature(Security.signRequest(serviceReplica.getReplicaContext().getStaticConfiguration().getPrivateKey(), LedgerRequestType.LOAD_MONEY.toString().getBytes()));
                             this.sendTransaction(rewardRequest);
                             rep = new Reply(REWARD, request.getRequestType());
-
+                            System.out.println("SAIU DO MINE_BLOCK");
                             break;
                         default:
                             rep = new Reply("Operation not supported");
@@ -156,9 +159,6 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                         break;
                     case GET_LEDGER:
                         rep = new Reply(this.ledger.getLedger(), LedgerRequestType.GET_LEDGER);
-                        break;
-                    case GET_BLOCK_TO_MINE:
-                        rep = new Reply(this.ledger.getBlockToMine(), LedgerRequestType.GET_BLOCK_TO_MINE);
                         break;
                     default:
                         rep = new Reply("Operation not supported");

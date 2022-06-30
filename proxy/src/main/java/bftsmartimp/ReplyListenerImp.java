@@ -1,4 +1,4 @@
-package proxy;
+package bftsmartimp;
 
 import Security.Security;
 import bftsmart.tom.AsynchServiceProxy;
@@ -49,10 +49,12 @@ public class ReplyListenerImp implements bftsmart.communication.client.ReplyList
                 byte[] signature = reply.getSignatureReplica();
                 PublicKey publicKey = reply.getPublicKeyReplica();
                 if (publicKey == null || signature == null || !Security.verifySignature(publicKey, reply.getRequestType().toString().getBytes(), signature)) {
+                    System.out.println("REPLY LIST NAO ASSINARAM BEM");
                     replies.clear();
                     replyChain.add(new LinkedList<>(replies));
                     asynchServiceProxy.cleanAsynchRequest(context.getOperationId());
                 } else {
+                    System.out.println("REPLY LIST ASSINARAM BEM");
                     replies.add(reply);
                 }
             } catch (Exception e) {
@@ -60,6 +62,7 @@ public class ReplyListenerImp implements bftsmart.communication.client.ReplyList
             }
         }
         if (this.isValid()) {
+            System.out.println("REPLY LIST TEM QUORUM");
             replyChain.add(new LinkedList<>(replies));
             asynchServiceProxy.cleanAsynchRequest(context.getOperationId());
         }

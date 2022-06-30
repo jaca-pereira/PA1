@@ -1,18 +1,22 @@
 package data;
 
 
-import redis.clients.jedis.Jedis;
 import com.google.gson.Gson;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
-import java.util.*;
+import java.util.List;
 
 public class Ledger {
-    
+
+    private static final int PORT = 8080;
     private Jedis jedis;
 
     public void toJedis(LedgerDataStructure ledger) {
         Gson gson = new Gson();
         String json = gson.toJson(ledger);
+        System.out.println(json);
         jedis.set("ledger",json);
     }
 
@@ -22,9 +26,18 @@ public class Ledger {
         return gson.fromJson(json, LedgerDataStructure.class);
     }
 
-    public Ledger(Jedis jedis) {
+    private Jedis initRedis(int id)  {
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        jedisPoolConfig.setMaxTotal(128);
+        jedisPoolConfig.setMaxIdle(128);
+        jedisPoolConfig.setMinIdle(120);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, "172.19.30." + id, PORT);
+        return jedisPool.getResource();
+    }
+
+    public Ledger(int id) {
         LedgerDataStructure ledger = new LedgerDataStructure();
-        this.jedis = jedis;
+        this.jedis = this.initRedis(id);
         this.toJedis(ledger);
     }
 
@@ -34,7 +47,6 @@ public class Ledger {
         LedgerDataStructure ledger= this.fromJedis();
         ledger.addAccount(account);
         this.toJedis(ledger);
-        System.out.println("foi para o redis");
         return account;
     }
 
@@ -58,7 +70,6 @@ public class Ledger {
         LedgerDataStructure ledger = this.fromJedis();
         ledger.transaction(t);
         this.toJedis(ledger);
-        System.out.println("foi para o redis");
     }
 
     public List<Block> getLedger() {

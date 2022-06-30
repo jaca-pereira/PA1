@@ -7,8 +7,6 @@ fi
 
 cd ../replica
 
-mvn clean compile assembly:single
-
 docker build -t replica .
 
 F=$1
