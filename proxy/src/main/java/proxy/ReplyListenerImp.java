@@ -48,10 +48,8 @@ public class ReplyListenerImp implements bftsmart.communication.client.ReplyList
                 Reply reply = (Reply) objIn.readObject();
                 byte[] signature = reply.getSignatureReplica();
                 PublicKey publicKey = reply.getPublicKeyReplica();
-                if (publicKey == null || signature == null || reply.getError()!=null || !Security.verifySignature(publicKey, reply.getRequestType().toString().getBytes(), signature)) {
+                if (publicKey == null || signature == null || !Security.verifySignature(publicKey, reply.getRequestType().toString().getBytes(), signature)) {
                     replies.clear();
-                    if (reply.getError()!=null)
-                        replies.add(reply);
                     replyChain.add(new LinkedList<>(replies));
                     asynchServiceProxy.cleanAsynchRequest(context.getOperationId());
                 } else {

@@ -22,6 +22,13 @@ public class Block implements Serializable {
     private BlockHeader blockHeader;
     private int difficulty;
 
+    public Block(int difficulty) {
+        this.signature = null;
+        this.publicKey = null;
+        this.hash = null;
+        this.difficulty = difficulty;
+        this.blockHeader = null;
+    }
     public Block(byte[] lastBlockHash, List<Transaction> transactionsList, Map<String, Account> transactionsMap, int difficulty) {
         this.signature = null;
         this.publicKey = null;

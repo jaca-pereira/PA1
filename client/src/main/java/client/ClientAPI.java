@@ -3,6 +3,7 @@ package client;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 @Path("/")
 public interface ClientAPI {
@@ -11,31 +12,31 @@ public interface ClientAPI {
     @Path("/create_account")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    String create_account();
+    String create_account(String email);
 
     @POST
     @Path("/balance")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    String getBalance();
+    String getBalance(String account);
 
     @POST
     @Path("/extract")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    String getExtract();
+    String getExtract(String account);
 
     @POST
     @Path("/transaction")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    String sendTransaction();
+    String sendTransaction(List<String> accounts);
 
     @POST
     @Path("/total_value")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    String getTotalValue();
+    String getTotalValue(List<String> accounts);
 
     @POST
     @Path("/global_value")
@@ -53,6 +54,6 @@ public interface ClientAPI {
     @Path("/mine")
     @Consumes(MediaType.APPLICATION_JSON )
     @Produces
-    String mineBlock();
+    String mineBlock(String account);
 
 }

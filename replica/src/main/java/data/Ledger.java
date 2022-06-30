@@ -13,6 +13,7 @@ public class Ledger {
     public void toJedis(LedgerDataStructure ledger) {
         Gson gson = new Gson();
         String json = gson.toJson(ledger);
+        System.out.println(json);
         jedis.set("ledger",json);
     }
 
@@ -45,8 +46,8 @@ public class Ledger {
         return this.fromJedis().getGlobalValue();
     }
 
-    public List<Transaction> getExtract(byte[] account, int begin) {
-        return this.fromJedis().getExtract(account, begin);
+    public List<Transaction> getExtract(byte[] account) {
+        return this.fromJedis().getExtract(account);
     }
 
     public int getTotalValue(List<byte[]> accounts) {
@@ -68,10 +69,15 @@ public class Ledger {
         LedgerDataStructure ledger = this.fromJedis();
         ledger.addMinedBlock(block);
         this.toJedis(ledger);
+        System.out.println("foi para o redis");
     }
 
     public Block getBlockToMine() throws Exception {
-        return this.fromJedis().getBlockToMine();
+        LedgerDataStructure ledger = this.fromJedis();
+        Block blockToMine = ledger.getBlockToMine();
+        this.toJedis(ledger);
+        System.out.println("foi para o redis");
+        return blockToMine;
     }
 
 }

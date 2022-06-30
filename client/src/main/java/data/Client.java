@@ -32,16 +32,14 @@ public class Client {
     private final URI proxyURI;
     private final javax.ws.rs.client.Client client;
 
-    private List<byte[]> accounts;
+    private Map<String, byte[]> accounts;
     private KeyPair keyPair;
-    private int currentUser;
 
     public Client(URI proxyURI) throws NoSuchAlgorithmException {
         this.proxyURI = proxyURI;
         this.client = this.startClient();
-        this.accounts = new LinkedList<>();
+        this.accounts = new HashMap<>();
         this.keyPair = Security.getKeyPair();
-        this.currentUser = -1;
     }
 
     private byte[] idMaker(String email) throws NoSuchAlgorithmException {
@@ -65,11 +63,8 @@ public class Client {
         return buffer.array();
     }
 
-    private byte[] getCurrentUser() {
-        currentUser++;
-        if (currentUser >= accounts.size())
-            currentUser = 0;
-        return accounts.get(currentUser);
+    private byte[] getUser(String account) {
+        return accounts.get(account);
     }
 
     private javax.ws.rs.client.Client startClient() {
@@ -105,11 +100,7 @@ public class Client {
                 }
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
-                    System.out.println("MAL ASSINADO REPLICAS");
-                    return new LinkedList<>();
-                }
-                if (reply.getError()!=null) {
-                    System.out.println("OPERAÇÃO VEM COM ERRO");
+                    System.out.println("ERRO");
                     System.out.println(reply.getError().getMessage());
                     return new LinkedList<>();
                 }
@@ -121,15 +112,15 @@ public class Client {
         }
     }
 
-    public void sendTransaction() {
+    public boolean sendTransaction(String originAccount, String destinationAccount, int value) {
         try {
             SecureRandom nonce = new SecureRandom();
-            byte[] originAccountBytes = this.getCurrentUser();
+            byte[] originAccountBytes = this.getUser(originAccount);
             byte[] destinationAccountBytes;
             do {
-                destinationAccountBytes = this.getCurrentUser();
+                destinationAccountBytes = this.getUser(destinationAccount);
             } while (new String (originAccountBytes).equals(new String(destinationAccountBytes)));
-            Request request = new Request(LedgerRequestType.SEND_TRANSACTION, originAccountBytes, destinationAccountBytes, 20,nonce.nextLong());
+            Request request = new Request(LedgerRequestType.SEND_TRANSACTION, originAccountBytes, destinationAccountBytes, value,nonce.nextLong());
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
             WebTarget target = this.client.target(proxyURI).path("transaction");
@@ -142,18 +133,15 @@ public class Client {
                 List<byte[]> replies = proxyReply.getReplicaReplies();
                 if (replies.size()==0) {
                     System.out.println("OPERAÇÃO NÃO FOI POSSÍVEL");
-                    return;
+                    return false;
                 }
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
-                    System.out.println("MAL ASSINADO REPLICAS");
-                    return;
-                }
-                if (reply.getError()!=null) {
-                    System.out.println("OPERAÇÃO VEM COM ERRO");
+                    System.out.println("ERRO");
                     System.out.println(reply.getError().getMessage());
-                    return;
+                    return false;
                 }
+                return true;
             } else
                 throw new WebApplicationException(r.getStatus());
         } catch ( ProcessingException e) {
@@ -180,11 +168,7 @@ public class Client {
                 }
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
-                    System.out.println("MAL ASSINADO REPLICAS");
-                    return -1;
-                }
-                if (reply.getError()!=null) {
-                    System.out.println("OPERAÇÃO VEM COM ERRO");
+                    System.out.println("ERRO");
                     System.out.println(reply.getError().getMessage());
                     return -1;
                 }
@@ -196,11 +180,11 @@ public class Client {
         }
     }
 
-    public int getTotalValue() {
+    public int getTotalValue(List<String> accounts) {
         try {
-            List<byte[]> accountsBytes = new ArrayList<>(accounts.size());
-            for (int i = 0; i < 3; i++)
-                accountsBytes.add(this.getCurrentUser());
+            List<byte[]> accountsBytes = new LinkedList();
+            for (String account: accounts)
+                accountsBytes.add(this.getUser(account));
 
             Request request = new Request(LedgerRequestType.GET_TOTAL_VALUE,accountsBytes);
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
@@ -218,11 +202,7 @@ public class Client {
                 }
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
-                    System.out.println("MAL ASSINADO REPLICAS");
-                    return -1;
-                }
-                if (reply.getError()!=null) {
-                    System.out.println("OPERAÇÃO VEM COM ERRO");
+                    System.out.println("ERRO");
                     System.out.println(reply.getError().getMessage());
                     return -1;
                 }
@@ -234,9 +214,9 @@ public class Client {
         }
     }
 
-    public List<Transaction> getExtract() {
+    public List<Transaction> getExtract(String account) {
         try {
-            byte[] accountBytes = this.getCurrentUser();
+            byte[] accountBytes = this.getUser(account);
             Request request = new Request(LedgerRequestType.GET_EXTRACT, accountBytes);
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
@@ -253,11 +233,7 @@ public class Client {
                 }
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
-                    System.out.println("MAL ASSINADO REPLICAS");
-                    return new LinkedList<>();
-                }
-                if (reply.getError()!=null) {
-                    System.out.println("OPERAÇÃO VEM COM ERRO");
+                    System.out.println("ERRO");
                     System.out.println(reply.getError().getMessage());
                     return new LinkedList<>();
                 }
@@ -269,9 +245,9 @@ public class Client {
         }
     }
 
-    public int getBalance() {
+    public int getBalance(String account) {
         try {
-            byte[] accountBytes = this.getCurrentUser();
+            byte[] accountBytes = this.getUser(account);
             Request request = new Request(LedgerRequestType.GET_BALANCE, accountBytes);
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
@@ -288,11 +264,7 @@ public class Client {
                 }
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
-                    System.out.println("MAL ASSINADO REPLICAS");
-                    return -1;
-                }
-                if (reply.getError()!=null) {
-                    System.out.println("OPERAÇÃO VEM COM ERRO");
+                    System.out.println("ERRO");
                     System.out.println(reply.getError().getMessage());
                     return -1;
                 }
@@ -304,9 +276,9 @@ public class Client {
         }
     }
 
-    public void createAccount() {
+    public void createAccount(String email) {
         try {
-            byte[] account = this.idMaker("email");
+            byte[] account = this.idMaker(email);
             Request request = new Request(LedgerRequestType.CREATE_ACCOUNT, account);
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
@@ -323,15 +295,11 @@ public class Client {
                 }
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
-                    System.out.println("MAL ASSINADO REPLICAS");
+                    System.out.println("ERRO");
+                    System.out.println(reply.getError().getMessage());
                     return;
                 }
-                if (reply.getError()!=null) {
-                    System.out.println("OPERAÇÃO VEM COM ERRO");
-                    System.out.println(reply.getError().getMessage());
-                    return ;
-                }
-                accounts.add(account);
+                accounts.put(email, account);
             } else {
                 throw new WebApplicationException(r.getStatus());
             }
@@ -345,7 +313,7 @@ public class Client {
     }
 
 
-    public Block getBlockToMine() {
+    public Block getBlockToMine(String account) {
         try {
             Request request = new Request(LedgerRequestType.GET_BLOCK_TO_MINE);
             request.setPublicKey(keyPair.getPublic().getEncoded());
@@ -363,17 +331,14 @@ public class Client {
                 }
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
-                    System.out.println("MAL ASSINADO REPLICAS");
-                    return null;
-                }
-                if (reply.getError()!=null) {
-                    System.out.println("OPERAÇÃO VEM COM ERRO");
+                    System.out.println("ERRO");
                     System.out.println(reply.getError().getMessage());
                     return null;
                 }
-                Block block= reply.getBlockReply();
-                block.setAccount(this.getCurrentUser());
-                return reply.getBlockReply();
+                Block block = reply.getBlockReply();
+                block.setAccount(accounts.get(account));
+                System.out.println("TEM UM BLOCO" + block.getLastBlockHash());
+                return block;
             } else {
                 System.out.println("ERRO DE RESPOSTA " );
                 throw new WebApplicationException(r.getStatus());
@@ -406,12 +371,7 @@ public class Client {
                 }
                 Reply reply = Reply.deserialize(replies.get(0));
                 if (!Security.verifySignature(reply.getPublicKeyProxy(), reply.getRequestType().toString().getBytes(), reply.getSignatureProxy())) {
-                    System.out.println("MAL ASSINADO REPLICAS");
-                    System.out.println(reply.getError().getMessage());
-                    return;
-                }
-                if (reply.getError()!=null) {
-                    System.out.println("OPERAÇÃO VEM COM ERRO");
+                    System.out.println("ERRO");
                     System.out.println(reply.getError().getMessage());
                     return;
                 }

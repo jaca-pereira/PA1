@@ -35,7 +35,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         jedisPoolConfig.setMaxTotal(128);
         jedisPoolConfig.setMaxIdle(128);
         jedisPoolConfig.setMinIdle(120);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, "172.19.30." + id, PORT); //id-20 para que o replica id não se misture com o proxy id
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, "172.19.30." + id, PORT);
         return jedisPool.getResource();
     }
 
@@ -73,7 +73,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                             rep = new Reply(this.ledger.getBalance(request.getAccount()), LedgerRequestType.GET_BALANCE);
                             break;
                         case GET_EXTRACT:
-                            rep = new Reply(this.ledger.getExtract(request.getAccount(), request.getValue()), LedgerRequestType.GET_EXTRACT);
+                            rep = new Reply(this.ledger.getExtract(request.getAccount()), LedgerRequestType.GET_EXTRACT);
                             break;
                         case GET_TOTAL_VALUE:
                             rep = new Reply(this.ledger.getTotalValue(request.getAccounts()), LedgerRequestType.GET_TOTAL_VALUE);
@@ -146,7 +146,7 @@ public class LedgerReplica extends DefaultSingleRecoverable {
                         rep = new Reply(this.ledger.getBalance(request.getAccount()), LedgerRequestType.GET_BALANCE);
                         break;
                     case GET_EXTRACT:
-                        rep = new Reply(this.ledger.getExtract(request.getAccount(), request.getValue()), LedgerRequestType.GET_EXTRACT);
+                        rep = new Reply(this.ledger.getExtract(request.getAccount()), LedgerRequestType.GET_EXTRACT);
                         break;
                     case GET_TOTAL_VALUE:
                         rep = new Reply(this.ledger.getTotalValue(request.getAccounts()), LedgerRequestType.GET_TOTAL_VALUE);
@@ -195,13 +195,14 @@ public class LedgerReplica extends DefaultSingleRecoverable {
 
     @Override
     public byte[] getSnapshot() {
-        return LedgerDataStructure.serialize(ledger.fromJedis());
+        //return LedgerDataStructure.serialize(ledger.fromJedis());
+        return new byte[0];
     }
 
 
 
     @Override
     public void installSnapshot(byte[] state) {
-        this.ledger.toJedis(LedgerDataStructure.deserialize(state));
+        //this.ledger.toJedis(LedgerDataStructure.deserialize(state));
     }
 }

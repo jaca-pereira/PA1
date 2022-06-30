@@ -20,14 +20,14 @@ public class Client implements ClientAPI {
 
     public Client(URI proxyURI) throws NoSuchAlgorithmException {
        this.client = new data.Client(proxyURI);
-        Tests tests = new Tests(this);
-        tests.testGeneral();
+       Tests tests = new Tests(this);
+       tests.testGeneral();
     }
 
     @Override
-    public String create_account() {
+    public String create_account(String email) {
         try {
-            client.createAccount();
+            client.createAccount(email);
             return "true";
         } catch (WebApplicationException e) {
             e.printStackTrace();
@@ -37,9 +37,9 @@ public class Client implements ClientAPI {
     }
 
     @Override
-    public String getBalance() {
+    public String getBalance(String account) {
         try {
-            return String.valueOf(client.getBalance());
+            return String.valueOf(client.getBalance(account));
         }catch (WebApplicationException e) {
             e.printStackTrace();
             return e.getMessage();
@@ -47,10 +47,10 @@ public class Client implements ClientAPI {
     }
 
     @Override
-    public String getExtract() {
+    public String getExtract(String account) {
         try {
             String result = "";
-            List<Transaction> extract = client.getExtract();
+            List<Transaction> extract = client.getExtract(account);
             for (Transaction t: extract) {
                 result+= t.toString();
             }
@@ -63,9 +63,9 @@ public class Client implements ClientAPI {
 
 
     @Override
-    public String sendTransaction() {
+    public String sendTransaction(List<String> accountAndValue) {
         try {
-            client.sendTransaction();
+            client.sendTransaction(accountAndValue.get(0), accountAndValue.get(1), Integer.valueOf(accountAndValue.get(2)));
             return "true";
         } catch (WebApplicationException e) {
             e.printStackTrace();
@@ -74,9 +74,9 @@ public class Client implements ClientAPI {
     }
 
     @Override
-    public String getTotalValue() {
+    public String getTotalValue(List<String> accounts) {
         try {
-            return String.valueOf(client.getTotalValue());
+            return String.valueOf(client.getTotalValue(accounts));
         } catch (WebApplicationException e) {
             e.printStackTrace();
             return e.getMessage();
@@ -109,10 +109,9 @@ public class Client implements ClientAPI {
     }
 
     @Override
-    public String  mineBlock() {
-        System.out.println("ENTROU NO MINING");
+    public String  mineBlock(String account) {
         try {
-            Block blockToMine = client.getBlockToMine();
+            Block blockToMine = client.getBlockToMine(account);
             if (blockToMine == null)
                 return "false";
             SecureRandom secureRandom = new SecureRandom();
@@ -121,7 +120,6 @@ public class Client implements ClientAPI {
                 nonce = secureRandom.nextLong();
                 blockToMine.setNonce(nonce);
             } while (!Block.proofOfWork(blockToMine));
-            System.out.println("MINOU");
             blockToMine.setHash(TOMUtil.computeHash(BlockHeader.serialize(blockToMine.getHeader())));
             client.mineBlock(blockToMine);
             return "true";
