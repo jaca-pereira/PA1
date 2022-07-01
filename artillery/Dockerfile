@@ -1,8 +1,6 @@
 FROM artilleryio/artillery
 
 WORKDIR .
-
-COPY valores_0.csv valores_0.csv
 COPY valores_1.csv valores_1.csv
 COPY mineiros.csv mineiros.csv
 COPY start_0.yml start_0.yml
