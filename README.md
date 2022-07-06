@@ -78,6 +78,6 @@ Docker is required to run this solution.
 Some improvements weere already mentioned along this document (specially on Blockchain section). Additionally, we intend to add support to:
 - Running parts of Send Transaction using Intel SGX technology.
 - Allow for recovery of lost replicas in BFT Smart.
-- Add an option to run artillery locally and check the results file generated.
+- Add an option to run artillery locally and check the results file generated. (done)
 - Deploy and test the solution on a Cloud infrastructure. 
 
