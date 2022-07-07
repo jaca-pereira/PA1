@@ -23,7 +23,9 @@ for i in `seq 0 $(( $C - 1 ))`; do
       - \"127.0.0.1:808${i}:8080\"
     build:
       context: /client
-    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server \"https://proxy_${i}:8080\"
+    depends_on:
+      - proxy_${i}
+    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server $i
     " >> compose.yaml
 done
 
@@ -92,4 +94,4 @@ fi
 docker compose build --no-cache
 docker compose up -d
 
-cd /shell
+cd shell

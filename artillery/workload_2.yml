@@ -2,7 +2,7 @@ config:
   target: "http://127.0.0.1:8082"
   phases:
     - duration: 20
-      arrivalRate: 5
+      arrivalRate: 1
   payload:
     path: "./valores_1.csv"
     fields:

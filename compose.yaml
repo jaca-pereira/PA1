@@ -5,7 +5,9 @@ services:
       - "127.0.0.1:8080:8080"
     build:
       context: /client
-    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server "https://proxy_0:8080"
+    depends_on:
+      - proxy_0
+    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server 0
     
   client_1:
     image: client
@@ -13,7 +15,9 @@ services:
       - "127.0.0.1:8081:8080"
     build:
       context: /client
-    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server "https://proxy_1:8080"
+    depends_on:
+      - proxy_1
+    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server 1
     
   client_2:
     image: client
@@ -21,7 +25,9 @@ services:
       - "127.0.0.1:8082:8080"
     build:
       context: /client
-    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server "https://proxy_2:8080"
+    depends_on:
+      - proxy_2
+    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server 2
     
   client_3:
     image: client
@@ -29,7 +35,9 @@ services:
       - "127.0.0.1:8083:8080"
     build:
       context: /client
-    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server "https://proxy_3:8080"
+    depends_on:
+      - proxy_3
+    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server 3
     
   proxy_0:
     image: proxy
