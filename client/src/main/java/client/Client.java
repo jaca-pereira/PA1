@@ -5,7 +5,6 @@ package client;
 import bftsmart.tom.util.TOMUtil;
 
 import data.*;
-import test.Tests;
 
 import javax.ws.rs.WebApplicationException;
 import java.net.URI;
@@ -17,22 +16,15 @@ import java.util.List;
 public class Client implements ClientAPI {
     private data.Client client;
 
-    private boolean artillery;
-
-    public Client(URI proxyURI, boolean artillery) throws NoSuchAlgorithmException {
+    public Client(URI proxyURI) throws NoSuchAlgorithmException {
        this.client = new data.Client(proxyURI);
-       this.artillery = artillery;
-       if (!this.artillery) {
-           Tests tests = new Tests(this);
-           tests.testGeneral();
-       }
+
     }
 
     @Override
     public String create_account(String email) {
         try {
-            if (artillery)
-                email = email.substring(1,email.length()-1);
+            email = email.substring(1,email.length()-1);
             client.createAccount(email);
             return "true";
         } catch (WebApplicationException e) {
@@ -45,6 +37,7 @@ public class Client implements ClientAPI {
     @Override
     public String getBalance(String account) {
         try {
+            account = account.substring(1,account.length()-1);
             return String.valueOf(client.getBalance(account));
         }catch (WebApplicationException e) {
             e.printStackTrace();
@@ -56,6 +49,7 @@ public class Client implements ClientAPI {
     public String getExtract(String account) {
         try {
             String result = "";
+            account = account.substring(1,account.length()-1);
             List<Transaction> extract = client.getExtract(account);
             for (Transaction t: extract) {
                 result+= t.toString();
@@ -71,8 +65,8 @@ public class Client implements ClientAPI {
     @Override
     public String sendTransaction(String accountAndValue) {
         try {
-            if (artillery)
-                accountAndValue = accountAndValue.substring(1,accountAndValue.length()-1);
+
+            accountAndValue = accountAndValue.substring(1,accountAndValue.length()-1);
             String[] list = accountAndValue.split(" ");
             client.sendTransaction(list[0], list[1], Integer.valueOf(list[2]));
             return "true";
@@ -85,6 +79,7 @@ public class Client implements ClientAPI {
     @Override
     public String getTotalValue(List<String> accounts) {
         try {
+            accounts.forEach(account -> account = account.substring(1,account.length()-1));
             return String.valueOf(client.getTotalValue(accounts));
         } catch (WebApplicationException e) {
             e.printStackTrace();
@@ -120,8 +115,8 @@ public class Client implements ClientAPI {
     @Override
     public String  mineBlock(String account) {
         try {
-            if (artillery)
-                account = account.substring(1,account.length()-1);
+
+            account = account.substring(1,account.length()-1);
             Block blockToMine = client.getBlockToMine(account);
             if (blockToMine == null)
                 return "false";

@@ -4,7 +4,6 @@ package client;
 
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
-import test.Tests;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -25,8 +24,8 @@ public class Server {
 
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 
-        if (args.length < 2) {
-            System.out.println("Usage: <proxy_URI> <artillery>");
+        if (args.length < 1) {
+            System.out.println("Usage: <proxy_URI>");
             System.exit(-1);
         }
 
@@ -37,11 +36,7 @@ public class Server {
 
         URI serverURI = URI.create(String.format("http://%s:%s/", ip, PORT));
         URI proxyURI = URI.create(args[0]);
-        boolean artillery;
-        if (Integer.parseInt(args[1]) == 1)
-            artillery = true;
-        else artillery = false;
-        Client client = new Client(proxyURI, artillery);
+        Client client = new Client(proxyURI);
         ResourceConfig config = new ResourceConfig();
         config.register(client);
 

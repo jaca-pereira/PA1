@@ -130,7 +130,6 @@ bftsmart\communication\client\netty\NettyClientServerCommunicationSystemServerSi
 bftsmart\communication\client\CommunicationSystemServerSide.class
 data\Client.class
 bftsmart\tom\server\defaultservices\StateLog.class
-test\Tests.class
 bftsmart\statemanagement\durability\StateSenderServer.class
 bftsmart\tom\server\defaultservices\FileRecoverer.class
 bftsmart\communication\client\CommunicationSystemClientSideFactory.class

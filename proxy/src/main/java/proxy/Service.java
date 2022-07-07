@@ -38,7 +38,7 @@ public class Service implements ServiceAPI {
         if (blockmess) {
             this.ledger = new Ledger(proxyId);
             String[] properties = new String[2];
-            properties[0] = String.format("address=172.19.20.%s", proxyId);
+            properties[0] = String.format("address=proxy_%s", proxyId);
             properties[1] = String.format("expectedNumNodes=%s", numNodes);
             this.blockmessInterface = new ApplicationInterfaceImp(properties, ledger);
         }else

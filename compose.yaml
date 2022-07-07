@@ -1,0 +1,109 @@
+services:
+  client_0:
+    image: client
+    ports: 
+      - "127.0.0.1:8080:8080"
+    build:
+      context: /client
+    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server "https://proxy_0:8080"
+    
+  client_1:
+    image: client
+    ports: 
+      - "127.0.0.1:8081:8080"
+    build:
+      context: /client
+    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server "https://proxy_1:8080"
+    
+  client_2:
+    image: client
+    ports: 
+      - "127.0.0.1:8082:8080"
+    build:
+      context: /client
+    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server "https://proxy_2:8080"
+    
+  client_3:
+    image: client
+    ports: 
+      - "127.0.0.1:8083:8080"
+    build:
+      context: /client
+    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server "https://proxy_3:8080"
+    
+  proxy_0:
+    image: proxy
+    build:
+      context: /proxy
+    depends_on: 
+      - redis_0
+    command: java -Djavax.net.ssl.keyStore=security/serverkeystore.jks -Djavax.net.ssl.keyStorePassword=password -cp server.jar proxy.Server 0 0 4
+    
+  proxy_1:
+    image: proxy
+    build:
+      context: /proxy
+    depends_on: 
+      - redis_1
+    command: java -Djavax.net.ssl.keyStore=security/serverkeystore.jks -Djavax.net.ssl.keyStorePassword=password -cp server.jar proxy.Server 1 0 4
+    
+  proxy_2:
+    image: proxy
+    build:
+      context: /proxy
+    depends_on: 
+      - redis_2
+    command: java -Djavax.net.ssl.keyStore=security/serverkeystore.jks -Djavax.net.ssl.keyStorePassword=password -cp server.jar proxy.Server 2 0 4
+    
+  proxy_3:
+    image: proxy
+    build:
+      context: /proxy
+    depends_on: 
+      - redis_3
+    command: java -Djavax.net.ssl.keyStore=security/serverkeystore.jks -Djavax.net.ssl.keyStorePassword=password -cp server.jar proxy.Server 3 0 4
+    
+  replica_0:
+    image: replica
+    build:
+      context: /replica
+    depends_on: 
+      - redis_0
+    command: java -cp replica.jar replicas.LedgerReplica 0
+      
+  replica_1:
+    image: replica
+    build:
+      context: /replica
+    depends_on: 
+      - redis_1
+    command: java -cp replica.jar replicas.LedgerReplica 1
+      
+  replica_2:
+    image: replica
+    build:
+      context: /replica
+    depends_on: 
+      - redis_2
+    command: java -cp replica.jar replicas.LedgerReplica 2
+      
+  replica_3:
+    image: replica
+    build:
+      context: /replica
+    depends_on: 
+      - redis_3
+    command: java -cp replica.jar replicas.LedgerReplica 3
+      
+  redis_0:
+    image: redis
+      
+  redis_1:
+    image: redis
+      
+  redis_2:
+    image: redis
+      
+  redis_3:
+    image: redis
+      

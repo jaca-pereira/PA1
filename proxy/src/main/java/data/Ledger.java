@@ -31,7 +31,7 @@ public class Ledger {
         jedisPoolConfig.setMaxTotal(128);
         jedisPoolConfig.setMaxIdle(128);
         jedisPoolConfig.setMinIdle(120);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, "172.19.30." + (id-10), PORT);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, "redis_" + id, PORT);
         return jedisPool.getResource();
     }
 
