@@ -1,5 +1,5 @@
 config:
-  target: "http://172.19.0.2:8080"
+  target: "http://127.0.0.1:8080"
   phases:
     - duration: 300
       arrivalCount: 5
