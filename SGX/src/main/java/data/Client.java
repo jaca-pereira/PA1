@@ -16,22 +16,14 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
-import java.nio.ByteBuffer;
-import java.security.KeyPair;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+
 
 public class Client {
 
     private final URI proxyURI;
     private final javax.ws.rs.client.Client client;
 
-    public Client(URI proxyURI) throws NoSuchAlgorithmException {
+    public Client(URI proxyURI) {
         this.proxyURI = proxyURI;
         this.client = this.startClient();
     }

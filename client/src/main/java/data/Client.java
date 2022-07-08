@@ -29,17 +29,30 @@ import javax.ws.rs.core.Response;
 
 public class Client {
 
-    private final URI proxyURI;
+    private final String proxyURI;
     private final javax.ws.rs.client.Client client;
 
     private Map<String, byte[]> accounts;
     private KeyPair keyPair;
+    private final boolean sgx;
+    private final String sgxURI;
 
-    public Client(URI proxyURI) throws NoSuchAlgorithmException {
+    public Client(String proxyURI, boolean sgx) throws NoSuchAlgorithmException {
         this.proxyURI = proxyURI;
         this.client = this.startClient();
         this.accounts = new HashMap<>();
         this.keyPair = Security.getKeyPair();
+        this.sgx = sgx;
+        this.sgxURI = null;
+    }
+
+    public Client(String proxyURI, boolean sgx, String sgxURI) throws NoSuchAlgorithmException {
+        this.proxyURI = proxyURI;
+        this.client = this.startClient();
+        this.accounts = new HashMap<>();
+        this.keyPair = Security.getKeyPair();
+        this.sgx = sgx;
+        this.sgxURI = sgxURI;
     }
 
     private byte[] idMaker(String email) throws NoSuchAlgorithmException {
@@ -123,8 +136,10 @@ public class Client {
             Request request = new Request(LedgerRequestType.SEND_TRANSACTION, originAccountBytes, destinationAccountBytes, value,nonce.nextLong());
             request.setPublicKey(this.keyPair.getPublic().getEncoded());
             request.setSignature(Security.signRequest(this.keyPair.getPrivate(), request.getRequestType().toString().getBytes()));
-            WebTarget target = this.client.target(proxyURI).path("transaction");
-
+            WebTarget target;
+            if (!sgx)
+                target = this.client.target(proxyURI).path("transaction");
+            else target = this.client.target(sgxURI).path("transaction");
             Response r = target.request()
                     .accept(MediaType.APPLICATION_JSON)
                     .post(Entity.entity(Request.serialize(request), MediaType.APPLICATION_JSON_TYPE));

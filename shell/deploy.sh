@@ -1,14 +1,15 @@
 #!/bin/bash
 
-if [ $# -lt 3 ] ; then
-    echo "Usage: deploy.sh <<n_clients n_proxies <blockmess> <n_faults> "
+if [ $# -lt 4 ] ; then
+    echo "Usage: deploy.sh <n_clients> <n_proxies> <blockmess> <sgx> <n_faults> "
     exit 1
 fi
 
 C=$1
 P=$2
 B=$3
-F=$4
+S=$4
+F=$5
 N=$((3*$F+1))
 
 sh reset_containers.sh
@@ -25,7 +26,7 @@ for i in `seq 0 $(( $C - 1 ))`; do
       context: /client
     depends_on:
       - proxy_${i}
-    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server $i
+    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server $i $S
     " >> compose.yaml
 done
 
@@ -37,6 +38,17 @@ for i in `seq 0 $(( $P - 1 ))`; do
     depends_on: 
       - redis_${i}
     command: java -Djavax.net.ssl.keyStore=security/serverkeystore.jks -Djavax.net.ssl.keyStorePassword=password -cp server.jar proxy.Server $i $B $P
+    " >> compose.yaml
+done
+
+if [$S -eq 1] ; then
+    echo "  sgx_${i}:
+    image: sgx
+    build:
+      context: /sgx
+    depends_on: 
+      - proxy_${i}
+    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.keyStore=security/serverkeystore.jks -Djavax.net.ssl.trustStorePassword=password -Djavax.net.ssl.keyStorePassword=password -cp server.jar proxy.Server $i
     " >> compose.yaml
 done
 

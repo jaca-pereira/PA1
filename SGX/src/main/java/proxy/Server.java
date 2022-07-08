@@ -28,18 +28,13 @@ public class Server {
 
     public static void main(String [] args) throws UnknownHostException, NoSuchAlgorithmException, KeyManagementException {
 
-        if (args.length < 3) {
-            System.out.println("Usage: <proxyID> <blockmess> <numnodes>");
+        if (args.length < 1) {
+            System.out.println("Usage: <proxyID>");
             System.exit(-1);
         }
 
 
-        int id = Integer.parseInt(args[0]);
-        int blm = Integer.parseInt(args[1]);
-        boolean blockmess;
-        if (blm == 0)
-            blockmess = false;
-        else blockmess = true;
+
         String ip = InetAddress.getLocalHost().getHostAddress();
 
 

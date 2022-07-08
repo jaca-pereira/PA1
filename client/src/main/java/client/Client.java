@@ -16,8 +16,12 @@ import java.util.List;
 public class Client implements ClientAPI {
     private data.Client client;
 
-    public Client(URI proxyURI) throws NoSuchAlgorithmException {
-       this.client = new data.Client(proxyURI);
+    public Client(String proxyURI, boolean sgx) throws NoSuchAlgorithmException {
+       this.client = new data.Client(proxyURI, sgx);
+
+    }
+    public Client(String proxyURI, boolean sgx, String sgxURI) throws NoSuchAlgorithmException {
+       this.client = new data.Client(proxyURI, sgx, sgxURI);
 
     }
 

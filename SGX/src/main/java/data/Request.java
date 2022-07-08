@@ -102,26 +102,6 @@ public class Request implements Serializable {
         return this.signature;
     }
 
-    public byte[] getAccount() {
-        return this.account;
-    }
-
-    public byte[] getAccountDestiny() {
-        return this.accountDestiny;
-    }
-
-    public int getValue() {
-        return this.value;
-    }
-
-    public long getNonce() {
-        return this.nonce;
-    }
-
-    public List<byte[]> getAccounts() {
-        return this.accounts;
-    }
-
     public void setPublicKey(byte[] publicKey) {
         this.publicKey = publicKey;
     }
@@ -130,8 +110,5 @@ public class Request implements Serializable {
         this.signature = signature;
     }
 
-    public Block getBlock() {
-        return this.block;
-    }
 
 }

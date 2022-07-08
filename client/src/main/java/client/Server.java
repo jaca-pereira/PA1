@@ -24,8 +24,8 @@ public class Server {
 
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 
-        if (args.length < 1) {
-            System.out.println("Usage: <proxy>");
+        if (args.length < 2) {
+            System.out.println("Usage: <proxy> <sgx>");
             System.exit(-1);
         }
 
@@ -36,9 +36,16 @@ public class Server {
 
         URI serverURI = URI.create(String.format("http://%s:%s/", ip, PORT));
 
-        URI proxyURI = URI.create("https://proxy_" + args[0] + ":8080/");
+        String proxyURI = "https://proxy_" + args[0] + ":8080/";
         System.out.println(proxyURI);
-        Client client = new Client(proxyURI);
+        boolean sgx = Boolean.valueOf(args[1]);
+        Client client;
+        if (!sgx)
+         client= new Client(proxyURI, sgx);
+        else  {
+            String sgxURI = "https://sgx_" + args[0] + ":8080/";
+            client = new Client(proxyURI, sgx, sgxURI);
+        }
         ResourceConfig config = new ResourceConfig();
         config.register(client);
 

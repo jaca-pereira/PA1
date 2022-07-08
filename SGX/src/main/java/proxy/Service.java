@@ -2,44 +2,39 @@ package proxy;
 
 
 import Security.Security;
-import bftsmart.communication.client.ReplyListener;
-import bftsmart.tom.AsynchServiceProxy;
-
-import bftsmart.tom.core.messages.TOMMessageType;
-import bftsmartimp.ReplyListenerImp;
-import blockmess.ApplicationInterfaceImp;
-import blockmess.ReplyListenerBlockmess;
 import data.*;
-
-import javax.ws.rs.InternalServerErrorException;
-import java.io.*;
-
 import java.net.URI;
 import java.security.*;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
+
 
 
 public class Service implements ServiceAPI {
     private Client client;
+    private KeyPair keyPair;
 
     public Service(URI proxyURI) throws NoSuchAlgorithmException {
         this.client = new Client(proxyURI);
+        this.keyPair = Security.getKeyPair();
     }
 
     private byte[] sendRequest(byte[] request) {
-        try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-             ObjectOutput objOut = new ObjectOutputStream(byteOut);) {
-            Request deserialized = Request.deserialize(request);
-            if (Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature())) {
-                return this.client.sendTransaction(request);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        Request deserialized = Request.deserialize(request);
+        if (Security.verifySignature(deserialized.getPublicKey(), deserialized.getRequestType().toString().getBytes(), deserialized.getSignature())) {
+            return this.client.sendTransaction(request);
+        } else {
+            List<Reply> replicaReplies = new LinkedList<>();
+            Reply reply = new Reply("Request not properly signed!");
+            replicaReplies.add(reply);
+            ProxyReply proxyReply = new ProxyReply();
+            replicaReplies.forEach(rep -> {
+                rep.setPublicKeyProxy(this.keyPair.getPublic().getEncoded());
+                rep.setSignatureProxy(Security.signRequest(this.keyPair.getPrivate(), deserialized.getRequestType().toString().getBytes()));
+                proxyReply.addReply(rep);
+            });
+            return ProxyReply.serialize(proxyReply);
         }
-        return null;
     }
 
     @Override

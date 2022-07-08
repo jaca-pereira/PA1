@@ -85,38 +85,6 @@ public class Reply implements Serializable {
         this.signatureReplica = null;
     }
 
-    public Error getError() {
-        return error;
-    }
-
-    public Block getBlockReply() {
-        return this.blockReply;
-    }
-
-    public boolean getBoolReply() {
-        return this.boolReply;
-    }
-
-    public byte[] getByteReply() {
-        return this.byteReply;
-    }
-
-    public int getIntReply() {
-        return this.intReply;
-    }
-
-    public List getListReply() {
-        return this.listReply;
-    }
-
-
-    public PublicKey getPublicKeyProxy() {
-        return Security.getPublicKey(this.publicKeyProxy);
-    }
-
-    public byte[] getSignatureProxy() {
-        return signatureProxy;
-    }
 
     public void setPublicKeyProxy(byte[] publicKeyProxy) {
         this.publicKeyProxy = publicKeyProxy;
@@ -148,26 +116,5 @@ public class Reply implements Serializable {
         }
         return null;
     }
-
-    public LedgerRequestType getRequestType() {
-        return this.requestType;
-    }
-
-    public PublicKey getPublicKeyReplica() {
-        return Security.getPublicKey(this.publicKeyReplica);
-    }
-
-    public byte[] getSignatureReplica() {
-        return this.signatureReplica;
-    }
-
-    public void setPublicKeyReplica(byte[] publicKeyReplica) {
-        this.publicKeyReplica = publicKeyReplica;
-    }
-
-    public void setSignatureReplica(byte[] signatureReplica) {
-        this.signatureReplica = signatureReplica;
-    }
-
 
 }
