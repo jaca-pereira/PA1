@@ -1,109 +1,32 @@
 #!/bin/bash
 
-if [ $# -lt 4 ] ; then
-    echo "Usage: deploy.sh <n_clients> <n_proxies> <blockmess> <sgx> <n_faults> "
+if [ $# -lt 4 ] || [ $1 -gt 10  ] || [ $2 -gt 10  ] ; then
+    echo "Usage: deploy.sh <n_clients(max_clients=10)> <n_proxies(max_proxies==10)> <blockmess> <sgx> <n_faults(max_faults=3)> "
     exit 1
 fi
 
-C=$1
+F=$5
 P=$2
+C=$1
 B=$3
 S=$4
-F=$5
-N=$((3*$F+1))
 
 sh reset_containers.sh
 #sh security.sh chaves ja criadas, não é necessário correr
-cd ../
-cp configs/compose.template compose.yaml
-
-for i in `seq 0 $(( $C - 1 ))`; do
-    echo "  client_${i}:
-    image: client
-    ports: 
-      - \"127.0.0.1:808${i}:8080\"
-    build:
-      context: /client
-    depends_on:
-      - proxy_${i}
-    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server $i $S
-    " >> compose.yaml
-done
-
-for i in `seq 0 $(( $P - 1 ))`; do
-    echo "  proxy_${i}:
-    image: proxy
-    build:
-      context: /proxy
-    depends_on: 
-      - redis_${i}
-    command: java -Djavax.net.ssl.keyStore=security/serverkeystore.jks -Djavax.net.ssl.keyStorePassword=password -cp server.jar proxy.Server $i $B $P
-    " >> compose.yaml
-done
-
-if [$S -eq 1] ; then
-    echo "  sgx_${i}:
-    image: sgx
-    build:
-      context: /sgx
-    depends_on: 
-      - proxy_${i}
-    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.keyStore=security/serverkeystore.jks -Djavax.net.ssl.trustStorePassword=password -Djavax.net.ssl.keyStorePassword=password -cp server.jar proxy.Server $i
-    " >> compose.yaml
-done
+sh network.sh
+sleep 1
+sh config.sh $F
 
 if [ $B -eq 0 ] ; then
-    cd configs/
-    cp hosts.template hosts.config
-    cp system.template system.config
-
-    echo "system.initial.view = $(seq -s ',' 0 $(( $N - 1  )) )" >> system.config
-    echo "system.servers.num = $N" >> system.config
-    echo "system.servers.f = $F" >> system.config
-    for i in `seq 0 $(( $N - 1 ))`; do
-        echo "$i replica_${i} 11000 11001" >> hosts.config
-    done
-    echo "7001 127.0.0.1 11100" >> hosts.config
-
-    cp hosts.config ../replica/config
-    cp system.config ../replica/config
-    cp hosts.config ../proxy/config
-    cp system.config ../proxy/config
-    cp hosts.config ../client/config
-    cp system.config ../client/config
-    
-    cd ..
-    for i in `seq 0 $(( $N - 1 ))`; do
-      echo "  replica_${i}:
-    image: replica
-    build:
-      context: /replica
-    depends_on: 
-      - redis_${i}
-    command: java -cp replica.jar replicas.LedgerReplica $i
-      " >> compose.yaml
-    done
-
-    for i in `seq 0 $(( $N - 1 ))`; do
-      echo "  redis_${i}:
-    image: redis
-      " >> compose.yaml
-    done
+    sh replica.sh $F
+    sleep 2
+    sh proxy.sh $P
 fi
 
 if [ $B -eq 1 ] ; then
-    cd configs/
-    cp config.properties ../proxy/config
-    cp log4j2.xml ../proxy/log4j2.xml
-    cd ..
-    for i in `seq 0 $(( $N - 1 ))`; do
-      echo "  redis_${i}:
-    image: redis
-      " >> compose.yaml
-    done
+    sh blockmess.sh $P
+    sleep 2
 fi
 
-docker compose build --no-cache
-docker compose up -d
 
-cd shell
+sh client.sh $C $S

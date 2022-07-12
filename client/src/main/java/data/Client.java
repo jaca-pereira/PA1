@@ -17,6 +17,7 @@ import org.glassfish.jersey.client.ClientConfig;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import Security.InsecureHostNameVerifier;
+import org.glassfish.jersey.client.ClientProperties;
 
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.ProcessingException;

@@ -1,46 +1,56 @@
 services:
   client_0:
     image: client
+    networks:
+      - net
     ports: 
       - "127.0.0.1:8080:8080"
     build:
       context: /client
     depends_on:
       - proxy_0
-    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server 0
+    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server 0 0
     
   client_1:
     image: client
+    networks:
+      - net
     ports: 
       - "127.0.0.1:8081:8080"
     build:
       context: /client
     depends_on:
       - proxy_1
-    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server 1
+    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server 1 0
     
   client_2:
     image: client
+    networks:
+      - net
     ports: 
       - "127.0.0.1:8082:8080"
     build:
       context: /client
     depends_on:
       - proxy_2
-    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server 2
+    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server 2 0
     
   client_3:
     image: client
+    networks:
+      - net
     ports: 
       - "127.0.0.1:8083:8080"
     build:
       context: /client
     depends_on:
       - proxy_3
-    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server 3
+    command: java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server 3 0
     
   proxy_0:
     image: proxy
+    networks:
+      - net
     build:
       context: /proxy
     depends_on: 
@@ -49,6 +59,8 @@ services:
     
   proxy_1:
     image: proxy
+    networks:
+      - net
     build:
       context: /proxy
     depends_on: 
@@ -57,6 +69,8 @@ services:
     
   proxy_2:
     image: proxy
+    networks:
+      - net
     build:
       context: /proxy
     depends_on: 
@@ -65,6 +79,8 @@ services:
     
   proxy_3:
     image: proxy
+    networks:
+      - net
     build:
       context: /proxy
     depends_on: 
@@ -73,6 +89,8 @@ services:
     
   replica_0:
     image: replica
+    networks:
+      - net
     build:
       context: /replica
     depends_on: 
@@ -81,6 +99,8 @@ services:
       
   replica_1:
     image: replica
+    networks:
+      - net
     build:
       context: /replica
     depends_on: 
@@ -89,6 +109,8 @@ services:
       
   replica_2:
     image: replica
+    networks:
+      - net
     build:
       context: /replica
     depends_on: 
@@ -97,6 +119,8 @@ services:
       
   replica_3:
     image: replica
+    networks:
+      - net
     build:
       context: /replica
     depends_on: 
@@ -105,13 +129,25 @@ services:
       
   redis_0:
     image: redis
+    networks:
+      - net
       
   redis_1:
     image: redis
+    networks:
+      - net
       
   redis_2:
     image: redis
+    networks:
+      - net
       
   redis_3:
     image: redis
+    networks:
+      - net
       
+networks:
+  net:
+    driver: bridge
+

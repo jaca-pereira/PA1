@@ -36,15 +36,15 @@ public class Server {
 
         URI serverURI = URI.create(String.format("http://%s:%s/", ip, PORT));
 
-        String proxyURI = "https://proxy_" + args[0] + ":8080/";
+        String proxyURI = "https://172.19.10." + args[0] + ":8080/";
         System.out.println(proxyURI);
-        boolean sgx = Boolean.valueOf(args[1]);
+        int sgx = Integer.parseInt(args[1]);
         Client client;
-        if (!sgx)
-         client= new Client(proxyURI, sgx);
+        if (sgx==0)
+         client= new Client(proxyURI, false);
         else  {
-            String sgxURI = "https://sgx_" + args[0] + ":8080/";
-            client = new Client(proxyURI, sgx, sgxURI);
+            String sgxURI = "https://172.19.40." + args[0] + ":8080/";
+            client = new Client(proxyURI, true, sgxURI);
         }
         ResourceConfig config = new ResourceConfig();
         config.register(client);

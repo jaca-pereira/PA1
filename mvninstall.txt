@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=../blockmess/target/BlockmessLib.jar -DpomFile=../blockmess/pom.xml
