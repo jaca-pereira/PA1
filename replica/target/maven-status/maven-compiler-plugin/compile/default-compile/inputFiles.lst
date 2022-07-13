@@ -1,126 +1,126 @@
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\server\defaultservices\DefaultReplier.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\server\SingleExecutable.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\statemanagement\durability\StateSenderServer.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\client\netty\NettyClientServerSession.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\util\ShutdownHookThread.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\ReconfigureRequest.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\server\TestSerialization.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\util\ECDSAKeyLoader.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\util\DefaultVMServices.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\views\DefaultViewStorage.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\MessageContext.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\consensus\Decision.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\statemanagement\StateManager.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\data\LedgerDataStructure.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\util\TOMConfiguration.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\Reconfiguration.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\statemanagement\standard\StandardStateManager.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\ReconfigureReply.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\consensus\Consensus.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\server\defaultservices\CommandsInfo.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\leaderchange\LCMessage.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\util\BatchReader.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\client\CommunicationSystemServerSide.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\RequestContext.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\server\Test.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\statemanagement\durability\DurableStateManager.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\consensus\TimestampValuePair.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\client\netty\NettyServerPipelineFactory.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\client\CommunicationSystemClientSide.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\replicas\LedgerReplica.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\core\messages\TOMMessage.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\MessageHandler.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\statemanagement\durability\StateSender.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\statemanagement\SMMessage.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\util\RSAKeyLoader.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\VMMessage.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\ServerCommunicationSystem.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\util\HostsConfig.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\ServerViewController.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\client\CommunicationSystemClientSideFactory.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\util\Storage.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\util\Configuration.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\core\DeliveryThread.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\data\Transaction.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\core\TOMLayer.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\leaderchange\CollectData.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\server\BatchExecutable.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\util\RSAKeyPairGenerator.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\client\RequestReceiver.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\data\LedgerRequestType.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\views\View.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\util\BatchBuilder.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\server\Recoverable.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\ServiceReplica.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\util\KeyLoader.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\server\defaultservices\FileRecoverer.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\statemanagement\standard\StandardSMMessage.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\server\defaultservices\DefaultRecoverable.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\data\Request.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\server\defaultservices\StateLog.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\clientsmanagement\ClientData.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\View.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\clientsmanagement\RequestList.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\statemanagement\durability\CSTRequestF1.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\statemanagement\durability\CSTSMMessage.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\core\Synchronizer.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\Security\Security.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\statemanagement\durability\CSTRequestFGT1.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\core\TOMSender.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\data\Block.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\ReplicaContext.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\client\CommunicationSystemServerSideFactory.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\ServiceProxy.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\consensus\roles\Proposer.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\core\messages\TOMMessageType.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\statemanagement\durability\CSTState.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\client\ReplyReceiver.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\consensus\messages\MessageFactory.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\ClientViewController.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\server\durability\DurableStateLog.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\util\SignatureTest.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\server\ServersCommunicationLayer.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\server\defaultservices\DiskStateLog.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\core\ReplyManager.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\leaderchange\LCManager.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\clientsmanagement\ClientsManager.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\util\ECDSAKeyPairGenerator.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\AsynchServiceProxy.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\server\RequestVerifier.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\SystemMessage.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\server\ServerConnection.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\data\Merkle.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\client\ReplyListener.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\consensus\messages\ConsensusMessage.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\data\BlockHeader.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\statemanagement\durability\CSTRequest.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\util\Extractor.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\leaderchange\CertifiedDecision.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\server\Replier.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\server\durability\DurabilityCoordinator.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\core\messages\ForwardedMessage.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\data\Reply.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\VMServices.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\server\defaultservices\DefaultApplicationState.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\client\netty\NettyClientServerCommunicationSystemServerSide.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\views\ViewStorage.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\client\netty\NettyTOMMessageDecoder.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\ViewManager.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\statemanagement\ApplicationState.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\core\ExecutionManager.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\client\netty\NettyClientServerCommunicationSystemClientSide.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\client\netty\NettyClientPipelineFactory.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\server\Executable.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\views\TestViewSerialization.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\leaderchange\RequestsTimer.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\util\SunECKeyLoader.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\util\DebugInfo.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\server\defaultservices\DefaultSingleRecoverable.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\tom\util\TOMUtil.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\consensus\Epoch.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\data\Account.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\ViewController.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\reconfiguration\ReconfigurationTest.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\data\Ledger.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\communication\client\netty\NettyTOMMessageEncoder.java
-C:\Users\joaoa\Desktop\PA1\replica\src\main\java\bftsmart\consensus\roles\Acceptor.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\views\ViewStorage.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\util\KeyLoader.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\client\netty\NettyTOMMessageDecoder.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\Reconfiguration.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\clientsmanagement\ClientData.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\ReconfigurationTest.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\clientsmanagement\ClientsManager.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\server\ServersCommunicationLayer.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\data\LedgerRequestType.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\core\ReplyManager.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\data\LedgerDataStructure.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\util\HostsConfig.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\util\RSAKeyLoader.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\client\netty\NettyServerPipelineFactory.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\consensus\Epoch.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\core\Synchronizer.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\server\defaultservices\CommandsInfo.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\server\defaultservices\FileRecoverer.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\server\durability\DurabilityCoordinator.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\leaderchange\LCManager.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\client\ReplyReceiver.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\data\Account.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\MessageContext.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\data\Transaction.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\views\View.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\util\TOMUtil.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\statemanagement\SMMessage.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\ViewController.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\server\RequestVerifier.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\data\Block.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\core\DeliveryThread.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\client\netty\NettyClientPipelineFactory.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\ViewManager.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\data\Merkle.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\util\TOMConfiguration.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\replicas\LedgerReplica.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\client\netty\NettyClientServerCommunicationSystemClientSide.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\ServerViewController.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\statemanagement\durability\StateSender.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\util\ECDSAKeyLoader.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\util\ShutdownHookThread.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\server\durability\DurableStateLog.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\ReconfigureReply.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\VMServices.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\util\BatchReader.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\util\Configuration.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\View.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\util\Extractor.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\client\netty\NettyClientServerCommunicationSystemServerSide.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\util\DebugInfo.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\data\Reply.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\client\CommunicationSystemServerSideFactory.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\server\BatchExecutable.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\client\CommunicationSystemClientSideFactory.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\client\RequestReceiver.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\util\SunECKeyLoader.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\Security\Security.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\SystemMessage.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\server\Executable.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\RequestContext.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\util\Storage.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\statemanagement\ApplicationState.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\server\defaultservices\DiskStateLog.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\server\ServerConnection.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\server\defaultservices\DefaultRecoverable.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\server\Test.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\ServerCommunicationSystem.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\consensus\roles\Proposer.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\ReconfigureRequest.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\util\SignatureTest.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\client\netty\NettyClientServerSession.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\client\netty\NettyTOMMessageEncoder.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\core\TOMLayer.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\util\DefaultVMServices.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\statemanagement\durability\CSTSMMessage.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\ServiceReplica.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\statemanagement\durability\CSTState.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\leaderchange\LCMessage.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\util\RSAKeyPairGenerator.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\data\Request.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\statemanagement\durability\CSTRequestF1.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\client\CommunicationSystemClientSide.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\ClientViewController.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\leaderchange\CertifiedDecision.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\ReplicaContext.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\client\CommunicationSystemServerSide.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\views\DefaultViewStorage.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\core\TOMSender.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\statemanagement\StateManager.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\server\defaultservices\DefaultSingleRecoverable.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\statemanagement\standard\StandardStateManager.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\server\Replier.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\consensus\TimestampValuePair.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\statemanagement\durability\DurableStateManager.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\consensus\messages\ConsensusMessage.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\core\ExecutionManager.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\statemanagement\durability\CSTRequestFGT1.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\server\Recoverable.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\statemanagement\durability\CSTRequest.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\client\ReplyListener.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\util\BatchBuilder.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\server\defaultservices\DefaultReplier.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\core\messages\TOMMessage.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\server\SingleExecutable.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\views\TestViewSerialization.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\core\messages\TOMMessageType.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\statemanagement\standard\StandardSMMessage.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\leaderchange\RequestsTimer.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\AsynchServiceProxy.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\server\defaultservices\DefaultApplicationState.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\consensus\Decision.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\reconfiguration\VMMessage.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\data\BlockHeader.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\clientsmanagement\RequestList.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\leaderchange\CollectData.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\util\ECDSAKeyPairGenerator.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\ServiceProxy.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\core\messages\ForwardedMessage.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\consensus\Consensus.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\data\Ledger.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\server\TestSerialization.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\statemanagement\durability\StateSenderServer.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\consensus\roles\Acceptor.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\tom\server\defaultservices\StateLog.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\communication\MessageHandler.java
+C:\Users\Palindra\Desktop\FCT-UNL\5º Ano\2º Semestre\CSD\Projetos\PA1\PA1\replica\src\main\java\bftsmart\consensus\messages\MessageFactory.java

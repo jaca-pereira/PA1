@@ -6,7 +6,7 @@ import bftsmart.tom.util.TOMUtil;
 import java.io.*;
 import java.util.*;
 
-public class LedgerDataStructure {
+public class LedgerDataStructure implements Serializable{
 
     //private static final long serialVersionUID = 1L;
     public static final int MAXIMUM_MINIMUM_TRANSACTIONS = 8;
