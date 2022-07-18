@@ -16,7 +16,7 @@ for i in `seq 0 $(( $N - 1 ))`; do
 
 	docker run -d --network net --name "redis_$i" --ip "172.19.30.$i" redis 
 	sleep 2
-	docker run -d --network net --name "replica_$i" --ip "172.19.20.$i" replica java -cp replica.jar replicas.LedgerReplica $i
+	docker run -d --network net --name "replica_$i" --ip "172.19.20.$i" -p 2000$i:20000 replica java -cp replica.jar replicas.LedgerReplica $i
 
 done
 

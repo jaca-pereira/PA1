@@ -1,0 +1,3 @@
+sgx machine: 141.95.173.56
+password: g2%x1278!122
+ports: 20000-20099

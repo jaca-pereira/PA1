@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if [ $# -lt 4 ] || [ $1 -gt 10  ] || [ $2 -gt 10  ] ; then
-    echo "Usage: deploy.sh <n_clients(max_clients=10)> <n_proxies(max_proxies==10)> <blockmess> <sgx> <n_faults(max_faults=3)> "
+if [ $# -lt 5 ] || [ $1 -gt 10  ] || [ $2 -gt 10  ] || [ $3 -gt 10  ]; then
+    echo "Usage: deploy.sh <n_clients(max_clients=10)> <n_proxies(max_proxies==10)> <n_faults(max_faults=3)> <blockmess> <sgx>"
     exit 1
 fi
 
-F=$5
+F=$3
 P=$2
 C=$1
 B=$3
@@ -13,20 +13,25 @@ S=$4
 
 sh reset_containers.sh
 #sh security.sh chaves ja criadas, não é necessário correr
-sh network.sh
+
 sleep 1
-sh config.sh $F
 
-if [ $B -eq 0 ] ; then
-    sh replica.sh $F
-    sleep 2
-    sh proxy.sh $P
+if [ $C -gt 0 ] ; then
+    sh client.sh $C $S
+    sh artillery.sh
+fi
+if [ $P -gt 0 ] ; then
+    sh config.sh $F
+    if [ $B -eq 0 ] ; then
+        sh proxy.sh $P 1
+    fi
+    if [ $B -eq 1 ] ; then
+        sh network.sh
+        sh blockmess.sh $P
+    fi    
+fi
+if [ $F -gt 0 ] ; then
+    sh network.sh
+    sh replica.sh $F 0
 fi
 
-if [ $B -eq 1 ] ; then
-    sh blockmess.sh $P
-    sleep 2
-fi
-
-
-sh client.sh $C $S

@@ -24,7 +24,7 @@ public class Server {
         System.setProperty("java.util.logging.SimpleFormatter.format", "%4$s: %5$s\n");
     }
 
-    public static final int PORT = 8080;
+    public static final int PORT = 20000;
 
     public static void main(String [] args) throws UnknownHostException, NoSuchAlgorithmException, KeyManagementException {
 
@@ -40,7 +40,7 @@ public class Server {
 
         String serverURI = String.format("https://%s:%s/", ip, PORT);
 
-        Service service = new Service(URI.create("https://proxy_" + args[0] + ":8080/"));
+        Service service = new Service(URI.create("https://37.187.198.176:2000" +args[0] +"/"));
 
         ResourceConfig config = new ResourceConfig();
         config.register(service);

@@ -13,7 +13,7 @@ for i in `seq 0 $(( $N - 1 ))`; do
 
     docker run -d --network net --name "redis_$i" --ip "172.19.30.$i" redis 
     sleep 2
-	docker run --network net --ip "172.19.10.$i" --name "proxy_$i" -p 8080 -d proxy java -Djavax.net.ssl.keyStore=security/serverkeystore.jks -Djavax.net.ssl.keyStorePassword=password -cp server.jar proxy.Server $i 1 $N
+	docker run --network net --ip "172.19.10.$i" --name "proxy_$i" -p 2000$i:20000 -d proxy java -Djavax.net.ssl.keyStore=security/serverkeystore.jks -Djavax.net.ssl.keyStorePassword=password -cp server.jar proxy.Server $i 1 $N
 	
 done
 
