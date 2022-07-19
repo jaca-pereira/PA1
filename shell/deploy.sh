@@ -32,6 +32,7 @@ if [ $P -gt 0 ] ; then
 fi
 if [ $F -gt 0 ] ; then
     sh network.sh
+    sh config.sh $F
     sh replica.sh $F 0
 fi
 
