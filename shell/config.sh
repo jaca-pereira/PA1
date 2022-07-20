@@ -16,7 +16,7 @@ cp system.template system.config
 echo "system.initial.view = $(seq -s ',' 0 $(( $N - 1  )) )" >> system.config
 echo "system.servers.num = $N" >> system.config
 echo "system.servers.f = $F" >> system.config
-if [ P -eq 0 ]; then
+if [ $P -eq 0 ]; then
     for i in `seq 0 $(( $N - 1 ))`; do
         echo "$i 172.19.20.$i 20000 20010" >> hosts.config
     done
@@ -24,7 +24,7 @@ if [ P -eq 0 ]; then
     cp hosts.config ../replica/config
     cp system.config ../replica/config  
 fi
-if [ P -eq 1 ]; then
+if [ $P -eq 1 ]; then
     for i in `seq 0 $(( $N - 1 ))`; do
         echo "$i 141.95.173.56 2000$i 20010" >> hosts.config
     done
