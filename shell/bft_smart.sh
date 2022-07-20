@@ -28,8 +28,8 @@ sleep 3
 docker rm $(docker stop proxy_g2)
 docker run -d --network net --name "proxy_g2" --ip "172.19.20.2" -p 20000:20000 proxy java -Djavax.net.ssl.keyStore=security/serverkeystore.jks -Djavax.net.ssl.keyStorePassword=password -cp server.jar proxy.Server $(( $ID + 10 )) 0 0 0
 docker rm $(docker stop sconify_sgx_g2)
-if [ $S -ne 0 ] ; then
-    docker run -d --network net --name "sconify_sgx_g2" --ip "172.19.20.3" -p 20002:20002 sconify_sgx_g2 java -cp server.jar proxy.Server $S
+if [ $S -eq 1 ] ; then
+    docker run -d --network net --name "sconify_sgx_g2" --ip "172.19.20.3" -p 20002:20002 sconify_sgx_g2 java -cp server.jar proxy.Server $A
 fi
 
 

@@ -38,12 +38,12 @@ public class Server {
 
         String proxyURI = "https://" + address + ":20000/";
         System.out.println(proxyURI);
-        String sgx = args[1];
+        Integer sgx = Integer.parseInt(args[1]);
         Client client;
-        if (sgx.equals("0"))
+        if (sgx == 0 )
          client= new Client(proxyURI, false);
         else  {
-            String sgxURI = "https://" + sgx + ":20002/";
+            String sgxURI = "https://" + address + ":20002/";
             client = new Client(proxyURI, true, sgxURI);
         }
         ResourceConfig config = new ResourceConfig();
