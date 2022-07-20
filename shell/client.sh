@@ -14,7 +14,7 @@ docker build -t client .
 
 for i in `seq 0 $(( $C - 1  ))`; do 
 
-    docker run --network net --ip "172.19.0.$(($i + 2))" --name "client_$i" -p 127.0.0.1:808${i}:8080 -d client java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server $i $S
+    docker run --name "client_$i" -p 127.0.0.1:808${i}:8080 -d client java -Djavax.net.ssl.trustStore=security/clientcacerts.jks -Djavax.net.ssl.trustStorePassword=password -cp client.jar client.Server $i $S
 
 done
 cd ../shell
