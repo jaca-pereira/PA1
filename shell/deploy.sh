@@ -8,8 +8,8 @@ fi
 F=$3
 P=$2
 C=$1
-B=$3
-S=$4
+B=$4
+S=$5
 
 sh reset_containers.sh
 #sh security.sh chaves ja criadas, não é necessário correr
@@ -26,6 +26,7 @@ if [ $P -gt 0 ] ; then
         sh proxy.sh $P 1
     fi
     if [ $B -eq 1 ] ; then
+        echo "entrou blockmess"
         sh network.sh
         sh blockmess.sh $P
     fi    
