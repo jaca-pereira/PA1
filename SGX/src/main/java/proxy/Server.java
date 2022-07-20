@@ -29,7 +29,7 @@ public class Server {
     public static void main(String [] args) throws UnknownHostException, NoSuchAlgorithmException, KeyManagementException {
 
         if (args.length < 1) {
-            System.out.println("Usage: <proxyID>");
+            System.out.println("Usage: <addr>");
             System.exit(-1);
         }
 
@@ -40,7 +40,7 @@ public class Server {
 
         String serverURI = String.format("https://%s:%s/", ip, PORT);
 
-        Service service = new Service(URI.create("https://37.187.198.176:2000" +args[0] +"/"));
+        Service service = new Service(URI.create("https://" + args[0] + ":20000/"));
 
         ResourceConfig config = new ResourceConfig();
         config.register(service);
