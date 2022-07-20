@@ -30,17 +30,17 @@ public class LedgerReplica extends DefaultSingleRecoverable {
         new LedgerReplica(Integer.parseInt(args[0]));
     }
 
-    private Jedis initRedis(int id)  {
+    private Jedis initRedis()  {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxTotal(128);
         jedisPoolConfig.setMaxIdle(128);
         jedisPoolConfig.setMinIdle(120);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, "172.19.30." + id, PORT);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, "172.19.20.0", PORT);
         return jedisPool.getResource();
     }
 
     public LedgerReplica(int id) {
-        ledger = new Ledger(this.initRedis(id));
+        ledger = new Ledger(this.initRedis());
         BasicConfigurator.configure();
         serviceReplica = new ServiceReplica(id, this, this);
     }

@@ -1,39 +1,28 @@
 #!/bin/bash
 
-if [ $# -lt 5 ] || [ $1 -gt 10  ] || [ $2 -gt 10  ] || [ $3 -gt 10  ]; then
-    echo "Usage: deploy.sh <n_clients(max_clients=10)> <n_proxies(max_proxies==10)> <n_faults(max_faults=3)> <blockmess> <sgx>"
+if [ $# -lt 5 ] ; then
+    echo "Usage: deploy.sh <client> <address> <id> <nodes_blockmess> <sgx> "
     exit 1
 fi
 
-F=$3
-P=$2
 C=$1
+ID=$3
 B=$4
 S=$5
+A=$2
 
-sh reset_containers.sh
-#sh security.sh chaves ja criadas, não é necessário correr
-
-sleep 1
-
-if [ $C -gt 0 ] ; then
-    sh client.sh $C $S
-    sh artillery.sh
+if [ $C -eq 1 ] ; then
+    docker rm $(docker stop $(docker ps -a -q ))
+    sh client.sh $A $S
 fi
-if [ $P -gt 0 ] ; then
-    sh config.sh $F 1
+if [ $C -eq 0 ] ; then
+    docker network remove net
+    docker network create --driver=bridge --subnet=172.19.0.0/16 net
     if [ $B -eq 0 ] ; then
-        sh proxy.sh $P 1
+        sh bft_smart.sh $ID
     fi
-    if [ $B -eq 1 ] ; then
-        echo "entrou blockmess"
-        sh network.sh
-        sh blockmess.sh $P
+    if [ $B -gt 0 ] ; then
+        sh blockmess.sh $ID $B
     fi    
-fi
-if [ $F -gt 0 ] ; then
-    sh network.sh
-    sh config.sh $F 0
-    sh replica.sh $F 0
 fi
 

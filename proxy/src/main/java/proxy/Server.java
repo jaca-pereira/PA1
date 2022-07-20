@@ -28,8 +28,8 @@ public class Server {
 
     public static void main(String [] args) throws UnknownHostException, NoSuchAlgorithmException, KeyManagementException {
 
-        if (args.length < 3) {
-            System.out.println("Usage: <proxyID> <blockmess> <numnodes>");
+        if (args.length < 4) {
+            System.out.println("Usage: <proxyID> <blockmess> <numnodes> <address>");
             System.exit(-1);
         }
 
@@ -45,7 +45,7 @@ public class Server {
 
         String serverURI = String.format("https://%s:%s/", ip, PORT);
 
-        Service service = new Service(id, blockmess, Integer.parseInt(args[2]));
+        Service service = new Service(id, blockmess, Integer.parseInt(args[2]), args[3]);
 
         ResourceConfig config = new ResourceConfig();
         config.register(service);

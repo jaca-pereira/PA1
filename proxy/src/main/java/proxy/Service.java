@@ -28,7 +28,7 @@ public class Service implements ServiceAPI {
     private final boolean blockmess;
     private Ledger ledger;
 
-    public Service(int proxyId, boolean blockmess, int numNodes) {
+    public Service(int proxyId, boolean blockmess, int numNodes, String address) {
         try {
             this.keyPair = Security.getKeyPair();
         } catch (NoSuchAlgorithmException e) {
@@ -36,9 +36,9 @@ public class Service implements ServiceAPI {
         }
         this.blockmess = blockmess;
         if (blockmess) {
-            this.ledger = new Ledger(proxyId);
+            this.ledger = new Ledger();
             String[] properties = new String[2];
-            properties[0] = String.format("address=172.19.10.%s", proxyId);
+            properties[0] = String.format("address=%s", address);
             properties[1] = String.format("expectedNumNodes=%s", numNodes);
             this.blockmessInterface = new ApplicationInterfaceImp(properties, ledger);
         }else

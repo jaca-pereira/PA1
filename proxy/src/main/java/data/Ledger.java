@@ -26,18 +26,18 @@ public class Ledger {
         return gson.fromJson(json, LedgerDataStructure.class);
     }
 
-    private Jedis initRedis(int id)  {
+    private Jedis initRedis()  {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxTotal(128);
         jedisPoolConfig.setMaxIdle(128);
         jedisPoolConfig.setMinIdle(120);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, "127.19.30." + id, PORT);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, "127.19.20.0", PORT);
         return jedisPool.getResource();
     }
 
-    public Ledger(int id) {
+    public Ledger() {
         LedgerDataStructure ledger = new LedgerDataStructure();
-        this.jedis = this.initRedis(id);
+        this.jedis = this.initRedis();
         this.toJedis(ledger);
     }
 

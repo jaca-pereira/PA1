@@ -1,23 +1,29 @@
-if [ $# -eq 0 ] || [ $1 -gt 10  ]; then
-    echo "Usage: proxy.sh <n_proxies(max_proxies==10)>"
+#!/bin/bash
+
+if [ $# -lt 3 ] ; then
+    echo "Usage: blockmess.sh <id> <n_nodes> <address>"
     exit 1
 fi
 
-N=$1
+ID=$1
+N=$2
+A=$3
 
 cd ../proxy
 
 docker build -t proxy .
 
-for i in `seq 0 $(( $N - 1 ))`; do
-
-    docker run -d --network net --name "redis_$i" --ip "172.19.30.$i" redis 
-    sleep 2
-	docker run --network net --ip "172.19.10.$i" --name "proxy_$i" -p 2000$i:20000 -d proxy java -Djavax.net.ssl.keyStore=security/serverkeystore.jks -Djavax.net.ssl.keyStorePassword=password -cp server.jar proxy.Server $i 1 $N
-	
-done
-
 cd ../shell
+
+docker rm $(docker stop redis_g2)
+docker run -d --network net --name "redis_g2" --ip "172.19.20.0" redis 
+sleep 2
+docker rm $(docker stop proxy_g2)
+docker run -d --network net --name "proxy_g2" --ip "172.19.20.2" -p 20000:20000 proxy java -Djavax.net.ssl.keyStore=security/serverkeystore.jks -Djavax.net.ssl.keyStorePassword=password -cp server.jar proxy.Server $ID 1 $N $A
+
+
+
+
 
 
 
