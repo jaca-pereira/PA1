@@ -18,7 +18,7 @@ if [ $C -eq 0 ] ; then
     docker network remove net
     docker network create --driver=bridge --subnet=172.19.0.0/16 net
     if [ $B -eq 0 ] ; then
-        sh bft_smart.sh $ID $S
+        sh bft_smart.sh $ID $S $A
     fi
     if [ $B -gt 0 ] ; then
         sh blockmess.sh $ID $B $A $S

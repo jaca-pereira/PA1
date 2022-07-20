@@ -1,12 +1,13 @@
 #!/bin/bash
 
-if [ $# -lt 2 ] ; then
-    echo "Usage: bft_smart.sh <id> <sgx>"
+if [ $# -lt 3 ] ; then
+    echo "Usage: bft_smart.sh <id> <sgx> <addr>"
     exit 1
 fi
 
 ID=$1
 S=$2 
+A=$3
 
 cd ../replica
 

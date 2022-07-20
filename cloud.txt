@@ -2,4 +2,4 @@ sgx machine: 141.95.173.56
 password: g2%x1278!122
 ports: 20000-20099
 
-docker run --rm -v /var/run/docker.sock:/var/run/docker.sock registry.scontain.com:5050/community/cli:sconify-image sconify_image --from="sgx_g2" --to="snonify_sgx_g2" --binary="/usr/local/openjdk-11/bin/java" --cas-debug --cas="scone-cas.cf" --las="localhost:18766" --dlopen="2" --heap="8G" --base="sgx_g2" --device="/dev/sgx_enclave"
+docker run --rm --device="/dev/sgx_enclave" -v /var/run/docker.sock:/var/run/docker.sock registry.scontain.com:5050/community/cli:sconify-image sconify_image --from="sgx_g2" --to="snonify_sgx_g2" --binary="/usr/local/openjdk-11/bin/java" --cas-debug --cas="scone-cas.cf" --las="localhost:18766" --dlopen="2" --heap="8G" --base="sgx_g2" 
