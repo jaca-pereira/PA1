@@ -22,7 +22,7 @@ if [ $C -eq 0 ] ; then
         sh bft_smart.sh $ID
     fi
     if [ $B -gt 0 ] ; then
-        sh blockmess.sh $ID $B
+        sh blockmess.sh $ID $B $A
     fi    
 fi
 
