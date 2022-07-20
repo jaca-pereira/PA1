@@ -36,7 +36,7 @@ public class Server {
         String address = args[0];
         URI serverURI = URI.create(String.format("http://%s:%s/", ip, PORT));
 
-        String proxyURI = "https://" + address + ":20001/";
+        String proxyURI = "https://" + address + ":20000/";
         System.out.println(proxyURI);
         String sgx = args[1];
         Client client;

@@ -1,12 +1,12 @@
 #!/bin/bash
 
 if [ $# -lt 2 ] ; then
-    echo "Usage: client.sh <address> <sgx>"
+    echo "Usage: client.sh <id> <address> <sgx>"
     exit 1
 fi
-
-S=$2
-A=$1
+ID=$1
+S=$3
+A=$2
 
 cd ../client
 
