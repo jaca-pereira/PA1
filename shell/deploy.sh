@@ -12,7 +12,6 @@ S=$5
 A=$2
 
 if [ $C -eq 1 ] ; then
-    docker rm $(docker stop $(docker ps -a -q ))
     sh client.sh $ID $A $S
 fi
 if [ $C -eq 0 ] ; then
