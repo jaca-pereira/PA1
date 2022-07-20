@@ -21,7 +21,7 @@ if [ $C -gt 0 ] ; then
     sh artillery.sh
 fi
 if [ $P -gt 0 ] ; then
-    sh config.sh $F
+    sh config.sh $F 1
     if [ $B -eq 0 ] ; then
         sh proxy.sh $P 1
     fi
@@ -32,7 +32,7 @@ if [ $P -gt 0 ] ; then
 fi
 if [ $F -gt 0 ] ; then
     sh network.sh
-    sh config.sh $F
+    sh config.sh $F 0
     sh replica.sh $F 0
 fi
 
