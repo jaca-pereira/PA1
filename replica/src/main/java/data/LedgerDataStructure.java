@@ -10,7 +10,7 @@ public class LedgerDataStructure implements Serializable{
 
     private static final long serialVersionUID = 1L;
     public static final int MAXIMUM_MINIMUM_TRANSACTIONS = 8;
-    public static final int DIFFICULTY = 3;
+    public static final int DIFFICULTY = 4;
 
     private List<Transaction> notMinedTransactionsList;
 
