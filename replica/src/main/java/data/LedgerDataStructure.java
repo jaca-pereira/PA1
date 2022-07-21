@@ -10,7 +10,7 @@ public class LedgerDataStructure implements Serializable{
 
     private static final long serialVersionUID = 1L;
     public static final int MAXIMUM_MINIMUM_TRANSACTIONS = 8;
-    public static final int DIFFICULTY = 4;
+    public static final int DIFFICULTY = 3;
 
     private List<Transaction> notMinedTransactionsList;
 
@@ -106,7 +106,7 @@ public class LedgerDataStructure implements Serializable{
                 this.globalValue += transaction.getValue();
         }
         byte[] lastBlockHash= this.minedBlocks.get(minedBlocks.size()-1).getHash();
-        if (this.minedBlocks.size()>=2) {
+        if (this.minedBlocks.size()>2) {
             if (this.difficulty != DIFFICULTY)
                 this.difficulty = DIFFICULTY;
         }

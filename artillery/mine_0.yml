@@ -1,8 +1,8 @@
 config:
   target: "http://127.0.0.1:8080"
   phases:
-    - duration: 300
-      arrivalCount: 3
+    - duration: 120
+      arrivalCount: 2
   payload:
     path: "./mineiros.csv"
     fields:

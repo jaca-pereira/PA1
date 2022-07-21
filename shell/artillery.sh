@@ -13,14 +13,14 @@ artillery run --output report_start_$ID.json start_$ID.yml
 
 artillery run --output report_workload_$ID.json workload_$ID.yml
 
-artillery run --output report_mine_0.json mine_0.yml
+artillery run --output report_mine_$ID.json mine_0.yml
 
 
 artillery report report_start_$ID.json
 
 artillery report report_workload_$ID.json
 
-artillery report report_mine.json
+artillery report report_mine_$ID.json
 
 
 cd ../shell
