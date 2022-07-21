@@ -2,6 +2,7 @@ package client;
 
 
 
+import bftsmart.communication.server.Test;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -24,8 +25,8 @@ public class Server {
 
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 
-        if (args.length < 2) {
-            System.out.println("Usage: <address> <sgx>");
+        if (args.length < 3) {
+            System.out.println("Usage: <address> <sgx> <mine>");
             System.exit(-1);
         }
 
@@ -50,8 +51,13 @@ public class Server {
         config.register(client);
 
         JdkHttpServerFactory.createHttpServer( serverURI, config);
-
         Log.info(String.format("%s Server ready @ %s\n",  InetAddress.getLocalHost().getCanonicalHostName(), serverURI));
+
+        if (Integer.parseInt(args[0]) == 1) {
+            TestMine testMine = new TestMine();
+            testMine.test();
+        }
+
 
     }
 

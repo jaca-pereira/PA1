@@ -22,6 +22,7 @@ bftsmart\reconfiguration\util\HostsConfig.class
 bftsmart\reconfiguration\Reconfiguration.class
 bftsmart\tom\core\TOMSender.class
 bftsmart\tom\leaderchange\RequestsTimer$RequestTimerTask.class
+client\TestMine.class
 bftsmart\tom\ServiceReplica.class
 bftsmart\tom\core\messages\TOMMessage.class
 Security\InsecureHostNameVerifier.class
