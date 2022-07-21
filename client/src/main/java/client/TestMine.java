@@ -10,8 +10,8 @@ import java.security.NoSuchAlgorithmException;
 public class TestMine {
 
     private Client client;
-    public TestMine() throws NoSuchAlgorithmException {
-        client = new Client("https:/141.95.173.56:20000/", false);
+    public TestMine(Client client) {
+        this.client = client;
     }
 
     @Test

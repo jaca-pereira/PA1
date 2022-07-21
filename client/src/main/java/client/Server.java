@@ -53,8 +53,8 @@ public class Server {
         JdkHttpServerFactory.createHttpServer( serverURI, config);
         Log.info(String.format("%s Server ready @ %s\n",  InetAddress.getLocalHost().getCanonicalHostName(), serverURI));
 
-        if (Integer.parseInt(args[0]) == 1) {
-            TestMine testMine = new TestMine();
+        if (Integer.parseInt(args[2]) == 1) {
+            TestMine testMine = new TestMine(client);
             testMine.test();
         }
 
