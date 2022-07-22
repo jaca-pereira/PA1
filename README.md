@@ -49,12 +49,12 @@ In order to deploy the solution, different steps are required. The proxies and t
 
 ```deploy.sh <client> <address> <id> <nodes_blockmess> <sgx> <test_mine>```
 
-- <client> should be 0 if we are not running a client or 1 if we are.  
-- <address> should be the IP address of the replica/proxy we are deploying or, when running a client, the IP address of the proxy we are sending requests to.
-- <id> is the ID of the proxy/replica/client we are deploying.
-- <nodes_blockmess> should be 0 if we are not running blockmess or 4 if we are
-- <sgx> should be 0 if we are not running in sgx mode or 1 if we are. Since SGX is not working properly, no need to change the flag.
-- <test_mine> should be 0 if we are running a replica/proxy or running the client in Benchmark testing; or 1 if running the mine block test
+- **client** should be 0 if we are not running a client or 1 if we are.  
+- **address** should be the IP address of the replica/proxy we are deploying or, when running a client, the IP address of the proxy we are sending requests to.
+- **id** is the ID of the proxy/replica/client we are deploying.
+- **nodes_blockmess** should be 0 if we are not running blockmess or 4 if we are
+- **sgx should** be 0 if we are not running in sgx mode or 1 if we are. Since SGX is not working properly, no need to change the flag.
+- **test_mine** should be 0 if we are running a replica/proxy or running the client in Benchmark testing; or 1 if running the mine block test
 
 For running a replica/proxy pair with BFT SMART, simply run the following commands on their correspondent machine (changing Blockmess flag to 4 if running Blockmess):  
  
