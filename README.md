@@ -53,19 +53,26 @@ In order to deploy the solution, different steps are required. The proxies and t
 - <address> should be the IP address of the replica/proxy we are deploying or, when running a client, the IP address of the proxy we are sending requests to.
 - <id> is the ID of the proxy/replica/client we are deploying.
 - <nodes_blockmess> should be 0 if we are not running blockmess or 4 if we are
-- <sgx> should be 0 if we are not running in sgx mode or 1 if we are.
+- <sgx> should be 0 if we are not running in sgx mode or 1 if we are. Since SGX is not working properly, no need to change the flag.
 - <test_mine> should be 0 if we are running a replica/proxy or running the client in Benchmark testing; or 1 if running the mine block test
 
-For running each replica/proxy pair:  
-
- ```sh deploy.sh 4 4 0 1 1``` 
-
+For running a replica/proxy pair with BFT SMART, simply run the following commands on their correspondent machine (changing Blockmess flag to 4 if running Blockmess):  
+ ```sudo sh deploy.sh 0 141.95.173.56 0 0 0 0```
+ ```sudo sh deploy.sh 0 54.38.65.236 1 0 0 0```
+ ```sudo sh deploy.sh 0 192.99.168.235 2 0 0 0```
+ ```sudo sh deploy.sh 0 54.36.163.65 3 0 0 0```
+ 
+> Note: IP addresses need to be exactly as in the commands because the configurations file matches this ID's to this addresses.
+ 
 For running the client locally
 
-```sh deploy.sh 4 1 1 0``` 
+```sh deploy.sh 1 141.95.173.56 0 0 0 0``` 
  
 For running artillery:
 
+```sh artillery.sh```
+ 
+Due to some problems with artillery, the operation mine block and the way our client is set up, only one client can be run at a time, and it has to be the one exemplified above. This is a problem that was not present before but wasn't fixed in time.  
 
 ## Improvements since last checkpoint
  
