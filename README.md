@@ -10,8 +10,8 @@ A local REST Client, which is used in two modes:
 
 ## Artillery
 Artillery allows for testing latency of operations. It performs 2 different workloads that have different purposes.
-- start_x.yml - This workload is intended to get the blockchain started, by creating some accounts, mining the genesis block and performing a simple transaction in order to give money to most of the accounts, so that not to many requests "fail" to execute in the actual workload. The first blocks mined have a challenge of zero because they are not intended to be hard to mine, they serve only to give money to different users. 
-- workload_x.yml - This workload serves the purpose of testing the fastness of each different solution used regarding the operations that don't require mining. It only performs two types of operations, a write and a read, and the weight of each operation can be defined in the correspondent yml file. We recommend to put the weights in fraction because the examples seen online all used this.
+- start_0.yml - This workload is intended to get the blockchain started, by creating some accounts, mining the genesis block and performing a simple transaction in order to give money to most of the accounts, so that not to many requests "fail" to execute in the actual workload. The first blocks mined have a challenge of zero because they are not intended to be hard to mine, they serve only to give money to different users. 
+- workload_0.yml - This workload serves the purpose of testing the fastness of each different solution used regarding the operations that don't require mining. It only performs two types of operations, a write and a read, and the weight of each operation can be defined in the correspondent yml file. We recommend to put the weights in fraction because the examples seen online all used this.
 
 ## Proxy
 This component takes requests from the clients also via REST interface, and has different sets of functionalities depending on which bft solution is running. The common trace is that it communicates with the client via TLSv1.3, with server side authentication. The client's truststore and the server's keystore and certificates have been previously generated, but generating new ones is simple and only requires running 
@@ -57,21 +57,32 @@ In order to deploy the solution, different steps are required. The proxies and t
 - <test_mine> should be 0 if we are running a replica/proxy or running the client in Benchmark testing; or 1 if running the mine block test
 
 For running a replica/proxy pair with BFT SMART, simply run the following commands on their correspondent machine (changing Blockmess flag to 4 if running Blockmess):  
- ```sudo sh deploy.sh 0 141.95.173.56 0 0 0 0```
- ```sudo sh deploy.sh 0 54.38.65.236 1 0 0 0```
- ```sudo sh deploy.sh 0 192.99.168.235 2 0 0 0```
- ```sudo sh deploy.sh 0 54.36.163.65 3 0 0 0```
+ 
+```sudo sh deploy.sh 0 141.95.173.56 0 0 0 0```
+ 
+ 
+```sudo sh deploy.sh 0 54.38.65.236 1 0 0 0```
+ 
+ 
+```sudo sh deploy.sh 0 192.99.168.235 2 0 0 0```
+ 
+ 
+```sudo sh deploy.sh 0 54.36.163.65 3 0 0 0```
  
 > Note: IP addresses need to be exactly as in the commands because the configurations file matches this ID's to this addresses.
  
+
 For running the client locally
+
 
 ```sh deploy.sh 1 141.95.173.56 0 0 0 0``` 
  
+
 For running artillery:
 
 ```sh artillery.sh```
  
+
 Due to some problems with artillery, the operation mine block and the way our client is set up, only one client can be run at a time, and it has to be the one exemplified above. This is a problem that was not present before but wasn't fixed in time.  
 
 ## Improvements since last checkpoint
