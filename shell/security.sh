@@ -8,7 +8,9 @@ keytool -export -alias server -file serverkey.cer -keystore serverkeystore.jks -
 
 keytool -import -v -trustcacerts -alias clientTrust -keypass password -file serverkey.cer -keystore clientcacerts.jks -storepass password
 
+rm ../server/security/serverkeystore.jks
+rm ../client/security/clientcacerts.jks
 cp serverkeystore.jks ../server/security/serverkeystore.jks
-cp serverkeystore.jks ../client/security/~clientcacerts.jks
+cp serverkeystore.jks ../client/security/clientcacerts.jks
 
 cd ../shell
